@@ -1,1 +1,10 @@
 /* PLACE YOU CUSTOM STYLES IN THIS FILE */
+
+/* Product Page */
+span.input_error {
+    padding: 0;
+    margin: 5px 0;
+    font-weight: 400;
+    color: #CC3341;
+    z-index: 1;
+}
