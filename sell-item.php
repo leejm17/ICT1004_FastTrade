@@ -202,7 +202,6 @@
             </div>
         </nav>
         <!-- END: Navbar -->
-    
 
 </header>
 <!-- END: Nav Header -->
@@ -291,7 +290,7 @@
     <div class="nk-main">
         
 
-
+<!--https://www.youtube.com/watch?v=D-lpr2No-yM-->
         
 
     <div class="bg-white">
@@ -384,18 +383,61 @@
                     .nk-shop-products-3-col
                     .nk-shop-products-4-col
             -->
-
+		<?php
+		$title = $description = $price = $picture='';
+		$title_err = $description_err = $price_err = $picture_err='';
+		
+		if ($_SERVER["REQUEST_METHOD"] == "POST") 
+		{
+			if (empty($_POST['title'])) 
+            {
+                $title_err = "<p style='color:red;'>*Title Required</p>";
+            }
+            else
+            {
+                $title = $_POST['title'];
+            }
+			
+			if (empty($_POST['description'])) 
+            {
+                $description_err = "<p style='color:red;'>*Description Required</p>";
+            }
+            else
+            {
+                $description = $_POST['description'];
+            }
+			
+			if (empty($_POST['picture'])) 
+            {
+                $picture_err = "<p style='color:red;'>*Picture Required</p>";
+            }
+            else
+            {
+                $picture = $_POST['picture'];
+            }
+			
+			if (empty($_POST['price'])) 
+            {
+                $price_err = "<p style='color:red;'>*Price Required</p>";
+            }
+            else
+            {
+                $price = $_POST['price'];
+            }
+		}
+		?>
         <div>
             <div class="container-fluid">
                 <div class="row">
                     <div class = "col-md-8">
                         <h3>Sell items</h3>
-                        <form class="form-horizontal" action="register.php" method="post"">
+                        <form class="form-horizontal" action="sell-item.php" method="post"">
 						
                             <div class="form-group">
                                 <label class="inlabels control-label col-sm-2" for="title">Title:</label>
                                 <div class=" infields col-sm-10">          
                                     <input type="text" class="form-control" id="title" placeholder="Enter Title" name="title">
+									<?php echo $title_err; ?>
                                 </div>
                             </div>
 							
@@ -403,17 +445,21 @@
                                 <label class="inlabels control-label col-sm-3" for="description">Description: </label>
                                 <div class="infields col-sm-10">  
 								<textarea rows = "5" cols = "50" name = "description" class="form-control" id="description" placeholder="Enter Description"></textarea>								
-                                </div>
+                                <?php echo $description_err; ?>
+								</div>
                             </div>
 							<div class ="form-group">
 							<label class="inlabels control-label col-sm-3" for="picture">Choose Picture:</label>
 								<form action="" method="post" enctype="multipart/form-data">
-									<input type="file" name="uploadfile"/>
+									<input type="file" name="picture"/>
+									<?php echo $picture_err; ?>
 							</div>
                             <div class="form-group">
                                 <label class="inlabels control-label col-sm-2" for="price">Price: S$</label>
                                 <div class=" infields col-sm-10">          
-                                    <input type="number" class="form-control" id="price" placeholder="Enter Price in S$" name="price">                                </div>
+                                    <input type="number" class="form-control" id="price" placeholder="Enter Price in S$" name="price">
+									<?php echo $price_err; ?>
+								</div>
                             </div>
                             <div class="form-group">        
                                 <div class="col-sm-offset-2 col-sm-10">
