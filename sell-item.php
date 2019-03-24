@@ -288,10 +288,6 @@
             .nk-main-dark
     -->
     <div class="nk-main">
-        
-
-<!--https://www.youtube.com/watch?v=D-lpr2No-yM-->
-        
 
     <div class="bg-white">
         <div class="container">
@@ -384,8 +380,8 @@
                     .nk-shop-products-4-col
             -->
 		<?php
-		$title = $description = $price = $picture='';
-		$title_err = $description_err = $price_err = $picture_err='';
+		$title = $description = $price = $picture= $category ='';
+		$title_err = $description_err = $price_err = $picture_err = $category_err ='';
 		
 		if ($_SERVER["REQUEST_METHOD"] == "POST") 
 		{
@@ -424,12 +420,21 @@
             {
                 $price = $_POST['price'];
             }
+			
+			if (empty($_POST['category'])) 
+            {
+                $category_err = "<p style='color:red;'>*Category Required</p>";
+            }
+            else
+            {
+                $category = $_POST['category'];
+            }
 		}
 		?>
         <div>
             <div class="container-fluid">
                 <div class="row">
-                    <div class = "col-md-8">
+                    <div class = "col-md-7">
                         <h3>Sell items</h3>
                         <form class="form-horizontal" action="sell-item.php" method="post"">
 						
@@ -444,8 +449,28 @@
                             <div class="form-group">
                                 <label class="inlabels control-label col-sm-3" for="description">Description: </label>
                                 <div class="infields col-sm-10">  
-								<textarea rows = "5" cols = "50" name = "description" class="form-control" id="description" placeholder="Enter Description"></textarea>								
+								<textarea rows = "3" cols = "50" name = "description" class="form-control" id="description" placeholder="Enter Description"></textarea>								
                                 <?php echo $description_err; ?>
+								</div>
+                            </div>
+							<div class="form-group">
+                                <label class="inlabels control-label col-sm-2" for="Category">Category: </label>
+								<select name = "category">
+									<option>---Choose a Category---</option>
+									<option value ="Home_Appliance">Home Appliance</option>
+									<option value ="Furniture">Furniture</option>
+									<option value ="Computers_and_IT">Computers and IT</option>
+									<option value ="Kids">Kids</option>
+									<option value ="Home_Repair">Home Repair</option>
+									<option value ="Services">Services</option>
+								</select>
+                                <?php echo $category_err; ?>
+                            </div>
+                            <div class="form-group">
+                                <label class="inlabels control-label col-sm-3" for="price">Price: S$</label>
+                                <div class=" infields col-sm-5">          
+                                    <input type="number" class="form-control" id="price" placeholder="Enter Price in S$" name="price">
+									<?php echo $price_err; ?>
 								</div>
                             </div>
 							<div class ="form-group">
@@ -454,13 +479,6 @@
 									<input type="file" name="picture"/>
 									<?php echo $picture_err; ?>
 							</div>
-                            <div class="form-group">
-                                <label class="inlabels control-label col-sm-2" for="price">Price: S$</label>
-                                <div class=" infields col-sm-10">          
-                                    <input type="number" class="form-control" id="price" placeholder="Enter Price in S$" name="price">
-									<?php echo $price_err; ?>
-								</div>
-                            </div>
                             <div class="form-group">        
                                 <div class="col-sm-offset-2 col-sm-10">
                                     <button class="nk-btn nk-btn-outline nk-btn-color-dark ml-10">Submit</button>
