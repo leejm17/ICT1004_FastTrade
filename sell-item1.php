@@ -184,7 +184,9 @@
             <!-- END: Shop Filter -->
 
 			<!-- START: Sell Item -->
-			
+					<!--START: TURN OFF PHP ERRORS-->
+					<?php error_reporting(0); ?>
+					<!--END: TURN OFF PHP ERRORS-->
 					<!-- START: FORM FIELDS ERRROR CHECKING -->
 					<?php
 					
@@ -222,6 +224,7 @@
 								//echo ("Price: " .$_POST["price"]. "<br/>");
 								$inputpass = ($inputpass + 1);
 							}
+							/*
 							//Status
 							if (empty($_POST['status'])) {
 								$status_err = "<p style='color:red;'>*Status?</p>";
@@ -236,6 +239,7 @@
 								//echo ("Sold: " .$_POST["sold"]. "<br/>");
 								$inputpass = ($inputpass + 1);
 							}
+							*/
 							//Userid
 							if (empty($_POST['userid'])) {
 								$userid_err = "<p style='color:red;'>*Userid?</p>";
@@ -252,14 +256,14 @@
 							}
 							//Age
 							if (empty($_POST['age'])) {
-								$age_err = "<p style='color:red;'>*Age?</p>";
+								$age_err = "<p style='color:red;'>*How long have you owned this item?</p>";
 							} else {
 								//echo ("Age: " .$_POST["age"]. "<br/>");
 								$inputpass = ($inputpass + 1);
 							}
 							//Ad Duration
 							if (empty($_POST['adduration'])) {
-								$adduration_err = "<p style='color:red;'>*Userid?</p>";
+								$adduration_err = "<p style='color:red;'>*How long do you want this to be advertised?</p>";
 							} else {
 								//echo ("Ad Duration: " .$_POST["adduration"]. "<br/>");
 								$inputpass = ($inputpass + 1);
@@ -268,7 +272,7 @@
 							
 							//if (empty($_POST['picture1'])) {
 							if (empty($_FILES['picture1']['tmp_name'])) {
-								$picture1_err = "<p style='color:red;'>*Choose a picture</p>";
+								$picture1_err = "<p style='color:red;'>*Main picture cannot be empty</p>";
 							} else {
 								//echo ("Image: " .$_POST["picture1"]. "<br/>");
 								$inputpass = ($inputpass + 1);
@@ -278,12 +282,10 @@
 						}
 					?>
 					<!-- END: FORM FIELDS ERRROR CHECKING -->
-					<?php
-					echo("inputpass:" .$inputpass);
-					?>
 					<!-- START: INSERT FORM DATA -->
 					<?php
-					if ($inputpass == 11) {
+					//if ($inputpass == 11) { //Old form debugging (Status, Sold)
+					if ($inputpass == 9) {
 						// Credentials
 						$servername = "localhost";
 						$username = "psread";
@@ -295,13 +297,14 @@
 							die("Connection failed: " . $conn->connect_error);
 						}
 						//Encoded Image
-						$imgData = addslashes(file_get_contents($_FILES['picture1']['tmp_name']));
-						// Query to insert form input
+						//$imgData = addslashes(file_get_contents($_FILES['picture1']['tmp_name']));
+						// Query to insert form input (TODO: UserID to get from SESSION)
 						$sql = "
 								INSERT INTO item (`title`, `description`, `condition`, `price`, `status`, `sold`, `user_id`, `category_id`, `age`, `ad_duration`)
 								VALUES ('".$_POST["title"]."', '".$_POST["description"]."', '".$_POST["condition"]."', '".$_POST["price"]."', '1', '0', '".$_POST["userid"]."', '".$_POST["category"]."', '".$_POST["age"]."', '".$_POST["adduration"]."')
 								;";
 						$result = $conn->query($sql);
+						echo("<p> '".$_POST["title"]."' successfully listed!</p>");
 					}else{
 						echo "";
 					}
@@ -310,7 +313,8 @@
 					<!-- START: INSERT PICTURE DATA -->
 					<?php
 					$theitemid = 0;
-					if ($inputpass == 11) { //If all input fields are filled
+					//if ($inputpass == 11) { //Old form debugging (Status, Sold)
+					if ($inputpass == 9) { //If all input fields are filled
 						// Credentials
 						$servername = "localhost";
 						$username = "psread";
@@ -336,6 +340,7 @@
 							}
 						}
 						if ($theitemid != 0) {
+							//First Image
 							//Escaped Image
 							$imgData1 = addslashes(file_get_contents($_FILES['picture1']['tmp_name']));
 							// Query to insert picture1 to db
@@ -344,9 +349,11 @@
 									VALUES ('".$theitemid."', '".$imgData1."')
 									;";
 							$result = $conn->query($sql);
-							
+							echo("<p>".$_FILES['picture1']['name']." has been added!<p>");
 							//Second Image
-							if ((file_get_contents($_FILES['picture2']['tmp_name'])) !=0) {
+							if (empty(file_get_contents($_FILES['picture2']['tmp_name']))) {
+								echo("Picture2 empty<br>");
+							}else{
 								//Escaped Image
 								$imgData2 = addslashes(file_get_contents($_FILES['picture2']['tmp_name']));
 								// Query to insert picture2 to db
@@ -354,10 +361,15 @@
 										INSERT INTO `item_photo` (`item_id`, `photo`) 
 										VALUES ('".$theitemid."', '".$imgData2."')
 										;";
+								$result = $conn->query($sql);
+								echo("<p>".$_FILES['picture2']['name']." has been added!</p>");
+								
 							}
 							
 							//Third Image
-							if ((file_get_contents($_FILES['picture3']['tmp_name'])) !=0) {
+							if (empty(file_get_contents($_FILES['picture3']['tmp_name']))) {
+								echo("Picture3 empty<br>");
+							}else{
 								//Escaped Image
 								$imgData3 = addslashes(file_get_contents($_FILES['picture3']['tmp_name']));
 								// Query to insert picture2 to db
@@ -365,6 +377,8 @@
 										INSERT INTO `item_photo` (`item_id`, `photo`) 
 										VALUES ('".$theitemid."', '".$imgData3."')
 										;";
+								$result = $conn->query($sql);
+								echo("<p>".$_FILES['picture3']['name']." has been added!</p>");
 							}
 						}
 					}else{
@@ -409,19 +423,24 @@
 							<input name="price" class="form-control" type="text" id="price" placeholder="Enter Price">
 							<?php echo ($price_err); ?>
 						</div>
-						<!--Status--><!--values here dont affect query, but must be >0-->
+						<!--Status--><!--values here dont affect query, but must be >0 to pass error check-->
+						<!--
 						<div class="form-group">
 							<label for="status" class="inlabels control-label col-sm-5" >Status:</label>
 							<input name="status" class="form-control" type="text" id="status" placeholder="Enter Status" value="1">
-							<?php echo ($status_err); ?>
+							<?php// echo ($status_err); ?>
 						</div>
-						<!--Sold--><!--values here dont affect query, but must be 0-->
+						-->
+						<!--Sold--><!--values here dont affect query, but must be 0 to pass error check-->
+						<!--
 						<div class="form-group">
 							<label for="sold" class="inlabels control-label col-sm-5" >Sold:</label>
 							<input name="sold" class="form-control" type="text" id="sold" placeholder="Enter Sold" value="0">
-							<?php echo ($sold_err); ?>
+							<?php// echo ($sold_err); ?>
 						</div>
+						-->
 						<!--UserID-->
+						<!--TODO: Get ID from SESSION-->
 						<div class="form-group">
 							<label for="userid" class="inlabels control-label col-sm-5" >UserID:</label>
 							<input name="userid" class="form-control" type="text" id="userid" placeholder="Enter UserID" value="jonsaysquack">
