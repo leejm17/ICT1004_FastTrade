@@ -189,8 +189,8 @@
 					<?php
 					
 					//Errors
-					$title_err = $description_err = $category_err = $price_err = $picture_err = $condition_err = $status_err = $sold_err = $userid_err = $age_err = $adduration_err = "";
-					$inputpass = 0;
+					$title_err = $description_err = $category_err = $price_err = $picture1_err = $condition_err = $status_err = $sold_err = $userid_err = $age_err = $adduration_err = "";
+					$inputpass = 0; //Field values
 					
 					
 						if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -198,49 +198,49 @@
 							if (empty($_POST['title'])) {
 								$title_err = "<p style='color:red;'>*Required</p>";
 							} else {
-								echo ("Title: " .$_POST["title"]. "<br/>");
+								//echo ("Title: " .$_POST["title"]. "<br/>");
 								$inputpass = ($inputpass + 1);
 							}
 							//Description
 							if (empty($_POST['description'])) {
 								$description_err = "<p style='color:red;'>*Required</p>";
 							} else {
-								echo ("Description: " .$_POST["description"]. "<br/>");
+								//echo ("Description: " .$_POST["description"]. "<br/>");
 								$inputpass = ($inputpass + 1);
 							}
 							//Condition
 							if ($_POST['condition'] == "") {
 								$condition_err = "<p style='color:red;'>*Select a condition</p>";
 							} else {
-								echo ("Condition: " .$_POST["condition"]. "<br/>");
+								//echo ("Condition: " .$_POST["condition"]. "<br/>");
 								$inputpass = ($inputpass + 1);
 							}
 							//Price
 							if (empty($_POST['price'])) {
 								$price_err = "<p style='color:red;'>*Is this charity?</p>";
 							} else {
-								echo ("Price: " .$_POST["price"]. "<br/>");
+								//echo ("Price: " .$_POST["price"]. "<br/>");
 								$inputpass = ($inputpass + 1);
 							}
 							//Status
 							if (empty($_POST['status'])) {
 								$status_err = "<p style='color:red;'>*Status?</p>";
 							} else {
-								echo ("Status: " .$_POST["status"]. "<br/>");
+								//echo ("Status: " .$_POST["status"]. "<br/>");
 								$inputpass = ($inputpass + 1);
 							}
 							//Sold
 							if ($_POST['sold'] != 0) {
 								$sold_err = "<p style='color:red;'>*Sold?</p>";
 							} else {
-								echo ("Sold: " .$_POST["sold"]. "<br/>");
+								//echo ("Sold: " .$_POST["sold"]. "<br/>");
 								$inputpass = ($inputpass + 1);
 							}
 							//Userid
 							if (empty($_POST['userid'])) {
 								$userid_err = "<p style='color:red;'>*Userid?</p>";
 							} else {
-								echo ("User ID: " .$_POST["userid"]. "<br/>");
+								//echo ("User ID: " .$_POST["userid"]. "<br/>");
 								$inputpass = ($inputpass + 1);
 							}
 							//Category
@@ -252,34 +252,38 @@
 							}
 							//Age
 							if (empty($_POST['age'])) {
-								$userid_err = "<p style='color:red;'>*Age?</p>";
+								$age_err = "<p style='color:red;'>*Age?</p>";
 							} else {
 								//echo ("Age: " .$_POST["age"]. "<br/>");
 								$inputpass = ($inputpass + 1);
 							}
 							//Ad Duration
 							if (empty($_POST['adduration'])) {
-								$userid_err = "<p style='color:red;'>*Userid?</p>";
+								$adduration_err = "<p style='color:red;'>*Userid?</p>";
 							} else {
 								//echo ("Ad Duration: " .$_POST["adduration"]. "<br/>");
 								$inputpass = ($inputpass + 1);
 							}
 							
-							/*
-							if (empty($_POST['picture'])) {
-								$picture_err = "<p style='color:red;'>*Choose a picture</p>";
+							
+							//if (empty($_POST['picture1'])) {
+							if (empty($_FILES['picture1']['tmp_name'])) {
+								$picture1_err = "<p style='color:red;'>*Choose a picture</p>";
 							} else {
-								echo ("Image: " .$_POST["picture"]. "<br/>");
+								//echo ("Image: " .$_POST["picture1"]. "<br/>");
+								$inputpass = ($inputpass + 1);
 							}
-							*/
+							
 							
 						}
 					?>
 					<!-- END: FORM FIELDS ERRROR CHECKING -->
+					<?php
+					echo("inputpass:" .$inputpass);
+					?>
 					<!-- START: INSERT FORM DATA -->
 					<?php
-					if ($inputpass == 10) {
-						echo("Reached hhere");
+					if ($inputpass == 11) {
 						// Credentials
 						$servername = "localhost";
 						$username = "psread";
@@ -290,15 +294,85 @@
 						if ($conn->connect_error) {
 							die("Connection failed: " . $conn->connect_error);
 						}
-						// Query
-						$sql = "INSERT INTO item (`title`, `description`, `condition`, `price`, `status`, `sold`, `user_id`, `category_id`, `age`, `ad_duration`)
-						VALUES ('".$_POST["title"]."', '".$_POST["description"]."', '".$_POST["condition"]."', '".$_POST["price"]."', '1', '0', '".$_POST["userid"]."', '".$_POST["category"]."', '".$_POST["age"]."', '".$_POST["adduration"]."')";
+						//Encoded Image
+						$imgData = addslashes(file_get_contents($_FILES['picture1']['tmp_name']));
+						// Query to insert form input
+						$sql = "
+								INSERT INTO item (`title`, `description`, `condition`, `price`, `status`, `sold`, `user_id`, `category_id`, `age`, `ad_duration`)
+								VALUES ('".$_POST["title"]."', '".$_POST["description"]."', '".$_POST["condition"]."', '".$_POST["price"]."', '1', '0', '".$_POST["userid"]."', '".$_POST["category"]."', '".$_POST["age"]."', '".$_POST["adduration"]."')
+								;";
 						$result = $conn->query($sql);
 					}else{
 						echo "";
 					}
 					?>
 					<!-- END: INSERT FORM DATA -->
+					<!-- START: INSERT PICTURE DATA -->
+					<?php
+					$theitemid = 0;
+					if ($inputpass == 11) { //If all input fields are filled
+						// Credentials
+						$servername = "localhost";
+						$username = "psread";
+						$password = "P@ssw0rd";
+						$dbname = "fasttradedb";
+						// Create connection
+						$conn = new mysqli($servername, $username, $password, $dbname);
+						if ($conn->connect_error) {
+							die("Connection failed: " . $conn->connect_error);
+						}
+						// Query to get Item ID
+						$sql = "
+								SELECT item_id 
+								FROM item
+								ORDER BY `item_id` 
+								DESC 
+								LIMIT 1
+								;";
+						$result = $conn->query($sql);
+						if ($result->num_rows > 0) {
+							while($row = $result->fetch_assoc()) {
+								$theitemid = $row['item_id'];
+							}
+						}
+						if ($theitemid != 0) {
+							//Escaped Image
+							$imgData1 = addslashes(file_get_contents($_FILES['picture1']['tmp_name']));
+							// Query to insert picture1 to db
+							$sql = "
+									INSERT INTO `item_photo` (`item_id`, `photo`) 
+									VALUES ('".$theitemid."', '".$imgData1."')
+									;";
+							$result = $conn->query($sql);
+							
+							//Second Image
+							if ((file_get_contents($_FILES['picture2']['tmp_name'])) !=0) {
+								//Escaped Image
+								$imgData2 = addslashes(file_get_contents($_FILES['picture2']['tmp_name']));
+								// Query to insert picture2 to db
+								$sql = "
+										INSERT INTO `item_photo` (`item_id`, `photo`) 
+										VALUES ('".$theitemid."', '".$imgData2."')
+										;";
+							}
+							
+							//Third Image
+							if ((file_get_contents($_FILES['picture3']['tmp_name'])) !=0) {
+								//Escaped Image
+								$imgData3 = addslashes(file_get_contents($_FILES['picture3']['tmp_name']));
+								// Query to insert picture2 to db
+								$sql = "
+										INSERT INTO `item_photo` (`item_id`, `photo`) 
+										VALUES ('".$theitemid."', '".$imgData3."')
+										;";
+							}
+						}
+					}else{
+						echo "";
+					}
+					
+					?>
+					<!-- END: INSERT PICTURE DATA -->
 					
 			<div class="nk-box">
 				<div class = "col-md-7">
@@ -379,11 +453,23 @@
 							<input name="adduration" class="form-control" type="text" id="adduration" placeholder="Year(s)">
 							<?php echo ($adduration_err); ?>
 						</div>
-						<!--Image-->
+						<!--Image (1st)-->
 						<div class="form-group">
-							<label for="picture" class="inlabels control-label col-sm-4" >Úpload Image:</label>
-							<input name="picture" type="file" />
-							<?php //echo ($picture_err); ?>
+							<label for="picture1" class="inlabels control-label col-sm-4" >Upload Image:</label>
+							<input name="picture1" type="file" onclick="document.getElementById('pic2').style.setProperty('display', 'block');"/>
+							<?php echo ($picture1_err); ?>
+						</div>
+						<!--Image (2nd)-->
+						<div class="form-group" style="display:none;" id="pic2">
+							<label for="picture2" class="inlabels control-label col-sm-4" >Upload Another Image:</label>
+							<input name="picture2" type="file" onclick="document.getElementById('pic3').style.setProperty('display', 'block');"/>
+							<?php// echo ($picture2_err); ?>
+						</div>
+						<!--Image (3rd)-->
+						<div class="form-group" style="display:none;" id="pic3">
+							<label for="picture3" class="inlabels control-label col-sm-4" >Upload Last Image:</label>
+							<input name="picture3" type="file"/>
+							<?php// echo ($picture3_err); ?>
 						</div>
 						<div class="form-group">
 							<button class="nk-btn nk-btn-outline nk-btn-color-dark ml-10">Submit</button>
