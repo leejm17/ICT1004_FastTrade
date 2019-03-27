@@ -84,10 +84,12 @@ DROP TABLE IF EXISTS `item_photo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `item_photo` (
+  `item_photo_id` int(11) NOT NULL AUTO_INCREMENT,
   `item_id` int(11) NOT NULL,
   `photo` mediumblob NOT NULL,
-  PRIMARY KEY (`item_id`),
-  CONSTRAINT `FK_item_photo_item_id` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON UPDATE CASCADE
+  PRIMARY KEY (`item_photo_id`,`item_id`),
+  KEY `FK_item_p_id_idx` (`item_id`),
+  CONSTRAINT `FK_item_p_id` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -98,6 +100,33 @@ CREATE TABLE `item_photo` (
 LOCK TABLES `item_photo` WRITE;
 /*!40000 ALTER TABLE `item_photo` DISABLE KEYS */;
 /*!40000 ALTER TABLE `item_photo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `item_review`
+--
+
+DROP TABLE IF EXISTS `item_review`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `item_review` (
+  `item_id` int(11) NOT NULL,
+  `email_id` varchar(35) NOT NULL,
+  `datetime` datetime NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `review` mediumtext NOT NULL,
+  `rating` int(11) NOT NULL,
+  PRIMARY KEY (`item_id`,`email_id`,`datetime`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `item_review`
+--
+
+LOCK TABLES `item_review` WRITE;
+/*!40000 ALTER TABLE `item_review` DISABLE KEYS */;
+/*!40000 ALTER TABLE `item_review` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -169,7 +198,9 @@ CREATE TABLE `user` (
   `user_id` varchar(20) NOT NULL,
   `name` varchar(50) NOT NULL,
   `email` varchar(35) NOT NULL,
-  `password` varchar(20) NOT NULL,
+  `password` varchar(60) NOT NULL,
+  `email_hash` varchar(32) NOT NULL,
+  `activated` int(11) NOT NULL,
   `gender` char(1) DEFAULT NULL,
   `contact_info` varchar(15) DEFAULT NULL,
   `pic` mediumblob,
@@ -183,7 +214,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('hoxiuqi','Xiu Qi Ho','xiuqi@gmail.com','1qwer$#@!','M','+65 9090 2903',NULL),('jonsaysquack','Jonathan Lee','jonlee@gmail.com','helloworld','M','+65 9283 2893',NULL);
+INSERT INTO `user` VALUES ('hohoho','Ho Xiu Qi','xiuqiho@gmail.com','$2y$10$Msc4UdXARG162DPzoQtljutif9sqNNSZQMTX5maqIeti0Tl4/1gAm','01882513d5fa7c329e940dda99b12147',0,NULL,NULL,NULL),('hoxiuqi','Xiu Qi Ho','xiuqi@gmail.com','1qwer$#@!','',0,'M','+65 9090 2903',NULL),('jonsaysquack','Jonathan Lee','jonlee@gmail.com','helloworld','',0,'M','+65 9283 2893',NULL),('wutdequack','Jonathan Lee','jonathanleejuler@gmail.com','$2y$10$PQNdzoP564ddVrrKHMDz6Ogt16cjbI72kTwVQHEHvcNSQLxWdI.bi','33e8075e9970de0cfea955afd4644bb2',0,NULL,NULL,NULL),('wutdequack.dev','Jonathan Lee','wutdequack.dev@gmail.com','$2y$10$PBgB1ng6kiEoPTpUOavul.yK3WysyzyO0WwwI3dcud6KTAZBMczS.','6c8349cc7260ae62e3b1396831a8398f',1,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -196,4 +227,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-22 17:35:19
+-- Dump completed on 2019-03-27 13:24:04

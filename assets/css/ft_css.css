@@ -1,0 +1,8 @@
+/* loginValidation Page */
+#verification_jumbotron{
+    background-color: rgb(108, 235, 108);
+}
+
+#no_verification_jumbotron{
+    background-color: rgb(185, 46, 52);
+}
