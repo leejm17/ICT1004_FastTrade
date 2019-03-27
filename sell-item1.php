@@ -288,7 +288,7 @@
 					if ($inputpass == 9) {
 						// Credentials
 						$servername = "localhost";
-						$username = "psread";
+						$username = "pswrite";
 						$password = "P@ssw0rd";
 						$dbname = "fasttradedb";
 						// Create connection
