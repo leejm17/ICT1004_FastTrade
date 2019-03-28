@@ -490,7 +490,7 @@
 						<!--Image (2nd)-->
 						<div class="form-group" style="display:none;" id="pic2">
 							<i class="fas fa-times" onclick="document.getElementById('pic2').style.setProperty('display', 'none');document.getElementById('oppic2').style.setProperty('display', 'block');" ></i>
-							<label for="picture2" class="inlabels control-label col-sm-4" style="font-size:1.25em;">Upload Another Image:</label>
+							<label for="picture2" class="inlabels control-label col-sm-4" style="font-size:1.25em;">Upload another:</label>
 							<input name="picture2" type="file" onclick="document.getElementById('oppic3').style.setProperty('display', 'block');"/>
 							<?php// echo ($picture2_err); ?>
 						</div>
@@ -499,7 +499,7 @@
 						<!--Image (3rd)-->
 						<div class="form-group" style="display:none;" id="pic3">
 							<i class="fas fa-times" onclick="document.getElementById('pic3').style.setProperty('display', 'none');document.getElementById('oppic3').style.setProperty('display', 'block');" ></i>
-							<label for="picture3" class="inlabels control-label col-sm-4" style="font-size:1.25em;">Upload Last Image:</label>
+							<label for="picture3" class="inlabels control-label col-sm-4" style="font-size:1.25em;">Upload another:</label>
 							<input name="picture3" type="file"/>
 							<?php// echo ($picture3_err); ?>
 						</div>
