@@ -401,19 +401,19 @@
 					<form class="form-horizontal" action="sell-item1.php" enctype="multipart/form-data" method="POST">
 						<!--Title-->
 						<div class="form-group">
-							<label for="title" class="inlabels control-label col-sm-5" >Title:</label>
+							<label for="title" class="inlabels control-label col-sm-5" style="font-size:1.25em;" >Title:</label>
 							<input name="title" class="form-control" type="text" id="title" placeholder="Enter Title">
 							<?php echo ($title_err); ?>
 						</div>
 						<!--Desc-->
 						<div class="form-group">
-							<label for="description" class="inlabels control-label col-sm-5" >Description:</label>
+							<label for="description" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Description:</label>
 							<input name="description" class="form-control" type="text" id="description" placeholder="Enter Description">
 							<?php echo ($description_err); ?>
 						</div>
 						<!--Condition-->
 						<div class="form-group">
-							<label class="inlabels control-label col-sm-5" for="condition">Condition: </label>
+							<label class="inlabels control-label col-sm-5" for="condition" style="font-size:1.25em;">Condition: </label>
 							<select name="condition" class="form-control col-sm-5">
 								<option value ="">---Choose a Condition---</option>
 								<option value ="5">Never Opened</option>
@@ -426,7 +426,7 @@
 						</div>
 						<!--Price-->
 						<div class="form-group">
-							<label for="price" class="inlabels control-label col-sm-5" >Price:</label>
+							<label for="price" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Price:</label>
 							<input name="price" class="form-control" type="text" id="price" placeholder="Enter Price">
 							<?php echo ($price_err); ?>
 						</div>
@@ -449,13 +449,13 @@
 						<!--UserID-->
 						<!--TODO: Get ID from SESSION-->
 						<div class="form-group">
-							<label for="userid" class="inlabels control-label col-sm-5" >UserID:</label>
+							<label for="userid" class="inlabels control-label col-sm-5" style="font-size:1.25em;">UserID:</label>
 							<input name="userid" class="form-control" type="text" id="userid" placeholder="Enter UserID" value="jonsaysquack">
 							<?php echo ($userid_err); ?>
 						</div>
 						<!--Category-->
 						<div class="form-group">
-							<label class="inlabels control-label col-sm-5" for="category">Category: </label>
+							<label class="inlabels control-label col-sm-5" for="category" style="font-size:1.25em;">Category: </label>
 							<select name="category" class="form-control col-sm-5">
 								<option value ="">---Choose a Category---</option>
 								<option value ="1">Home Appliance</option>
@@ -469,19 +469,19 @@
 						</div>
 						<!--Age-->
 						<div class="form-group">
-							<label for="age" class="inlabels control-label col-sm-5" >Years of possession:</label>
+							<label for="age" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Years of possession:</label>
 							<input name="age" class="form-control" type="text" id="age" placeholder="Year(s)">
 							<?php echo ($age_err); ?>
 						</div>
 						<!--Ad Duration-->
 						<div class="form-group">
-							<label for="adduration" class="inlabels control-label col-sm-5" >Advertise for:</label>
+							<label for="adduration" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Advertise for:</label>
 							<input name="adduration" class="form-control" type="text" id="adduration" placeholder="Year(s)">
 							<?php echo ($adduration_err); ?>
 						</div>
 						<!--Image (1st)-->
 						<div class="form-group">
-							<label for="picture1" class="inlabels control-label col-sm-4" >Upload Image:</label>
+							<label for="picture1" class="inlabels control-label col-sm-4" style="font-size:1.25em;">Upload Image:</label>
 							<input name="picture1" type="file" onclick="document.getElementById('oppic2').style.setProperty('display', 'block');"/>
 							<?php echo ($picture1_err); ?>
 						</div>
@@ -490,7 +490,7 @@
 						<!--Image (2nd)-->
 						<div class="form-group" style="display:none;" id="pic2">
 							<i class="fas fa-times" onclick="document.getElementById('pic2').style.setProperty('display', 'none');document.getElementById('oppic2').style.setProperty('display', 'block');" ></i>
-							<label for="picture2" class="inlabels control-label col-sm-4" >Upload Another Image:</label>
+							<label for="picture2" class="inlabels control-label col-sm-4" style="font-size:1.25em;">Upload Another Image:</label>
 							<input name="picture2" type="file" onclick="document.getElementById('oppic3').style.setProperty('display', 'block');"/>
 							<?php// echo ($picture2_err); ?>
 						</div>
@@ -499,7 +499,7 @@
 						<!--Image (3rd)-->
 						<div class="form-group" style="display:none;" id="pic3">
 							<i class="fas fa-times" onclick="document.getElementById('pic3').style.setProperty('display', 'none');document.getElementById('oppic3').style.setProperty('display', 'block');" ></i>
-							<label for="picture3" class="inlabels control-label col-sm-4" >Upload Last Image:</label>
+							<label for="picture3" class="inlabels control-label col-sm-4" style="font-size:1.25em;">Upload Last Image:</label>
 							<input name="picture3" type="file"/>
 							<?php// echo ($picture3_err); ?>
 						</div>
