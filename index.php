@@ -274,13 +274,11 @@
     <!-- END: Main Content -->
 
 
-        <!--
-    START: Footer
-
+<!--START: Footer
     Additional Classes:
         .nk-footer-transparent
 -->
-<?php include("php/footer.inc.php") ?>
+<?php include 'php/footer.inc.php'; ?>
 <!-- END: Footer -->
 
 
