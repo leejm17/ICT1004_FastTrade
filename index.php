@@ -9,7 +9,7 @@
     License: You must have a valid license purchased only from ThemeForest (the above link) in order to legally use the theme for your project.
     Copyright 2018.
 -->
-    
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -60,8 +60,8 @@
 
     <!-- jQuery -->
     <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
-    
-    
+
+
 </head>
 
 
@@ -75,20 +75,32 @@
         .nk-bg-gradient
 -->
 <body>
-    
 
 
 
-<!--
-    START: Nav Header
 
+<!--START: Nav Header
     Additional Classes:
         .nk-header-left
         .nk-header-opaque
 -->
-<?php include("php/navbar.inc.php") ?>
+<?php include 'php/navbar.inc.php'; ?>
 <!-- END: Navbar Header -->
-    
+
+
+<!--START: Navbar Mobile
+    Additional Classes:
+        .nk-navbar-dark
+        .nk-navbar-align-center
+        .nk-navbar-align-right
+        .nk-navbar-items-effect-1
+        .nk-navbar-drop-effect-1
+        .nk-navbar-drop-effect-2
+-->
+<?php include 'php/navbar_mobile.inc.php'; ?>
+<!-- END: Navbar Mobile -->
+
+
 
 
     <!--
@@ -98,10 +110,10 @@
             .nk-main-dark
     -->
     <div class="nk-main">
-        
 
 
-        
+
+
 
     <div class="bg-white">
         <div class="container">
@@ -112,7 +124,14 @@
                     <span>Filter</span>
                     <span>Hide Filter</span>
                 </a>
-                <a href="#" class="nk-shop-layout-toggle" data-cols="3">Login</a>
+                <a href="#" class="nk-btn-color-white" data-toggle="dropdown">
+                    Login
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="login.php">Login</a></li>
+                    <li><a href="register.php">Register</a></li>
+                </ul>
+                <!--<a href="login.php" data-cols="3">Login</a>-->
             </div>
             <!-- END: Shop Header -->
 
@@ -193,14 +212,14 @@
                     .nk-shop-products-4-col
             -->
             <div class="nk-shop-products nk-shop-products-4-col">
-                
-                
+
+
                 <?php
                     $page = basename($_SERVER['REQUEST_URI']);
                     $page_id = substr($page, -1);
 
                     /* (1) Connect to Database */
-                    require_once('../../protected/config_fasttrade.php');
+                    require_once('..\..\protected\config_fasttrade.php');
                     $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
 
                     /* (2) Handle Connection Error */
@@ -210,7 +229,7 @@
                     }
 
                     /* (3) Query DB */
-                    $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id;";
+                    $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id GROUP BY item.item_id;";
 
                     /* (4) Fetch Results */
                     if ($result = mysqli_query($connection, $sql)) {
@@ -231,7 +250,7 @@
                             echo '<a href="product.php?id=' . $row['item_id'] . '" class="nk-shop-product-add-to-cart">Contact Seller</a>';
                             echo '</div>';
                             echo '</div>';
-                            
+
                             //echo '<img style="width:40%; float:left; margin-right:10px;" src="data:image/jpeg;base64, ' . base64_encode($row['picture']) . '"/>';
                         }
                     }
@@ -240,188 +259,7 @@
                     mysqli_free_result($result);
                     mysqli_close($connection);
                 ?>
-                
-                <!--<li><a href="#" data-filter="Default Newest AllCat AllPrice"></a></li>-->
-                    <div class="nk-shop-product" data-filter="Default Newest AllCat AllPrice">
-                        <div class="nk-shop-product-thumb">
-                            <a href="product.php?id=1"><img src="assets/images/product-1.jpg" alt="Silver-Toned Plimsolls"></a>
-                            
-                        </div>
-                        <h2 class="nk-shop-product-title"><a href="product.php?id=1">Silver-Toned Plimsolls</a></h2>
-                        <div class="nk-shop-product-btn">
-                            <div class="nk-shop-product-price">
-                                
-                                $1999.00
-                            </div>
-                            <a href="product.php?id=1" class="nk-shop-product-add-to-cart">Add to Cart</a>
-                        </div>
-                    </div>
-                
-                    <div class="nk-shop-product">
-                        <div class="nk-shop-product-thumb">
-                            <a href="product.php?id=1"><img src="assets/images/product-2.jpg" alt="Cat&#39;s Eye Sunglasses"></a>
-                            
-                        </div>
-                        <h2 class="nk-shop-product-title"><a href="product.php?id=1">Cat&#39;s Eye Sunglasses</a></h2>
-                        <div class="nk-shop-product-btn">
-                            <div class="nk-shop-product-price">
-                                
-                                $499.00
-                            </div>
-                            <a href="product.php?id=1" class="nk-shop-product-add-to-cart">Add to Cart</a>
-                        </div>
-                    </div>
-                
-                    <div class="nk-shop-product">
-                        <div class="nk-shop-product-thumb">
-                            <a href="product.php?id=1"><img src="assets/images/product-3.jpg" alt="Khaki Fabric Backpack"></a>
-                            
-                        </div>
-                        <h2 class="nk-shop-product-title"><a href="product.php?id=1">Khaki Fabric Backpack</a></h2>
-                        <div class="nk-shop-product-btn">
-                            <div class="nk-shop-product-price">
-                                
-                                $2349.00
-                            </div>
-                            <a href="product.php?id=1" class="nk-shop-product-add-to-cart">Add to Cart</a>
-                        </div>
-                    </div>
-                
-                    <div class="nk-shop-product">
-                        <div class="nk-shop-product-thumb">
-                            <a href="product.php?id=1"><img src="assets/images/product-4.jpg" alt="Contrasting Hoops Earrings"></a>
-                            
-                        </div>
-                        <h2 class="nk-shop-product-title"><a href="product.php?id=1">Contrasting Hoops Earrings</a></h2>
-                        <div class="nk-shop-product-btn">
-                            <div class="nk-shop-product-price">
-                                
-                                $879.00
-                            </div>
-                            <a href="product.php?id=1" class="nk-shop-product-add-to-cart">Add to Cart</a>
-                        </div>
-                    </div>
-                
-                    <div class="nk-shop-product">
-                        <div class="nk-shop-product-thumb">
-                            <a href="product.php?id=1"><img src="assets/images/product-5.jpg" alt="Tortoiseshell Sunglasses"></a>
-                            
-                        </div>
-                        <h2 class="nk-shop-product-title"><a href="product.php?id=1">Tortoiseshell Sunglasses</a></h2>
-                        <div class="nk-shop-product-btn">
-                            <div class="nk-shop-product-price">
-                                
-                                $699.00
-                            </div>
-                            <a href="product.php?id=1" class="nk-shop-product-add-to-cart">Add to Cart</a>
-                        </div>
-                    </div>
-                
-                    <div class="nk-shop-product">
-                        <div class="nk-shop-product-thumb">
-                            <a href="product.php?id=1"><img src="assets/images/product-6.jpg" alt="Strappy High Heel Sandals"></a>
-                            
-                        </div>
-                        <h2 class="nk-shop-product-title"><a href="product.php?id=1">Strappy High Heel Sandals</a></h2>
-                        <div class="nk-shop-product-btn">
-                            <div class="nk-shop-product-price">
-                                
-                                $1800.00
-                            </div>
-                            <a href="product.php?id=1" class="nk-shop-product-add-to-cart">Add to Cart</a>
-                        </div>
-                    </div>
-                
-                    <div class="nk-shop-product">
-                        <div class="nk-shop-product-thumb">
-                            <a href="product.php?id=1"><img src="assets/images/product-7.jpg" alt="Embosses Leather Shoes"></a>
-                            
-                        </div>
-                        <h2 class="nk-shop-product-title"><a href="product.php?id=1">Embosses Leather Shoes</a></h2>
-                        <div class="nk-shop-product-btn">
-                            <div class="nk-shop-product-price">
-                                
-                                $2199.00
-                            </div>
-                            <a href="product.php?id=1" class="nk-shop-product-add-to-cart">Add to Cart</a>
-                        </div>
-                    </div>
-                
-                    <div class="nk-shop-product">
-                        <div class="nk-shop-product-thumb">
-                            <a href="product.php?id=1"><img src="assets/images/product-8.jpg" alt="Bag with Split Suede Flap"></a>
-                            <span class="nk-shop-product-sale">Sale 50%</span>
-                        </div>
-                        <h2 class="nk-shop-product-title"><a href="product.php?id=1">Bag with Split Suede Flap</a></h2>
-                        <div class="nk-shop-product-btn">
-                            <div class="nk-shop-product-price">
-                                <del>$989.00</del>
-                                $594.00
-                            </div>
-                            <a href="product.php?id=1" class="nk-shop-product-add-to-cart">Add to Cart</a>
-                        </div>
-                    </div>
-                
-                    <div class="nk-shop-product">
-                        <div class="nk-shop-product-thumb">
-                            <a href="product.php?id=1"><img src="assets/images/product-9.jpg" alt="Turquoise Beaded Earrings"></a>
-                            
-                        </div>
-                        <h2 class="nk-shop-product-title"><a href="product.php?id=1">Turquoise Beaded Earrings</a></h2>
-                        <div class="nk-shop-product-btn">
-                            <div class="nk-shop-product-price">
-                                
-                                $569.00
-                            </div>
-                            <a href="product.php?id=1" class="nk-shop-product-add-to-cart">Add to Cart</a>
-                        </div>
-                    </div>
-                
-                    <div class="nk-shop-product">
-                        <div class="nk-shop-product-thumb">
-                            <a href="product.php?id=1"><img src="assets/images/product-10.jpg" alt="Blue Textile Bag"></a>
-                            
-                        </div>
-                        <h2 class="nk-shop-product-title"><a href="product.php?id=1">Blue Textile Bag</a></h2>
-                        <div class="nk-shop-product-btn">
-                            <div class="nk-shop-product-price">
-                                
-                                $799.00
-                            </div>
-                            <a href="product.php?id=1" class="nk-shop-product-add-to-cart">Add to Cart</a>
-                        </div>
-                    </div>
-                
-                    <div class="nk-shop-product">
-                        <div class="nk-shop-product-thumb">
-                            <a href="product.php?id=1"><img src="assets/images/product-11.jpg" alt="Long Feather Necklace"></a>
-                            
-                        </div>
-                        <h2 class="nk-shop-product-title"><a href="product.php?id=1">Long Feather Necklace</a></h2>
-                        <div class="nk-shop-product-btn">
-                            <div class="nk-shop-product-price">
-                                
-                                $559.00
-                            </div>
-                            <a href="product.php?id=1" class="nk-shop-product-add-to-cart">Add to Cart</a>
-                        </div>
-                    </div>
-                
-                    <div class="nk-shop-product">
-                        <div class="nk-shop-product-thumb">
-                            <a href="product.php?id=1"><img src="assets/images/product-12.jpg" alt="Glitter Sunglasses"></a>
-                            
-                        </div>
-                        <h2 class="nk-shop-product-title"><a href="product.php?id=1">Glitter Sunglasses</a></h2>
-                        <div class="nk-shop-product-btn">
-                            <div class="nk-shop-product-price">
-                                
-                                $739.00
-                            </div>
-                            <a href="product.php?id=1" class="nk-shop-product-add-to-cart">Add to Cart</a>
-                        </div>
-                    </div>
-                
+
             </div>
             <!-- END: Shop Products -->
 
@@ -435,7 +273,7 @@
     </div>
     <!-- END: Main Content -->
 
-    
+
         <!--
     START: Footer
 
@@ -505,6 +343,6 @@
 <script src="assets/js/skylith-init.js"></script>
 <!-- END: Scripts -->
 
-    
+
 </body>
 </html>

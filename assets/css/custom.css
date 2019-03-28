@@ -1,5 +1,11 @@
 /* PLACE YOU CUSTOM STYLES IN THIS FILE */
 
+/* Index Page */
+ul.dropdown-menu > li > a {
+    display: block;
+}
+
+
 /* Product Page */
 span.input_error {
     padding: 0;

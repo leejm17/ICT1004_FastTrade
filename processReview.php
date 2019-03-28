@@ -1,6 +1,5 @@
 <?php
-
-$name = $email = $message = $review_rate = "";
+$page = $page_id = $name = $email = $message = $review_rate = "";
 $name_err = $email_err = $message_err = $review_rate_err = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -8,16 +7,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $message = $_POST["message"];
 
-    if (empty($name) || !preg_match("/^[a-zA-Z ]*$/", $name)) {
-        $name_err = "This field is required.";
+    $page = $_POST["page_id"];
+    $page_id = substr($page, -1);
+
+    if (empty($name) || !preg_match("/^[a-zA-Z0-9 ]*$/", $name)) {
+        $name_err = "Please enter a valid name.";
     }
 
     if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $email_err = "Please enter a valid email address.";
     }
 
-    if (empty($message) || !preg_match("/^[a-zA-Z ]*$/", $message)) {
-        $message_err = "This field is required.";
+    if (empty($message) || !preg_match("/^[a-zA-Z0-9!$., ]*$/", $message)) {
+        $message_err = "Please refrain from using the following special characters: \ / : * ? \" < > |";
     }
 
     if (empty($_POST["review-rate"])) {
@@ -27,36 +29,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($name_err == "" && $email_err == "" && $message_err == "" && $review_rate_err == "") {
-        header("location: product.php?id=1");
-    } else {
-        $page = basename($_SERVER['REQUEST_URI']);
-        $page_id = substr($page, -1);
-
         /* (1) Connect to Database */
-        require_once('../../protected/config_fasttrade.php');
+        require_once('..\..\protected\config_fasttrade.php');
         $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
 
         /* (2) Handle Connection Error */
-        //      mysqli_connect_errno returns the last error code
         if (mysqli_connect_errno()) {
             die(mysqli_connect_errno());    // die() is equivalent to exit()
         }
 
         /* (3) Query DB */
-        $sql = "INSERT TO item_review (item_id, name, email, message, rating) VALUES (?, ?, ?, ?, ?)";
-        $stmt = mysqli_query($connection, $sql);
-        
+        $sql = "INSERT INTO item_review (item_id, email_id, datetime, name, review, rating) VALUES (?, ?, NOW(), ?, ?, ?)";
+        $stmt = mysqli_prepare($connection, $sql);
+
         /* (4) Insert Into DB */
         if ($stmt) {
-            mysqli_stmt_bind_param($sql, "isssi", $page_id, $name, $email, $message, $review_rate);
-            $sql = mysqli_execute($sql);
-            
+            //echo '.................... | came into $stmt';
+            mysqli_stmt_bind_param($stmt, "isssi", $page_id, $email, $name, $message, $review_rate);
+            mysqli_execute($stmt);
+
             /* (5) Release Connection */
-            mysqli_free_result($sql);
-            mysqli_close($connection);
-        }
-        
-        header("location: product.php?id=1");
-    }
+            //mysqli_free_result($stmt);
+            mysqli_stmt_close($stmt);
+        }/* else {
+            echo '.................... | no go out of the way';
+        }*/
+        mysqli_close($connection);
+        header("location: " . $page);
+    }/* else {
+        echo '.................... | ERROR MESSAGE. PLEASE RESOLVE.';
+    }*/
 }
 ?>

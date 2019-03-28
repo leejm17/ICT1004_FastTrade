@@ -1,13 +1,12 @@
 <?php
-
 echo
 '<footer class="nk-footer" style="background-color: #f2f2f2;">
-    
+
 
     <div class="nk-footer-widgets text-gray">
         <div class="container">
                 <div class="row vertical-gap">
-                <div class="col-lg-4">
+                <div class="col-lg-4 col-md-5 col-sm-6">
                     <div class="nk-widget">
                         <h4 class="nk-widget-title text-dark">Our Headquarters</h4>
                         <p class="mb-7">
@@ -22,7 +21,7 @@ echo
                         </p>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-4 col-md-5 col-sm-6">
                     <div class="nk-widget">
                         <h4 class="nk-widget-title text-dark">Development Team</h4>
                         <p class="mb-7">
@@ -37,7 +36,7 @@ echo
                         </p>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-4 col-md-5 col-sm-5">
                     <div class="nk-widget">
                         <h4 class="nk-widget-title text-dark">Follow Us</h4>
                         <div class="nk-social-2 text-gray">
@@ -57,17 +56,16 @@ echo
     </div>
 
     <div class="nk-footer-cont nk-footer-cont-sm">
-        
+
             <a class="nk-footer-scroll-top-btn nk-anchor  text-dark" href="#top">
                 <span class="pe-7s-angle-up"></span>
             </a>
-        
+
         <div class="container text-center">
             <div class="nk-footer-text text-gray">
                 <p>2019 &copy; Design by Team02. Code by nK</p>
             </div>
         </div>
     </div>
-</footer>'
-
+</footer>';
 ?>
