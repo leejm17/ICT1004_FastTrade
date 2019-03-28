@@ -14,3 +14,14 @@ span.input_error {
     color: #CC3341;
     z-index: 1;
 }
+
+/* Fixed modal display issue */
+.modal-backdrop {
+    z-index: -1;
+}
+.modal-open {
+    padding-right: 0px !important;
+}
+#product_body {
+    padding-right: 0px !important;
+}

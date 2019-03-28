@@ -54,14 +54,15 @@
     <link rel="stylesheet" href="assets/css/skylith.css">
 
     <!-- Custom Styles -->
-    <link rel="stylesheet" href="assets/css/custom.css">
     <link rel="stylesheet" href="assets/css/custom-minimal-shop.css">
     <!-- END: Styles -->
 
     <!-- jQuery -->
     <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
 
-
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="assets/css/custom.css">
+</style>
 </head>
 
 
@@ -74,7 +75,7 @@
     Additional Classes:
         .nk-bg-gradient
 -->
-<body>
+<body id="product_body">
 
 
 <!-- POST to Process Review action -->
@@ -269,15 +270,124 @@
                     }
                 ?>
 
-                <!-- START: Add to Cart -->
 
-                <!--<form action="#">-->
+                <!-- START: Make An Offer -->
+
+<!--                <form action="#">
                     <div class="input-group">
                         <button class="nk-btn nk-btn-color-dark">Negotiate</button>
                     </div>
-                <!--</form>-->
+                </form>-->
 
-                <!-- END: Add to Cart -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#offerModal">
+                  Make an Offer!
+                </button>
+
+                <!-- START: Offer modal -->
+                <div class="container-fluid">
+                    <div class="col-lg-6">
+                        <form class="form-horizontal">
+                            <div class="modal fade" id="offerModal" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="offerModalLabel">What is your offer?</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body">
+                                      <div class="form-group">
+                                          <label class="control-label col-lg-5 col-md-3 col-sm-3 col-xs-12" for="offer_price">I would like to offer:</label>
+                                          <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                              <input style="height: 20px;" type="text" class="form-control" id="offer_price" name="offer_price" placeholder="SGD">
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="control-label col-lg-5 col-md-3 col-sm-3 col-xs-12" for="offer_loc">Pickup Location:</label>
+                                          <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                              <input style="height: 20px;" type="text" class="form-control" id="offer_loc" name="offer_loc">
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label class="control-label col-lg-5 col-md-3 col-sm-3 col-xs-12" for="offer_remarks">Remarks (if any):</label>
+                                          <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                                              <input style="height: 20px;" type="text" class="form-control" id="offer_remarks" name="offer_remarks">
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#confirmModal">Review Offer</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- END: Offer modal -->
+
+                <!-- START: Confirm modal -->
+                <div class="container-fluid">
+                    <div class="col-lg-6">
+                        <form class="form-horizontal">
+                            <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmModalLabel">Please review your offer</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body">
+                                      <div class="form-group">
+                                          <table class="table nk-shop-table-info" style="width:100%">
+                                              <tr>
+                                                  <td style="width:25%"></td>
+                                                  <td style="width:25%"><span class="text-black">Product:</span></td>
+                                                  <td colspan="2"><span class="text-black">Mei Heong Yuen</span></td>
+                                                  <!--<td colspan="4" style="text-align:center;"><span class="text-black">Product: Mei Heong Yuen Vouchers</span></td>-->
+                                              </tr>
+                                              <tr>
+                                                  <td style="width:25%"></td>
+                                                  <td style="width:25%"><span class="text-black">Seller:</span></td>
+                                                  <td colspan="2"><span class="text-black">jonsayquack</span></td>
+                                              </tr>
+                                              <td colspan="4"></td>
+                                              <tr>
+                                                  <td colspan="2" style="text-align:center;"><span class="text-black"><u>Original Price</u></span></td>
+                                                  <td colspan="2" style="text-align:center;"><span class="text-black"><u>Your Bargain</u></span></td>
+                                              </tr>
+                                              <tr>
+                                                  <td colspan="2" style="text-align:center;"><span class="text-black">SGD 93.00</span></td>
+                                                  <td colspan="2" style="text-align:center;"><span class="text-black">SGD 88.00</span></td>
+                                              </tr>
+                                              <td colspan="4"></td>
+                                              <tr>
+                                                  <td colspan="4" style="text-align:center;"><span class="text-black">Pickup Location: Singapore City</span></td>
+                                              </tr>
+                                              <tr>
+                                                  <td colspan="4" style="text-align:center;"><span class="text-black">Remarks (if any): Bring some condoms too</span></td>
+                                              </tr>
+                                          </table>
+                                      </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#offerModal">Go Back</button>
+                                    <button type="button" class="btn btn-success">Submit Offer!</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- END: Confirm modal -->
+
+                <!-- END: Make An Offer -->
             </div>
         </div>
             <!-- END: Product Details -->
@@ -349,7 +459,7 @@
                             <div role="tabpanel" class="tab-pane fade" id="tab-info">
                                 <div class="row">
                                     <div class="col-md-10 offset-md-3">
-                                        <table class="table nk-shop-table-info">
+                                        <table class="table nk-shop-table-info" style="width:100%">
 
                                         <?php
                                             $page = basename($_SERVER['REQUEST_URI']);
@@ -366,18 +476,26 @@
                                             }
 
                                             /* (3) Query DB */
-                                            $sql = "SELECT * FROM item WHERE item_id=" . $page_id . ";";
+                                            $sql = "SELECT * FROM item INNER JOIN category ON category.category_id = item.category_id WHERE item_id=" . $page_id . ";";
                                             $result = mysqli_query($connection, $sql);
 
                                             /* (4) Fetch Results */
                                             if ($result) {
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                     echo '<tr>';
-                                                    echo '<td><span class="text-black">Condition:</span></td>';
+                                                    echo '<td width="30%"><span class="text-black">Seller:</span></td>';
+                                                    echo '<td width="70%">' . $row['user_id'] . '</td>';
+                                                    echo '</tr>';
+                                                    echo '<tr>';
+                                                    echo '<td><span class="text-black">Product Category:</span></td>';
+                                                    echo '<td>' . $row['name'] . '</td>';
+                                                    echo '</tr>';
+                                                    echo '<tr>';
+                                                    echo '<td><span class="text-black">Product Condition:</span></td>';
                                                     echo '<td>' . $row['condition'] . '/10</td>';
                                                     echo '</tr>';
                                                     echo '<tr>';
-                                                    echo '<td><span class="text-black">Age:</span></td>';
+                                                    echo '<td><span class="text-black">Product Age:</span></td>';
                                                     echo '<td>' . $row['age'] . '</td>';
                                                     echo '</tr>';
                                                     echo '<tr>';
