@@ -269,7 +269,6 @@
 								$inputpass = ($inputpass + 1);
 							}
 							
-							
 							//if (empty($_POST['picture1'])) {
 							if (empty($_FILES['picture1']['tmp_name'])) {
 								$picture1_err = "<p style='color:red;'>*Main picture cannot be empty</p>";
@@ -278,6 +277,12 @@
 								$inputpass = ($inputpass + 1);
 							}
 							
+							//if inputpass is not 9 {
+							if ($inputpass != 9) {
+								echo("<div class='alert alert-danger'>
+												<strong>Error!</strong> Fill in all the required fields.
+											</div>");
+							}
 							
 						}
 					?>
@@ -288,7 +293,7 @@
 					if ($inputpass == 9) {
 						// Credentials
 						$servername = "localhost";
-						$username = "pswrite";
+						$username = "psread";
 						$password = "P@ssw0rd";
 						$dbname = "fasttradedb";
 						// Create connection
@@ -304,7 +309,10 @@
 								VALUES ('".$_POST["title"]."', '".$_POST["description"]."', '".$_POST["condition"]."', '".$_POST["price"]."', '1', '0', '".$_POST["userid"]."', '".$_POST["category"]."', '".$_POST["age"]."', '".$_POST["adduration"]."')
 								;";
 						$result = $conn->query($sql);
-						echo("<p> '".$_POST["title"]."' successfully listed!</p>");
+						echo("
+							<div class='alert alert-success'>
+								<strong>Success!</strong> '".$_POST["title"]."' has been successfully listed!.
+							</div>");
 					}else{
 						echo "";
 					}
@@ -315,7 +323,6 @@
 					$theitemid = 0;
 					//if ($inputpass == 11) { //Old form debugging (Status, Sold)
 					if ($inputpass == 9) { //If all input fields are filled
-						// Credentials
 						$servername = "localhost";
 						$username = "psread";
 						$password = "P@ssw0rd";
@@ -349,10 +356,10 @@
 									VALUES ('".$theitemid."', '".$imgData1."')
 									;";
 							$result = $conn->query($sql);
-							echo("<p>".$_FILES['picture1']['name']." has been added!<p>");
+							//echo("<p>".$_FILES['picture1']['name']." has been added!<p>");
 							//Second Image
 							if (empty(file_get_contents($_FILES['picture2']['tmp_name']))) {
-								echo("Picture2 empty<br>");
+								//echo("Picture2 is empty<br>");
 							}else{
 								//Escaped Image
 								$imgData2 = addslashes(file_get_contents($_FILES['picture2']['tmp_name']));
@@ -362,13 +369,13 @@
 										VALUES ('".$theitemid."', '".$imgData2."')
 										;";
 								$result = $conn->query($sql);
-								echo("<p>".$_FILES['picture2']['name']." has been added!</p>");
+								//echo("<p>".$_FILES['picture2']['name']." has been added!</p>");
 								
 							}
 							
 							//Third Image
 							if (empty(file_get_contents($_FILES['picture3']['tmp_name']))) {
-								echo("Picture3 empty<br>");
+								//echo("Picture3 is empty<br>");
 							}else{
 								//Escaped Image
 								$imgData3 = addslashes(file_get_contents($_FILES['picture3']['tmp_name']));
@@ -378,7 +385,7 @@
 										VALUES ('".$theitemid."', '".$imgData3."')
 										;";
 								$result = $conn->query($sql);
-								echo("<p>".$_FILES['picture3']['name']." has been added!</p>");
+								//echo("<p>".$_FILES['picture3']['name']." has been added!</p>");
 							}
 						}
 					}else{
