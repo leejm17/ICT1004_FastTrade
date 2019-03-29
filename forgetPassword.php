@@ -11,20 +11,18 @@
 -->
 <?php
     session_start();
-    $identifier = '';
-    $identifierErr = $passwordErr =  '';
-    if(isset($_SESSION['ErrArray']) && !empty($_SESSION['ErrArray'])){
-        $ErrArray = $_SESSION['ErrArray'];
-        if(isset($_SESSION['ErrArray'][0]) && !empty($_SESSION['ErrArray'][0])){
-            $identifierErr = $ErrArray [0];
-        }
-        if(isset($_SESSION['ErrArray'][1]) && !empty($_SESSION['ErrArray'][1])){
-            $passwordErr = $ErrArray[1];
-        }
+    $identifier = $identifierErr = '';
+    $verification_status = 0;
+    if(isset($_SESSION['identifierErr']) && !empty($_SESSION['identifierErr'])){
+        $identifierErr= $_SESSION['identifierErr'];
     }
 
     if(isset($_SESSION['identifier']) && !empty($_SESSION['identifier'])){
         $identifier = $_SESSION['identifier'];
+    }
+
+    if(isset($_SESSION['need_verification']) && !empty($_SESSION['need_verification'])){
+        $verification_status = $_SESSION['need_verification'];
     }
 ?>
 <html lang="en">
@@ -142,26 +140,35 @@
 
             <!-- Was supposed to have sth here-->
             <div class="nk-gap-1"></div>
-                <h3 class="h5 text-center">Login</h3>
+                <h3 class="h5 text-center">Forget Password</h3>
             <div class="nk-gap-1 mnt-7"></div>
+            <div class="nk-divider nk-divider-color-gray-6"></div>
+            <div class="nk-gap-3"></div>
 
-            <form action="assets/php/loginValidation.php" class="nk-form nk-form-style-1" method="POST">
+            <form action="assets/php/forgetPasswordBackend.php" class="nk-form nk-form-style-1" method="POST">
                 <div class="row vertical-gap">
+                    <div class="col-sm-10">
+                        <p><strong>Forgot your password?</strong> Please enter your username/email to search for your account.</p>                        
+                    </div>
                     <div class="col-sm-8">
                         <input type="text" class="form-control required" name="identifier" placeholder="Your Username/Email" value=<?php if(!empty($identifierErr) && !empty($identifier)){echo '"', $identifier, '"';}else{echo "";} ?>>
-                    </div>
-                    <div class="col-sm-8">
-                        <input type="password" class="form-control required" name="password" placeholder="Your Password">
-                        <?php if(!empty($passwordErr)){echo '<p class="text-danger">', $passwordErr , '</p>';} else if(!empty($identifierErr)){echo '<p class="text-danger">', $identifierErr , '</p>';} ?>
+                        <?php if(!empty($identifierErr)){echo '<p class="text-danger">', $identifierErr , '</p>';} ?>                        
                     </div>
                 </div>
-                <div class="nk-gap-1"></div>
-                <a href="forgetPassword.php">Forgot Password?</a>
                 <div class="nk-gap-1"></div>
                 <div class="text-center">
-                    <button type="submit" class="nk-btn nk-btn-color-dark-1">Login</button>
+                    <button type="submit" class="nk-btn nk-btn-color-dark-1">Send Login Link</button>
                 </div>
                 <div class="nk-gap-1"></div>
+                <div class ="row vertical-gap">
+                    <div class="col-sm-12">
+                    <?php
+                        if($verification_status == 1){
+                            echo '<div class="alert alert-success">Check your email for further instructions</div>';
+                        }
+                    ?>
+                    </div>
+                </div>
             </form>
         </div>
         <div class="nk-gap-3"></div>
@@ -244,10 +251,13 @@
 </html>
 
 <?php
-    if(isset($_SESSION['ErrArray'])){
-        session_unset($_SESSION["ErrArray"]);
+    if(isset($_SESSION['identifierErr'])){
+        session_unset($_SESSION["identifierErr"]);
     }
     if(isset($_SESSION['identifier'])){
         session_unset($_SESSION["identifier"]);
+    }
+    if(isset($_SESSION['need_verification'])){
+        session_unset($_SESSION["need_verification"]);
     }
 ?>

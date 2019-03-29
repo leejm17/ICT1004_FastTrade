@@ -53,7 +53,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>FastTrade | Login</title>
+    <title>FastTrade | Register</title>
 
     <meta name="description" content="sell, buy, online">
     <meta name="keywords" content="login">
@@ -284,9 +284,19 @@
 </body>
 </html>
 <?php
-    session_unset($_SESSION["ErrArray"]);
-    session_unset($_SESSION["name"]);
-    session_unset($_SESSION["username"]);
-    session_unset($_SESSION["email"]);
-    session_unset($_SESSION["verification_status"]);
+    if(isset($_SESSION['ErrArray'])){
+        session_unset($_SESSION["ErrArray"]);
+    }
+    if(isset($_SESSION['name'])){
+        session_unset($_SESSION["name"]);
+    }
+    if(isset($_SESSION['username'])){
+        session_unset($_SESSION["username"]);
+    }
+    if(isset($_SESSION['email'])){
+        session_unset($_SESSION["email"]);
+    }
+    if(isset($_SESSION['verification_status'])){
+        session_unset($_SESSION["verification_status"]);
+    }
 ?>

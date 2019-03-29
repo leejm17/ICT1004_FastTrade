@@ -1,5 +1,71 @@
 <?php
-    session_start();
+
+//init of db
+// TODO: make sure we keep note of the location of this file when porting over to hosting platform
+require_once '..\..\protected\config_fasttrade.php';
+$connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+
+//mysqli_connnect_errno returns last error code
+if (mysqli_connect_errno()){
+    die(mysqli_connect_error()); //exits connection
+}
+
+//check if can get variables from url
+if(isset($_GET['email']) && !empty($_GET['email'])){
+    setcookie("email", $_GET['email'], time() + (86400 * 30), "/");
+}
+
+$UpdatePwdErr = '';
+$UpdatePwdSuccess = 0;
+if ($_SERVER["REQUEST_METHOD"] == "POST"){
+    if (isset($_POST["old_password"]) || isset($_POST["new_password"]) || isset($_POST["new_password_cfm"])){
+        
+        $email = '';
+        if(isset($_COOKIE["email"])) {
+            $email = $_COOKIE["email"];
+        }
+
+        echo '<script>alert('. $email .')</script>';
+        $old_pwd= $_POST["old_password"];
+        $new_pwd = $_POST["new_password"];
+        $cfm_pwd = $_POST["new_password_cfm"];
+
+        //check with db for old password
+        $db_pwd = ''; 
+        $password_ret_sql = "SELECT password FROM user WHERE email = ? LIMIT 1";
+        if($statement = mysqli_prepare($connection, $password_ret_sql)){
+            mysqli_stmt_bind_param($statement, "s", $email);
+            mysqli_stmt_execute($statement);
+            mysqli_stmt_bind_result($statement, $db_pwd);
+            mysqli_stmt_fetch($statement);
+            
+            /* close statement */
+            mysqli_stmt_close($statement);
+        }
+
+        $passwdPattern = "/\w{8,}/";
+        if(empty($new_pwd) || empty($cfm_pwd) || empty($old_pwd)){
+            $UpdatePwdErr = 'Ensure that no fields are empty!';
+        } else if(!password_verify($old_pwd, $db_pwd) && $db_pwd != NULL){
+            $UpdatePwdErr = 'Password not found, Please try again! ';            
+        }else if($cfm_pwd != $new_pwd){
+            $UpdatePwdErr = 'Please enter matching passwords!';
+        } else if(!preg_match($passwdPattern, $new_pwd)){
+            $UpdatePwdErr = 'Please enter a password with more complexity!';
+        } else{
+            $hashed_pwd = password_hash($new_pwd, PASSWORD_BCRYPT);
+            $update_sql = "UPDATE user SET password = ? WHERE email = ?";
+            $statement = $connection->prepare($update_sql);
+            if($statement){
+                $statement->bind_param("ss", $hashed_pwd, $email);
+                $statement->execute();
+            } else{
+                print_r($connection->error_list);
+            }
+            $UpdatePwdSuccess = 1;
+        }  
+    }
+}
 ?>
 <!DOCTYPE html>
 <!--
@@ -17,7 +83,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>FastTrade | Verify Email</title>
+    <title>FastTrade | Verify Forget Password</title>
 
     <meta name="description" content="sell, buy, online">
     <meta name="keywords" content="login">
@@ -131,21 +197,11 @@
                             $email = $_GET['email'];
                             $hash = $_GET['hash'];
 
-                            require_once '..\..\protected\config_fasttrade.php';
-                            $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
-
-                            //mysqli_connnect_errno returns last error code
-                            if (mysqli_connect_errno()){
-                                die(mysqli_connect_error()); //exits connection
-                            }
-
-                            $activated_val = 0;
-                            $to_set_activated_val = 1;
                             $db_email = "";
 
-                            $search_sql = "SELECT email FROM user WHERE email=? AND activated = ? AND email_hash = ?";
+                            $search_sql = "SELECT email FROM user WHERE email=? AND email_hash = ?";
                             if($search_statement = mysqli_prepare($connection, $search_sql)){
-                                mysqli_stmt_bind_param($search_statement, "sis", $email, $activated_val, $hash);
+                                mysqli_stmt_bind_param($search_statement, "ss", $email, $hash);
                                 mysqli_stmt_execute($search_statement);
                                 mysqli_stmt_bind_result($search_statement, $db_email);
                                 mysqli_stmt_fetch($search_statement);
@@ -156,19 +212,56 @@
                                 if($db_email != $email){
                                     echo '<div class ="jumbotron" id="no_verification_jumbotron" style="text-align:center;"><h3>Email is not verified!</h3></div>';
                                 } else{
-                                    $activated_status_sql = "UPDATE user SET activated = ? WHERE email = ? AND activated = ? AND email_hash = ?"; //need to set Safe Updates to off
-                                    if($mod_activate_statement = mysqli_prepare($connection, $activated_status_sql)){
-                                        mysqli_stmt_bind_param($mod_activate_statement, "isis", $to_set_activated_val, $email, $activated_val, $hash);
-                                        mysqli_stmt_execute($mod_activate_statement);
-                                        $_SESSION["activated"] = 0;
-                                        mysqli_stmt_close($mod_activate_statement);
-                                    }
-                                    echo '<div class ="jumbotron" id="verification_jumbotron" style="text-align:center;"><h3>Email is successfully verified!</h3></div>';
-                                    echo '<p style="text-align:center;"><a href="login.php" title="Go to Login"><button class="nk-btn nk-btn-color-dark-1">Login With Us</button></a></p>';
+                                    //TODO: put checkbox here that redirects and does changing of passwords or some shit like that
+                                    
+                                    echo '
+                                    <div class="bg-white">
+                                    <div class="container">
+                                    <div class="nk-gap-1"></div>
+                                    <h3 class="h5 text-center">Update Profile (Password)</h3>
+                                    <div class="nk-gap-1 mnt-7"></div>
+                                    
+                                    <form action="'. htmlspecialchars($_SERVER["PHP_SELF"]) .'" class="nk-form nk-form-style-1" method="POST">
+                                        <div style="padding-top: 5px;" class="col-sm-8">
+                                            Old Password:
+                                            <input type="password" class="form-control required" name="old_password" placeholder="Your Old Password">
+                                        </div>
+                                        <div class="col-sm-8">
+                                            New Password:
+                                            <input type="password" class="form-control required" name="new_password" placeholder="Your New Password">
+                                        </div>
+                                        <div class="col-sm-8">
+                                            Confirm New Password:
+                                            <input type="password" class="form-control required" name="new_password_cfm" placeholder="Confirm New Password">
+                                        </div>
+                                    </div>
+                                    <div class="nk-gap-3"></div>
+                                    <div class="text-center">
+                                        <button type="submit" class="nk-btn nk-btn-color-dark-1">Update Password</button>
+                                    </div>
+                                    </div>
+                                    </div>';
+
+                                    // $activated_status_sql = "UPDATE user SET activated = ? WHERE email = ? AND activated = ? AND email_hash = ?"; //need to set Safe Updates to off
+                                    // if($mod_activate_statement = mysqli_prepare($connection, $activated_status_sql)){
+                                    //     mysqli_stmt_bind_param($mod_activate_statement, "isis", $to_set_activated_val, $email, $activated_val, $hash);
+                                    //     mysqli_stmt_execute($mod_activate_statement);
+                                    //     $_SESSION["activated"] = 0;
+                                    //     mysqli_stmt_close($mod_activate_statement);
+                                    // }
+
                                 }
                             }
                         }else{
-                            echo '<div class ="jumbotron" id="no_verification_jumbotron" style="text-align:center;"><h3>Link is illegally accessed!</h3></div>';
+                            if (!empty($UpdatePwdErr)){
+                                echo '<div class="alert alert-danger">'. $UpdatePwdErr .' Go back to previous page!</div>'; 
+                                echo '<p style="text-align:center;"><a href="javascript:history.go(-1)" title="Return to previous page"><button class="nk-btn nk-btn-color-dark-1">Go back</button></a></p>';                                       
+                            } else if ($UpdatePwdSuccess == 1){
+                                echo '<div class="alert alert-success">Password is successfully changed</div>';
+                                echo '<p style="text-align:center;"><a href="login.php" title="Go to Login"><button class="nk-btn nk-btn-color-dark-1">Login With Us</button></a></p>';                                       
+                            } else{
+                                echo '<div class ="jumbotron" id="no_verification_jumbotron" style="text-align:center;"><h3>Link is illegally accessed!</h3></div>';
+                            }
                         }
 
                     ?>
