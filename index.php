@@ -15,7 +15,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Fast Trade | Shop</title>
+    <title>Fast Trade | Index</title>
 
     <meta name="description" content="Shop Menu">
     <meta name="keywords" content="menu, products, items, overview, content">
@@ -119,7 +119,18 @@
         <div class="container">
             <!-- START: Shop Header -->
             <div class="nk-shop-header">
-                <a href="#" class="nk-shop-layout-toggle active" data-cols="4"><span class="nk-icon-layout-3"></span></a>
+                <a href="#" class="nk-shop-layout" data-cols="4">
+                    <input type="text" id="productsearch" class="form-control required" name="productsearch" placeholder="Search Products" onkeydown="search()">
+                </a>
+                <script>
+                    //if enter key is pressed, redirect get query with value from search box 
+                    function search() {
+                        if(event.keyCode == 13) {
+                            var page='index.php?q='+ document.getElementById("productsearch").value;
+                            document.location.href=page;
+                        }
+                    }
+                </script>
                 <a href="#" class="nk-shop-filter-toggle">
                     <span>Filter</span>
                     <span>Hide Filter</span>
@@ -228,36 +239,57 @@
                         die(mysqli_connect_errno());    // die() is equivalent to exit()
                     }
 
-                    /* (3) Query DB */
-                    $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id GROUP BY item.item_id;";
-
-                    /* (4) Fetch Results */
-                    if ($result = mysqli_query($connection, $sql)) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo '<div class="nk-shop-product">';
-                            echo '<div class="nk-shop-product-thumb">';
-                            echo '<a href="product.php?id=' . $row['item_id'] .'">';
-                            echo '<img height=284 src="data:image/jpeg;base64, ' . base64_encode($row['photo']) . '" alt="' . $row['title'] . '" />';
-                            echo '</a>';
-                            echo '</div>';
-                            echo '<h2 class="nk-shop-product-title">';
-                            echo '<a href="product.php?id=' . $row['item_id'] . '">' . $row['title'] . '</a>';
-                            echo '</h2>';
-                            echo '<div class="nk-shop-product-btn">';
-                            echo '<div class="nk-shop-product-price">';
-                            echo 'SGD ' . $row['price'];
-                            echo '</div>';
-                            echo '<a href="product.php?id=' . $row['item_id'] . '" class="nk-shop-product-add-to-cart">Contact Seller</a>';
-                            echo '</div>';
-                            echo '</div>';
-
-                            //echo '<img style="width:40%; float:left; margin-right:10px;" src="data:image/jpeg;base64, ' . base64_encode($row['picture']) . '"/>';
+                    /* (3) Query DB - if can get Query*/
+                    if (isset($_GET["q"])){
+                        if(!empty($_GET["q"])){ //if query can get the variable q
+                            $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE title LIKE '%". $_GET["q"] ."%' GROUP BY item.item_id;";
                         }
+                    }else{
+                        $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id GROUP BY item.item_id;";
                     }
 
-                    /* (5) Release Connection */
-                    mysqli_free_result($result);
-                    mysqli_close($connection);
+                    /* (4) Fetch Results */
+                    if (!empty($sql)){ //if the URL is just like this http://localhost/ICT1004Assignment_FastTrade/index.php?q
+                        if ($result = mysqli_query($connection, $sql)) {
+                            if (mysqli_num_rows($result) == 0){
+                                echo '<div class="col-lg-12 col-md-6 col-sm-3">';
+                                echo '<h3>No results found!</h3>';
+                                echo '<p>Please try a different query</p>'; 
+                                echo '</div>';                           
+                            } else{
+                                while ($row = mysqli_fetch_assoc($result)) { //there is results found
+                                    echo '<div class="nk-shop-product">';
+                                    echo '<div class="nk-shop-product-thumb">';
+                                    echo '<a href="product.php?id=' . $row['item_id'] .'">';
+                                    echo '<img height=284 src="data:image/jpeg;base64, ' . base64_encode($row['photo']) . '" alt="' . $row['title'] . '" />';
+                                    echo '</a>';
+                                    echo '</div>';
+                                    echo '<h2 class="nk-shop-product-title">';
+                                    echo '<a href="product.php?id=' . $row['item_id'] . '">' . $row['title'] . '</a>';
+                                    echo '</h2>';
+                                    echo '<div class="nk-shop-product-btn">';
+                                    echo '<div class="nk-shop-product-price">';
+                                    echo 'SGD ' . $row['price'];
+                                    echo '</div>';
+                                    echo '<a href="product.php?id=' . $row['item_id'] . '" class="nk-shop-product-add-to-cart">Contact Seller</a>';
+                                    echo '</div>';
+                                    echo '</div>';
+
+                                    //echo '<img style="width:40%; float:left; margin-right:10px;" src="data:image/jpeg;base64, ' . base64_encode($row['picture']) . '"/>';
+                                }
+
+                                /* (5) Release Connection */
+                                mysqli_free_result($result);
+                                mysqli_close($connection);
+                            }
+                        }
+                    } else{
+                        echo '<div class="col-lg-12 col-md-6 col-sm-3">';
+                        echo '<h3>No results found!</h3>';
+                        echo '<p>Please try a different query</p>'; 
+                        echo '</div>'; 
+                    }
+
                 ?>
 
             </div>
