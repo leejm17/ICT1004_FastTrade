@@ -294,7 +294,7 @@
 					<?php echo($recentlistings);?>
 				</div>
 				
-				<a href="#" style="float:right;">View all listings</a>
+				<a href="display-item.php" style="float:right;">View all listings</a>
 				<div style='clear: both;'></div>
 			</div>
 			<!-- END: SHOW RECENT LISTINGS-->
