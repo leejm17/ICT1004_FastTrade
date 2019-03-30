@@ -80,13 +80,6 @@
         .nk-bg-gradient
 -->
 <body>
-<?php
-session_start();
-if (!isset($_SESSION['userid']) && !isset($_SESSION['activated'])){
-	header('Location: 403.php');
-}
-?>
-
 
 <!--START: Nav Header
     Additional Classes:
