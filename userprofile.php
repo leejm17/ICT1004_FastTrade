@@ -220,9 +220,9 @@
 						$recentlistings .= "<div style='float:left; margin-left:2%; margin-right:2%; max-width:280px; background-color:#f2f2f2; border-radius:5%;'>
 												<img src='data:image/jpeg;base64,".base64_encode($itemsimg)."' style='width:100%; height:200px; padding-bottom:1em; border-radius:8%; padding:5%;'/>
 												<!--<p>".$itemsid."</p>-->
-												<p class='nk-product-title h3' style='padding-left:0.5em;'>".$itemstitle."</p>
+												<p class='nk-product-title h3' style='padding-left:0.5em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'>".$itemstitle."</p>
 												<p class='nk-product-price' style='padding-left:0.5em; margin-bottom:0px;'>$".$itemsprice."</p>
-												<p class='nk-product-description' style='padding-left:0.5em; height:100px; margin-top:0px; text-overflow: ellipsis;'>".$itemsdesc."</p>
+												<p class='nk-product-description' style='padding-left:0.5em; height:100px; margin-top:0px; white-space: normal; overflow: auto;'>".$itemsdesc."</p>
 												<p class='nk-product-description' style='padding-left:0.5em; margin-bottom:0px;".$itemsstatus."</p>
 												<p class='nk-product-description' style='padding-left:0.5em; margin-top:0px;".$itemssold."</p>
 												<a href='#' style='float:right; padding-right:1em; font-size:1.2em;'>Edit item</a>
