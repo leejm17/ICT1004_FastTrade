@@ -205,7 +205,7 @@
 									$picturename_err = "<p style='color:red;'>*Picture names cannot be the same!</p>";
 							} else if ( $_FILES['picture1']['name'] == $_FILES['picture3']['name'] ) {
 									$picturename_err = "<p style='color:red;'>*Picture names cannot be the same!</p>";
-							} else if ( ($_FILES['picture2']['name'] && $_FILES['picture']['name'] != "") && ($_FILES['picture2']['name'] == $_FILES['picture3']['name']) )  {
+							} else if ( ($_FILES['picture2']['name'] && $_FILES['picture3']['name'] != "") && ($_FILES['picture2']['name'] == $_FILES['picture3']['name']) )  {
 									$picturename_err = "<p style='color:red;'>*Picture names cannot be the same!</p>";
 							} else {
 									$inputpass = ($inputpass + 1);
