@@ -1,5 +1,11 @@
 <!DOCTYPE html>
-
+<?php 
+	session_start();
+	if(!isset($_SESSION['userid']) && !isset($_SESSION['activated']))
+	{
+		header('Location: 403.php');
+	}
+	?>
 <!--
     Name: Skylith - Viral & Creative Multipurpose HTML Template
     Version: 1.0.3
@@ -20,7 +26,6 @@
 
     <meta name="description" content="Shop Menu">
     <meta name="keywords" content="menu, products, items, overview, content">
-    <meta name="author" content="Lee Jun Ming">
 
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
 
@@ -163,25 +168,30 @@
 				
 				<div class="col-sm-6">
 				<?php
-
+						
+						
 						require_once('config_fasttrade.php');
 						// Create connection
 						$connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
-						if ($connection->connect_error) {
+				 		if ($connection->connect_error) {
 							die("connection failed: " . $connection->connect_error);
 						}
 						
 						$sql = 'SELECT * FROM item_photo INNER JOIN item ON item.item_id = item_photo.item_id WHERE item.user_id = "wutdequack.dev" GROUP BY item.item_id';
 						$result = $connection->query($sql);
-						
+												
 						while ($row = mysqli_fetch_assoc($result)) 
 						{
-								echo '<div class = "col-md-3"><figure><img class="img-responsive" src="data:image/jpg;base64,' . base64_encode($row['photo']) . '"/></figure><br/></div>';
-?>
+
+				
+						echo '<div class = "col-md-3"><figure><img class="img-responsive" src="data:image/jpg;base64,' . 
+						base64_encode($row['photo']) . '"/></figure><br/></div>';
+						?>
 								<!--- Get the values($row["values"]) from the query and display it
 									  Disabled editing from user unless they click the button edit which will direct them to edit-item.
 									  edit-item page will get the item id of that particular item and allow editing.
 								--->
+								
 								<div class="form-group">
 									<label for="title" class="inlabels control-label col-sm-5" >Title:</label>
 									<input name="title" class="form-control" type="text" id="title" value="<?php echo $row["title"]?>" readonly >
@@ -312,10 +322,6 @@
 -->
 <?php include("php/footer.inc.php") ?>
 <!-- END: Footer -->
-
-
-
-
 
 <!-- START: Scripts -->
 
