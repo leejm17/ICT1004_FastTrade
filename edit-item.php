@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <!--
     Name: Skylith - Viral & Creative Multipurpose HTML Template
     Version: 1.0.3
@@ -10,17 +9,22 @@
     License: You must have a valid license purchased only from ThemeForest (the above link) in order to legally use the theme for your project.
     Copyright 2018.
 -->
-    
+<?php
+    session_start();
+	if (!isset($_SESSION['userid']) && !isset($_SESSION['activated'])){
+		header('Location: 403.php');
+	}
+?>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Fast Trade | Shop</title>
+    <title>FastTrade | Login</title>
 
-    <meta name="description" content="Shop Menu">
-    <meta name="keywords" content="menu, products, items, overview, content">
-    <meta name="author" content="Lee Jun Ming">
+    <meta name="description" content="sell, buy, online">
+    <meta name="keywords" content="login">
+    <meta name="author" content="Jonathan Lee">
 
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
 
@@ -61,8 +65,8 @@
 
     <!-- jQuery -->
     <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
-    
-    
+
+
 </head>
 
 
@@ -76,20 +80,32 @@
         .nk-bg-gradient
 -->
 <body>
-    
 
 
 
-<!--
-    START: Nav Header
 
+<!--START: Nav Header
     Additional Classes:
         .nk-header-left
         .nk-header-opaque
 -->
-<?php include("php/navbar.inc.php") ?>
+<?php include 'php/navbar.inc.php'; ?>
 <!-- END: Navbar Header -->
-    
+
+
+<!--START: Navbar Mobile
+    Additional Classes:
+        .nk-navbar-dark
+        .nk-navbar-align-center
+        .nk-navbar-align-right
+        .nk-navbar-items-effect-1
+        .nk-navbar-drop-effect-1
+        .nk-navbar-drop-effect-2
+-->
+<?php include 'php/navbar_mobile.inc.php'; ?>
+<!-- END: Navbar Mobile -->
+
+
 
 
     <!--
@@ -100,92 +116,39 @@
     -->
     <div class="nk-main">
 
+
+
+
+
     <div class="bg-white">
         <div class="container">
             <!-- START: Shop Header -->
             <div class="nk-shop-header">
-                <a href="#" class="nk-shop-layout-toggle active" data-cols="4"><span class="nk-icon-layout-3"></span></a>
-                <a href="#" class="nk-shop-filter-toggle">
-                    <span>Filter</span>
-                    <span>Hide Filter</span>
-                </a>
-                <a href="#" class="nk-shop-layout-toggle" data-cols="3">Login</a>
+                <a href="index.php" class="nk-shop-header-back"><span class="nk-icon-arrow-left"></span> Back to Main Shop</a>
             </div>
             <!-- END: Shop Header -->
-
-            <!--
-                START: Shop Filter
-
-                Additional Classes:
-                    .active
-            -->
-            <div class="nk-shop-filter">
-                <div class="row vertical-gap">
-                    <div class="col-lg col-md-4">
-                        <h3 class="nk-shop-filter-item-title">Sort By</h3>
-                        <ul class="nk-shop-filter-item">
-                            <li data-filter="Default AllCat AllPrice" ><a class="active" href="#">Default</a></li>
-                            <!--<li><a href="#">Popularity</a></li>-->
-                            <li data-filter="Default Newest AllCat AllPrice"><a href="#">Newest</a></li>
-                            <li data-filter="Default LowHigh AllCat AllPrice"><a href="#">Price: Low to High</a></li>
-                            <li data-filter="Default HighLow AllCat AllPrice"><a href="#">Price: High to Low</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="col-lg col-md-4">
-                        <h3 class="nk-shop-filter-item-title">Category</h3>
-                        <ul class="nk-shop-filter-item">
-                            <li><a class="active" href="#">Show All</a></li>
-                            <li><a href="#">Computers and IT</a></li>
-                            <li><a href="#">Furniture</a></li>
-                            <li><a href="#">Home Appliance</a></li>
-                            <li><a href="#">Home Repair</a></li>
-                            <li><a href="#">Kids</a></li>
-                            <li><a href="#">Services</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="col-lg col-md-4">
-                        <h3 class="nk-shop-filter-item-title">Price</h3>
-                        <ul class="nk-shop-filter-item">
-                            <li><a class="active" href="#">Show All</a></li>
-                            <li><a href="#">Below $50.00</a></li>
-                            <li><a href="#">$50.00 - $99.00</a></li>
-                            <li><a href="#">$100.00 - $149.00</a></li>
-                            <li><a href="#">Above $150.00</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- END: Shop Filter -->
+			
+			<!-- START: EDIT ITEM MAIN -->
 			<div class="nk-box">
-
-				
-				<div class="col-sm-6">
-				
-				
-
+				<div class = "col-md-7">
 				</div>
-				
-			</div>		
-	
-			<!-- END: Sell Item -->
+			</div>
+			<!-- END: EDIT ITEM MAIN -->
+			
         </div>
+        <div class="nk-gap-3"></div>
+    </div>
 
 
     </div>
-	</div>
-	
     <!-- END: Main Content -->
 
-    
-        <!--
-    START: Footer
 
+<!--START: Footer
     Additional Classes:
         .nk-footer-transparent
 -->
-<?php include("php/footer.inc.php") ?>
+<?php include 'php/footer.inc.php'; ?>
 <!-- END: Footer -->
 
 
@@ -248,6 +211,6 @@
 <script src="assets/js/skylith-init.js"></script>
 <!-- END: Scripts -->
 
-    
+
 </body>
 </html>
