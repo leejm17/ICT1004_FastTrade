@@ -234,11 +234,11 @@
 					if ($conn->connect_error) {
 							die("Connection failed: " . $conn->connect_error);
 					}
-					// Query to insert form input (TODO: UserID to get from SESSION)
+					// Query to insert form input
 					$sql = "
-									INSERT INTO item (`title`, `description`, `condition`, `price`, `status`, `sold`, `user_id`, `category_id`, `age`, `ad_duration`)
-									VALUES ('".$_POST["title"]."', '".$_POST["description"]."', '".$_POST["condition"]."', '".$_POST["price"]."', '1', '0', '".$_SESSION['userid']."', '".$_POST["category"]."', '".$_POST["age"]."', '".$_POST["adduration"]."')
-									;";
+							INSERT INTO item (`title`, `description`, `condition`, `price`, `status`, `sold`, `user_id`, `category_id`, `age`, `ad_duration`)
+							VALUES ('".$_POST["title"]."', '".$_POST["description"]."', '".$_POST["condition"]."', '".$_POST["price"]."', '1', '0', '".$_SESSION['userid']."', '".$_POST["category"]."', '".$_POST["age"]."', '".$_POST["adduration"]."')
+							;";
 					$result = $conn->query($sql);
 					echo("
 							<div class='alert alert-success'>
