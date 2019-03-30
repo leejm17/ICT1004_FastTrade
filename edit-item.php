@@ -127,23 +127,24 @@
         <div class="container">
             <!-- START: Shop Header -->
             <div class="nk-shop-header">
-                <a href="userprofile.php" class="nk-shop-header-back"><span class="nk-icon-arrow-left"></span>Back to My Profile</a>
+                <a href="userprofile.php" class="nk-shop-header-back"><span class="nk-icon-arrow-left"></span> Back to My Profile</a>
             </div>
             <!-- END: Shop Header -->
-
+			
 			<!-- START: EDIT ITEM MAIN -->
-
+			
 			<!-- START: GET VALUES OF ITEM-TO-BE-EDITED -->
 			<?php
-
+				
 				$item_id_var = $_GET["item_id_var"];
-
+				$itemshref = 'edit-item.php?item_id_var='.$item_id_var.'';
+				
 				require_once('..\..\protected\config_fasttrade.php');
 				$conn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
 				if ($conn->connect_error) {
 						die("Connection failed: " . $conn->connect_error);
 				}
-				// Query from item && item_photo table to get item variables
+				// Query from item table to get item variables
 				$sql = "SELECT *
 						FROM item
 						WHERE user_id = '".$_SESSION['userid']."' AND item_id = '".$item_id_var."'
@@ -163,42 +164,250 @@
 								$adduration = $row['ad_duration'];
 						}
 				}
+				// Query from item_photo table to get photo variables
+				$sql = "SELECT *
+						FROM item_photo
+						INNER JOIN item
+						ON item_photo.item_id = item.item_id
+						WHERE item.user_id = '".$_SESSION['userid']."' AND item.item_id = '".$item_id_var."'
+						;";
+				$result = $conn->query($sql);
+				$pic = array("", "", "");
+				$picid = array(0, 0, 0);
+				$piccount = 0;
+				if ($result->num_rows > 0) {
+						while($row = $result->fetch_assoc()) {
+								$picid[$piccount] = (int)$row['item_photo_id'];
+								$pic[$piccount] = '<img src="data:image/jpeg;base64,'.base64_encode($row['photo']).'" style="width:280px; padding-bottom:1em; border-radius:5%;"/>';
+								$piccount += 1;
+						}
+				}
+				
 			?>
 			<!-- END: GET VALUES OF ITEM-TO-BE-EDITED -->
-
+			
 			<!-- START: ERROR CHECK FORM VALUES -->
 			<?php
-
+				//Errors
+				$title_err = $description_err = $condition_err = $price_err = $status_err = $sold_err = $category_err = $age_err = $adduration_err = $picture1_err = $picture2_err = $picture3_err = $picturename_err = "";
+				$inputpass = 0; //Field values aka checksum
+				
+				if ($_SERVER["REQUEST_METHOD"] == "POST") {
+					//Title
+					if (empty($_POST['title'])) {
+							$title_err = "<p style='color:red;'>*Don't update title to be empty!</p>";
+					} else {
+							$inputpass = ($inputpass + 1);
+					}
+					//Description
+					if (empty($_POST['description'])) {
+							$description_err = "<p style='color:red;'>*Don't update description to be empty!</p>";
+					} else {
+							$inputpass = ($inputpass + 1);
+					}
+					//Condition
+					if ($_POST['condition'] == "") {
+							$condition_err = "<p style='color:red;'>*Don't update condition to be empty!</p>";
+					} else {
+							$inputpass = ($inputpass + 1);
+					}
+					//Price
+					if (empty($_POST['price'])) {
+							$price_err = "<p style='color:red;'>*You had a price before!</p>";
+					} else if ( (strval($_POST['price'])) != (strval(intval($_POST['price']))) ) {
+							$price_err = "<p style='color:red;'>*Please enter valid integers for price</p>";
+					} else {
+							$inputpass = ($inputpass + 1);
+					}
+					//Status / Availability
+					if ($_POST['status'] == "") {
+							$status_err = "<p style='color:red;'>*Don't update availability status to be empty!</p>";
+					} else {
+							$inputpass = ($inputpass + 1);
+					}
+					//Sold
+					if ($_POST['sold'] == "") {
+							$sold_err = "<p style='color:red;'>*Don't update item status to be empty!</p>";
+					} else {
+							$inputpass = ($inputpass + 1);
+					}
+					//Category
+					if ($_POST['category'] == "") {
+							$category_err = "<p style='color:red;'>*Don't update category type to be empty!</p>";
+					} else {
+							$inputpass = ($inputpass + 1);
+					}
+					//Age
+					if (empty($_POST['age'])) {
+							$age_err = "<p style='color:red;'>*Don't update item's age to be empty!</p>";
+					} else if ( (strval($_POST['age'])) != (strval(intval($_POST['age']))) ) {
+							$age_err = "<p style='color:red;'>*Please enter valid integers for item's age</p>";
+					} else {
+							$inputpass = ($inputpass + 1);
+					}
+					//Ad Duration
+					if (empty($_POST['adduration'])) {
+							$adduration_err = "<p style='color:red;'>*Don't update advertising duration to be empty!</p>";
+					} else if ( (strval($_POST['adduration'])) != (strval(intval($_POST['adduration']))) ) {
+							$adduration_err = "<p style='color:red;'>*Please enter valid integers for the duration</p>";
+					} else {
+							//echo ("Ad Duration: " .$_POST["adduration"]. "<br/>");
+							$inputpass = ($inputpass + 1);
+					}
+					//Uploaded pictures cant have the same name
+					if ( ($_FILES['picture1']['name'] && $_FILES['picture2']['name'] != "") && ($_FILES['picture1']['name'] == $_FILES['picture2']['name']) ) {
+							$picturename_err = "<p style='color:red;'>*Picture names cannot be the same!</p>";
+					} else if ( ($_FILES['picture1']['name'] && $_FILES['picture2']['name'] != "") && ($_FILES['picture1']['name'] == $_FILES['picture3']['name']) )  {
+							$picturename_err = "<p style='color:red;'>*Picture names cannot be the same!</p>";
+					} else if ( ($_FILES['picture2']['name'] && $_FILES['picture3']['name'] != "") && ($_FILES['picture2']['name'] == $_FILES['picture3']['name']) )  {
+							$picturename_err = "<p style='color:red;'>*Picture names cannot be the same!</p>";
+					} else {
+							$inputpass = ($inputpass + 1);
+					}
+					//Delete picture2 (Optional)
+					if (isset($_POST['picture2'])) {
+						echo("delete pic2");
+					}
+					//Delete picture3 (Optional)
+					if (isset($_POST['picture3'])) {
+						echo("delete pic3");
+					}
+					//if inputpass is not 10 {
+					if ($inputpass != 10) {
+						echo("<div class='alert alert-danger'>
+								<strong style='padding-right:1em;'>Error!</strong> Please update with *proper values!
+						</div>");
+					}
+				}
 			?>
 			<!-- END: ERROR CHECK FORM VALUES -->
-
+			
 			<!-- START: UPDATE ITEM VALUES -->
 			<?php
-
+				if ($inputpass == 10) {
+					// Credentials
+					require_once('..\..\protected\config_fasttrade.php');
+					// Create connection
+					//$conn = new mysqli($servername, $username, $password, $dbname);
+					$conn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+					if ($conn->connect_error) {
+							die("Connection failed: " . $conn->connect_error);
+					}
+					// Query to update form input
+					$sql = "
+							UPDATE item
+							SET 
+							title='".$_POST["title"]."',
+							description='".$_POST["description"]."',
+							item.condition='".$_POST["condition"]."',
+							price='".$_POST["price"]."',
+							status='".$_POST["status"]."',
+							sold='".$_POST["sold"]."',
+							user_id='".$_SESSION["userid"]."',
+							category_id='".$_POST["category"]."',
+							age='".$_POST["age"]."',
+							ad_duration='".$_POST["adduration"]."'
+							WHERE item_id = '".$item_id_var."'
+							;";
+					if (mysqli_query($conn, $sql)) {
+						echo "Record updated successfully";
+					} else {
+						echo "Error updating record: " . mysqli_error($conn);
+					}
+					mysqli_close($conn);
+				}
 			?>
 			<!-- END: UPDATE ITEM VALUES -->
-
+			
 			<!-- START: UPDATE PICTURE DATA -->
 			<?php
-
+				if ($inputpass == 10) {
+					// Credentials
+					require_once('..\..\protected\config_fasttrade.php');
+					// Create connection
+					//$conn = new mysqli($servername, $username, $password, $dbname);
+					$conn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+					if ($conn->connect_error) {
+							die("Connection failed: " . $conn->connect_error);
+					}
+					//1st image
+					if (!empty($_FILES['picture1']['tmp_name'])) {
+						//Escape Image
+						$imgData1 = addslashes(file_get_contents($_FILES['picture1']['tmp_name']));
+						// Query to update form input
+						$sql = "
+								UPDATE item_photo
+								SET 
+								photo='".$imgData1."'
+								WHERE item_photo_id = '".$picid[0]."' 
+								;";
+						mysqli_query($conn, $sql);
+					}
+					//2nd image
+					if (!empty($_FILES['picture2']['tmp_name'])) {
+						//Escape Image
+						$imgData2 = addslashes(file_get_contents($_FILES['picture2']['tmp_name']));
+						if ($pic[1] == "") { //does not exist in db, create image
+							$sql = "
+									INSERT INTO `item_photo` (`item_id`, `photo`)
+									VALUES ('".$item_id_var."', '".$imgData2."')
+									;";
+							$result = $conn->query($sql);
+						} else { //exists in db, update image
+							// Query to update form input
+							$sql = "
+									UPDATE item_photo
+									SET 
+									photo='".$imgData2."'
+									WHERE item_photo_id = '".$picid[1]."' 
+									;";
+							mysqli_query($conn, $sql);
+						}
+					}
+					//3rd image
+					if (!empty($_FILES['picture3']['tmp_name'])) {
+						//Escape Image
+						$imgData3 = addslashes(file_get_contents($_FILES['picture3']['tmp_name']));
+						if ($pic[2] == "") { //does not exist in db, create image
+							$sql = "
+									INSERT INTO `item_photo` (`item_id`, `photo`)
+									VALUES ('".$item_id_var."', '".$imgData3."')
+									;";
+							$result = $conn->query($sql);
+						} else { //exists in db, update image
+							// Query to update form input
+							$sql = "
+									UPDATE item_photo
+									SET 
+									photo='".$imgData3."'
+									WHERE item_photo_id = '".$picid[2]."' 
+									;";
+							mysqli_query($conn, $sql);
+						}
+					}
+					mysqli_close($conn);
+				}
 			?>
 			<!-- END: UPDATE PICTURE DATA -->
-
+			
 			<div class="nk-box">
 				<div class = "col-md-7">
 					<h3>Edit item</h3>
-						<form class="form-horizontal" action="edit-item.php" enctype="multipart/form-data" method="POST">
+						<!--<form class="form-horizontal" action="edit-item.php?" enctype="multipart/form-data" method="POST">-->
+						<form class="form-horizontal" action="<?php echo($itemshref); ?>" enctype="multipart/form-data" method="POST">
+						<!--START: Text values-->
+						<div>
 							<!--Title-->
 							<div class="form-group">
 									<label for="title" class="inlabels control-label col-sm-5" style="font-size:1.25em;" >Title:</label>
 									<input name="title" class="form-control" type="text" id="title" value="<?php echo($title); ?>">
-									<!--<?php echo ($title_err); ?>-->
+									<?php echo ($title_err); ?>
 							</div>
 							<!--Desc-->
 							<div class="form-group">
 									<label for="description" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Description:</label>
 									<input name="description" class="form-control" type="text" id="description" value="<?php echo($description); ?>">
-									<!--<?php echo ($description_err); ?>-->
+									<?php echo ($description_err); ?>
 							</div>
 							<!--Condition-->
 							<div class="form-group">
@@ -211,15 +420,15 @@
 											<option value ="2"<?php if ($condition == 2){echo(" selected='selected'");}?>>Good</option>
 											<option value ="1"<?php if ($condition == 1){echo(" selected='selected'");}?>>Minor Scratches</option>
 									</select>
-									<!--<?php echo ($condition_err); ?>-->
+									<?php echo ($condition_err); ?>
 							</div>
 							<!--Price-->
 							<div class="form-group">
 									<label for="price" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Price:</label>
 									<input name="price" class="form-control" type="text" id="price" value="<?php echo($price); ?>">
-									<!--<?php echo ($price_err); ?>-->
+									<?php echo ($price_err); ?>
 							</div>
-							<!--Status--><!--values here dont affect query, but must be >0 to pass error check-->
+							<!--Status-->
 							<div class="form-group">
 									<label for="status" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Availability:</label>
 									<select name="status" class="form-control col-sm-5">
@@ -227,9 +436,9 @@
 											<option value ="1"<?php if ($status == 1){echo(" selected='selected'");}?>>Active</option>
 											<option value ="0"<?php if ($status == 0){echo(" selected='selected'");}?>>Inactive</option>
 									</select>
-									<!--<?php// echo ($status_err); ?>-->
+									<?php echo ($status_err); ?>
 							</div>
-							<!--Sold--><!--values here dont affect query, but must be 0 to pass error check-->
+							<!--Sold-->
 							<div class="form-group">
 									<label for="sold" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Item Status:</label>
 									<select name="sold" class="form-control col-sm-5">
@@ -237,7 +446,7 @@
 											<option value ="1"<?php if ($sold == 1){echo(" selected='selected'");}?>>Sold</option>
 											<option value ="0"<?php if ($sold == 0){echo(" selected='selected'");}?>>Selling</option>
 									</select>
-									<?php// echo ($sold_err); ?>
+									<?php echo ($sold_err); ?>
 							</div>
 							<!--Category-->
 							<div class="form-group">
@@ -251,28 +460,73 @@
 											<option value ="5"<?php if ($category == 5){echo(" selected='selected'");}?>>Home Repair</option>
 											<option value ="6"<?php if ($category == 6){echo(" selected='selected'");}?>>Services</option>
 									</select>
-									<!--<?php echo ($category_err); ?>-->
+									<?php echo ($category_err); ?>
 							</div>
 							<!--Age-->
 							<div class="form-group">
 									<label for="age" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Years of possession:</label>
 									<input name="age" class="form-control" type="text" id="age" placeholder="Year(s)" value="<?php echo($age); ?>">
-									<!--<?php echo ($age_err); ?>-->
+									<?php echo ($age_err); ?>
 							</div>
 							<!--Ad Duration-->
 							<div class="form-group">
 									<label for="adduration" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Advertise for:</label>
 									<input name="adduration" class="form-control" type="text" id="adduration" placeholder="Year(s)" value="<?php echo($adduration); ?>">
-									<!--<?php echo ($adduration_err); ?>-->
+									<?php echo ($adduration_err); ?>
 							</div>
+						</div>
+						<!--END: Text values-->
+						<!--START: Picture values-->
+						<div>
+							<!--Picture 1-->
 							<div class="form-group">
-									<button class="nk-btn nk-btn-outline nk-btn-color-dark ml-10">Update</button>
-							</div>
+									<?php
+										echo($pic[0]);
+									?>
+									<br/><i class="fas fa-pencil-alt"></i> Update Image:
+									<input name="picture1" type="file"/>
+									<?php echo ($picture1_err); ?>
+							</div><br/>
+							<!--Picture 2-->
+							<div class="form-group">
+									<?php
+										if ($pic[1] == "") {
+											echo(" No <i class='fas fa-image'></i> uploaded ");
+										} else {
+											echo($pic[1]);
+											echo("<br/><i class='fas fa-minus-circle' style='color:red;'></i> Delete image : <input type='checkbox' name='picture2' value='rmpic2'>");
+										}
+									?>
+									<br/><i class="fas fa-pencil-alt"></i> Update Image:
+									<input name="picture2" type="file"/>
+									<?php echo ($picture2_err); ?>
+							</div><br/>
+							<!--Picture 3-->
+							<div class="form-group">
+									<?php
+										if ($pic[2] == "") {
+											echo(" No <i class='fas fa-image'></i> uploaded ");
+										} else {
+											echo($pic[2]);
+											echo("<br/><i class='fas fa-minus-circle' style='color:red;'></i> Delete image : <input type='checkbox' name='picture3' value='rmpic3'>");
+										}
+										
+									?>
+									<br/><i class="fas fa-pencil-alt"></i> Update Image:
+									<input name="picture3" type="file"/>
+									<?php echo ($picture3_err); ?>
+							</div><br/>
+							<?php echo($picturename_err); ?>
+						</div>
+						<!--END: Picture values-->
+						<div class="form-group">
+								<button class="nk-btn nk-btn-outline nk-btn-color-dark ml-10">Update</button>
+						</div>
 						</form>
 				</div>
 			</div>
 			<!-- END: EDIT ITEM MAIN -->
-
+			
         </div>
         <div class="nk-gap-3"></div>
     </div>
