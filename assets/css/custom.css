@@ -25,3 +25,18 @@ span.input_error {
 #product_body {
     padding-right: 0px !important;
 }
+
+/* Hide Chat when button is not clicked */
+.hide-chat {
+    display: none;
+}
+
+/* <table> styles on product.php */
+.addinfo_table_right {
+    text-align: right;
+    border: none !important;
+}
+.addinfo_table_left {
+    text-align: left;
+    border: none !important;
+}

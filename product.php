@@ -9,6 +9,15 @@
     License: You must have a valid license purchased only from ThemeForest (the above link) in order to legally use the theme for your project.
     Copyright 2018.
 -->
+<?php
+    session_start();
+
+    if (!isset($_SESSION['userid']) && !isset($_SESSION['activated'])){
+        header('Location: 403.php');
+    } else {
+        $userid = $_SESSION['userid'];
+        $activate = $_SESSION['activated'];
+?>
 
 <html lang="en">
 <head>
@@ -29,9 +38,6 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i%7cWork+Sans:400,500,700%7cPT+Serif:400i,500i,700i" rel="stylesheet">
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="assets/vendor/bootstrap/dist/css/bootstrap.min.css">
 
     <!-- FontAwesome -->
     <script defer src="assets/vendor/fontawesome-free/js/all.js"></script>
@@ -60,6 +66,9 @@
     <!-- jQuery -->
     <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
 
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/dist/css/bootstrap.min.css">
+
     <!-- Custom Styles -->
     <link rel="stylesheet" href="assets/css/custom.css">
 </style>
@@ -80,6 +89,9 @@
 
 <!-- POST to Process Review action -->
 <?php include 'processReview.php'; ?>
+
+<!-- POST to Process Modal action -->
+<?php include 'processOffer.php'; ?>
 
 
 
@@ -128,10 +140,10 @@
                 <span class="nk-shop-header-share">
                     Share This
                     <span class="nk-shop-header-share-items nk-post-share-2">
-                        <a href="#" title="Share page on Facebook" data-share="facebook"><span class="fa fa-facebook-official"></span></a>
-                        <a href="#" title="Share page on Google+" data-share="google-plus"><span class="fa fa-google"></span></a>
-                        <a href="#" title="Share page on Twitter" data-share="twitter"><span class="fa fa-twitter"></span></a>
-                        <a href="#" title="Share page on Pinterest" data-share="pinterest"><span class="fa fa-pinterest"></span></a>
+                        <a href="https://www.facebook.com/" title="Share page on Facebook" data-share="facebook"><span class="fa fa-facebook-official"></span></a>
+                        <a href="https://plus.google.com/" title="Share page on Google+" data-share="google-plus"><span class="fa fa-google"></span></a>
+                        <a href="https://twitter.com/" title="Share page on Twitter" data-share="twitter"><span class="fa fa-twitter"></span></a>
+                        <a href="https://pinterest.com/" title="Share page on Pinterest" data-share="pinterest"><span class="fa fa-pinterest"></span></a>
                         <!--
                         <a href="#" title="Share page on LinkedIn" data-share="linkedin"><span class="fa fa-linkedin"></span></a>
                         <a href="#" title="Share page on Vkontakte" data-share="vk"><span class="fa fa-vk"></span></a>
@@ -166,16 +178,14 @@
 
                                 /* (3) Query DB */
                                 $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item_photo.item_id=" . $page_id . ";";
-                                $result = mysqli_query($connection, $sql);
 
                                 /* (4) Fetch Results */
-                                if ($result) {
+                                if ($result = mysqli_query($connection, $sql)) {
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         echo '<div class="active"><img height=100 src="data:image/jpeg;base64, ' . base64_encode($row['photo']) . '" alt="' . $row['title'] . '" /></div>';
                                     }
                                     /* (5) Release Connection */
                                     mysqli_free_result($result);
-                                    //$result->close();
                                     mysqli_close($connection);
                                 }
                             ?>
@@ -199,20 +209,21 @@
 
                                 /* (3) Query DB */
                                 $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item_photo.item_id=" . $page_id . ";";
-                                $result = mysqli_query($connection, $sql);
 
                                 /* (4) Fetch Results */
-                                if ($result) {
+                                if ($result = mysqli_query($connection, $sql)) {
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        echo '<div>';
-                                        echo '<div>';
-                                        echo '<a href="data:image/jpeg;base64, ' . base64_encode($row['photo']) . '" class="nk-gallery-item" data-size="700x800"><img src="data:image/jpeg;base64, ' . base64_encode($row['photo']) . '" alt="" class="nk-carousel-parallax-img"></a>';
-                                        echo '</div>';
-                                        echo '</div>';
+                                        echo '
+                                        <div>
+                                            <div>
+                                                <a href="data:image/jpeg;base64, ' . base64_encode($row['photo']) . '" class="nk-gallery-item" data-size="700x800"><img src="data:image/jpeg;base64, ' . base64_encode($row['photo']) . '" alt="" class="nk-carousel-parallax-img"></a>
+                                            </div>
+                                        </div>
+                                        ';
                                     }
+
                                     /* (5) Release Connection */
                                     mysqli_free_result($result);
-                                    //$result->close();
                                     mysqli_close($connection);
                                 }
                             ?>
@@ -237,35 +248,35 @@
 
                     /* (3) Query DB */
                     $sql = "SELECT *, COUNT(DISTINCT item_review.datetime) AS count_review, SUM(item_review.rating)/COUNT(item_review.item_id) AS avg_rating FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item_photo.item_id=" . $page_id . ";";
-                    $result = mysqli_query($connection, $sql);
 
                     /* (4) Fetch Results */
-                    if ($result) {
+                    if ($result = mysqli_query($connection, $sql)) {
                         while ($row = mysqli_fetch_assoc($result)) {
-                            echo '<div class="col-md-5 ml-auto">';
-                            echo '<!-- START: Title + Rating -->';
-                            echo '<h1 class="nk-product-title h3">' . $row['title'] . '</h1>';
-                            echo '<a class="nk-product-rating" href="#tab-reviews">';
-                            echo '<span style="width: ' . $row['avg_rating']*20;
-                            echo '%;"><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></span>';
-                            echo '<span><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></span>';
-                            echo '</a> <small>(';
-                            if ($row['count_review'] == 1) {
-                                echo '1 Review';
-                            } else {
-                                echo $row['count_review'] . ' Reviews';
-                            }
-                            echo ')</small>';
-                            echo '<!-- END: Title + Rating -->';
-                            echo '<div class="nk-product-description">';
-                            echo '<p>' . $row['description'] . '</p>';
-
-                            echo '<div class="nk-product-price">SGD ' . $row['price'] . '</div>';
-                            echo '</div>';
+                            echo '
+                            <div class="col-md-5 ml-auto">
+                                <!-- START: Title + Rating -->
+                                <h1 class="nk-product-title h3">' . $row['title'] . '</h1>
+                                    <a class="nk-product-rating" href="#tab-reviews">
+                                        <span style="width: ' . $row['avg_rating']*20 . '%;"><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></span>
+                                        <span><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></span>
+                                    </a>
+                                    <small>(';
+                                        if ($row['count_review'] == 1) {
+                                            echo '1 Review';
+                                        } else {
+                                            echo $row['count_review'] . ' Reviews';
+                                        }
+                            echo ')</small>
+                                <!-- END: Title + Rating -->
+                                <div class="nk-product-description">
+                                    <p>' . $row['description'] . '</p>
+                                <div class="nk-product-price">SGD ' . $row['price'] . '</div>
+                            </div>
+                            ';
                         }
+
                         /* (5) Release Connection */
                         mysqli_free_result($result);
-                        //$result->close();
                         mysqli_close($connection);
                     }
                 ?>
@@ -279,19 +290,22 @@
                     </div>
                 </form>-->
 
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#offerModal">
+                <button id="chat_btn" type="button" class="btn btn-info">
+                  Chat!
+                </button>
+                <button id="make_offer" type="button" class="btn btn-primary" data-toggle="modal" data-target="#offerModal">
                   Make an Offer!
                 </button>
 
                 <!-- START: Offer modal -->
                 <div class="container-fluid">
                     <div class="col-lg-6">
-                        <form class="form-horizontal">
+                        <form id="js_offer_review" method="POST">
                             <div class="modal fade" id="offerModal" tabindex="-1" role="dialog" aria-labelledby="offerModalLabel" aria-hidden="true">
                               <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                   <div class="modal-header">
-                                    <h5 class="modal-title" id="offerModalLabel">What is your offer?</h5>
+                                    <h5 class="modal-title font-weight-bold" id="offerModalLabel">What is your offer?</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                       <span aria-hidden="true">&times;</span>
                                     </button>
@@ -299,26 +313,30 @@
                                   <div class="modal-body">
                                       <div class="form-group">
                                           <label class="control-label col-lg-5 col-md-3 col-sm-3 col-xs-12" for="offer_price">I would like to offer:</label>
-                                          <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
-                                              <input style="height: 20px;" type="text" class="form-control" id="offer_price" name="offer_price" placeholder="SGD">
+                                          <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="div_offer_price">
+                                              <input type="text" class="form-control" id="offer_price" name="offer_price" placeholder="enter up to two decimal values" value="<?php echo $offer_price; ?>">
+                                              <!--<span class="input_error" id="offer_price_error">s</span>-->
                                           </div>
                                       </div>
                                       <div class="form-group">
-                                          <label class="control-label col-lg-5 col-md-3 col-sm-3 col-xs-12" for="offer_loc">Pickup Location:</label>
-                                          <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
-                                              <input style="height: 20px;" type="text" class="form-control" id="offer_loc" name="offer_loc">
+                                          <label class="control-label col-lg-5 col-md-3 col-sm-3 col-xs-12" for="offer_loc">Meetup Location:</label>
+                                          <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="div_offer_loc">
+                                              <input type="text" class="form-control" id="offer_loc" name="offer_loc" placeholder="where is a convenient location?" value="<?php echo $offer_loc; ?>">
+                                              <!--<span class="input_error" id="offer_price_error"></span>-->
                                           </div>
                                       </div>
                                       <div class="form-group">
                                           <label class="control-label col-lg-5 col-md-3 col-sm-3 col-xs-12" for="offer_remarks">Remarks (if any):</label>
-                                          <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
-                                              <input style="height: 20px;" type="text" class="form-control" id="offer_remarks" name="offer_remarks">
+                                          <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="div_offer_remarks">
+                                              <input type="text" class="form-control" id="offer_remarks" name="offer_remarks" value="<?php echo $offer_remarks; ?>">
+                                              <!--<span class="input_error" id="offer_price_error"></span>-->
                                           </div>
                                       </div>
+                                      <input type="hidden" name="page_id" value="<?php echo basename($_SERVER['REQUEST_URI']) ?>">
                                   </div>
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#confirmModal">Review Offer</button>
+                                    <button type="submit" class="btn btn-info">Review Offer</button>
                                   </div>
                                 </div>
                               </div>
@@ -331,7 +349,7 @@
                 <!-- START: Confirm modal -->
                 <div class="container-fluid">
                     <div class="col-lg-6">
-                        <form class="form-horizontal">
+                        <form class="form-horizontal" method="POST">
                             <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
                               <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -344,40 +362,73 @@
                                   <div class="modal-body">
                                       <div class="form-group">
                                           <table class="table nk-shop-table-info" style="width:100%">
-                                              <tr>
-                                                  <td style="width:25%"></td>
-                                                  <td style="width:25%"><span class="text-black">Product:</span></td>
-                                                  <td colspan="2"><span class="text-black">Mei Heong Yuen</span></td>
-                                                  <!--<td colspan="4" style="text-align:center;"><span class="text-black">Product: Mei Heong Yuen Vouchers</span></td>-->
-                                              </tr>
-                                              <tr>
-                                                  <td style="width:25%"></td>
-                                                  <td style="width:25%"><span class="text-black">Seller:</span></td>
-                                                  <td colspan="2"><span class="text-black">jonsayquack</span></td>
-                                              </tr>
+                                              <?php
+                                                $page = basename($_SERVER['REQUEST_URI']);
+                                                $page_id = substr($page, -1);
+
+                                                /* (1) Connect to Database */
+                                                require_once('..\..\protected\config_fasttrade.php');
+                                                $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+
+                                                /* (2) Handle Connection Error */
+                                                //      mysqli_connect_errno returns the last error code
+                                                if (mysqli_connect_errno()) {
+                                                    die(mysqli_connect_errno());    // die() is equivalent to exit()
+                                                }
+
+                                                /* (3) Query DB */
+                                                $sql = "SELECT * FROM item WHERE item_id=" . $page_id . ";";
+
+                                                /* (4) Fetch Results */
+                                                if ($result = mysqli_query($connection, $sql)) {
+                                                    while ($row = mysqli_fetch_assoc($result)) {
+                                                        echo '
+                                                        <tr>
+                                                            <td style="width:25%"></td>
+                                                            <td style="width:25%"><span class="text-black">Product:</span></td>
+                                                            <td colspan="2"><span class="text-black">' . $row['title'] . '</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width:25%"></td>
+                                                            <td style="width:25%"><span class="text-black">Seller:</span></td>
+                                                            <td colspan="2"><span class="text-black">' . $row['user_id'] . '</span></td>
+                                                            <input type=hidden name="seller_id" value="' . $row['user_id'] . '" />
+                                                        </tr>
+                                                        <td colspan="4"></td>
+                                                        <tr>
+                                                            <td colspan="2" style="text-align:center;"><span class="text-black"><u>Original Price</u></span></td>
+                                                            <td colspan="2" style="text-align:center;"><span class="text-black"><u>Your Bargain</u></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2" style="text-align:center;"><span class="text-black">SGD ' . $row['price'] . '</span></td>
+                                                            <td colspan="2" style="text-align:center;">SGD <span class="text-black" id="submit_price" name="submit_price"></span></td>
+                                                            <input type=hidden id="hidden_submit_price" name="submit_price" />
+                                                        </tr>
+                                                        ';
+                                                    }
+
+                                                    /* (5) Release Connection */
+                                                    mysqli_free_result($result);
+                                                    mysqli_close($connection);
+                                                }
+                                            ?>
                                               <td colspan="4"></td>
                                               <tr>
-                                                  <td colspan="2" style="text-align:center;"><span class="text-black"><u>Original Price</u></span></td>
-                                                  <td colspan="2" style="text-align:center;"><span class="text-black"><u>Your Bargain</u></span></td>
+                                                  <td colspan="4" style="text-align:center;">Meetup Location: <span class="text-black" id="submit_loc" name="submit_loc"></span></td>
+                                                  <input type=hidden id="hidden_submit_loc" name="submit_loc" />
                                               </tr>
                                               <tr>
-                                                  <td colspan="2" style="text-align:center;"><span class="text-black">SGD 93.00</span></td>
-                                                  <td colspan="2" style="text-align:center;"><span class="text-black">SGD 88.00</span></td>
-                                              </tr>
-                                              <td colspan="4"></td>
-                                              <tr>
-                                                  <td colspan="4" style="text-align:center;"><span class="text-black">Pickup Location: Singapore City</span></td>
-                                              </tr>
-                                              <tr>
-                                                  <td colspan="4" style="text-align:center;"><span class="text-black">Remarks (if any): Bring some condoms too</span></td>
+                                                  <td colspan="4" style="text-align:center;">Remarks (if any): <span class="text-black" id="submit_remarks" name="submit_remarks"></span></td>
+                                                  <input type=hidden id="hidden_submit_remarks" name="submit_remarks" />
                                               </tr>
                                           </table>
                                       </div>
+                                      <input type="hidden" name="page_id" value="<?php echo basename($_SERVER['REQUEST_URI']) ?>">
                                   </div>
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                     <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#offerModal">Go Back</button>
-                                    <button type="button" class="btn btn-success">Submit Offer!</button>
+                                    <button type="submit" name="offer_submit" class="btn btn-success">Submit Offer!</button>
                                   </div>
                                 </div>
                               </div>
@@ -392,7 +443,15 @@
         </div>
             <!-- END: Product Details -->
 
-    </div>
+        <div class="nk-gap-3 hide-chat"></div>
+        <div class="nk-divider nk-divider-color-gray-6 hide-chat"></div>
+        <div class="nk-gap-3 hide-chat"></div>
+
+        <!-- START: Chat Function -->
+        <div hide-chat>
+
+        </div>
+        <!-- END: Chat Function -->
 
         <div class="nk-gap-3"></div>
         <div class="nk-divider nk-divider-color-gray-6"></div>
@@ -412,37 +471,34 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" href="#tab-reviews" role="tab" data-toggle="tab">Reviews
-                                    <small>
-                                        <?php
-                                            $page = basename($_SERVER['REQUEST_URI']);
-                                            $page_id = substr($page, -1);
+                                    <?php
+                                        $page = basename($_SERVER['REQUEST_URI']);
+                                        $page_id = substr($page, -1);
 
-                                            /* (1) Connect to Database */
-                                            require_once('..\..\protected\config_fasttrade.php');
-                                            $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+                                        /* (1) Connect to Database */
+                                        require_once('..\..\protected\config_fasttrade.php');
+                                        $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
 
-                                            /* (2) Handle Connection Error */
-                                            //      mysqli_connect_errno returns the last error code
-                                            if (mysqli_connect_errno()) {
-                                                die(mysqli_connect_errno());    // die() is equivalent to exit()
+                                        /* (2) Handle Connection Error */
+                                        //      mysqli_connect_errno returns the last error code
+                                        if (mysqli_connect_errno()) {
+                                            die(mysqli_connect_errno());    // die() is equivalent to exit()
+                                        }
+
+                                        /* (3) Query DB */
+                                        $sql = "SELECT COUNT(item_id) AS count_review FROM item_review WHERE item_id=" . $page_id . ";";
+
+                                        /* (4) Fetch Results */
+                                        if ($result = mysqli_query($connection, $sql)) {
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                echo '(' . $row['count_review'] . ')';
                                             }
 
-                                            /* (3) Query DB */
-                                            $sql = "SELECT COUNT(item_id) AS count_review FROM item_review WHERE item_id=" . $page_id . ";";
-                                            $result = mysqli_query($connection, $sql);
-
-                                            /* (4) Fetch Results */
-                                            if ($result) {
-                                                while ($row = mysqli_fetch_assoc($result)) {
-                                                    echo '(' . $row['count_review'] . ')';
-                                                }
-                                                /* (5) Release Connection */
-                                                mysqli_free_result($result);
-                                                //$result->close();
-                                                mysqli_close($connection);
-                                            }
-                                        ?>
-                                    </small>
+                                            /* (5) Release Connection */
+                                            mysqli_free_result($result);
+                                            mysqli_close($connection);
+                                        }
+                                    ?>
                                 </a>
                             </li>
                         </ul>
@@ -451,7 +507,7 @@
 
 <!--                             START: Tab Description
                             <div role="tabpanel" class="tab-pane fade show active" id="tab-description">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque rhoncus orci a purus lacinia consectetur. Vestibulum rutrum ex in odio placerat dictum. Morbi sit amet tortor mollis, tincidunt magna a, iaculis nisl. Cras varius odio a arcu rutrum, nec posuere lacus imperdiet. Proin iaculis, nibh eleifend elementum pulvinar, erat nisl consequat quam, ac ornare est sem nec libero. Fusce ac sagittis quam. Phasellus mattis, nunc a venenatis laoreet, est ipsum consectetur turpis, in ullam corper urna tortor eu purus. </p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque rhoncus orci a purus lacinia consectetur. </p>
                             </div>
                              END: Tab Description -->
 
@@ -459,8 +515,7 @@
                             <div role="tabpanel" class="tab-pane fade" id="tab-info">
                                 <div class="row">
                                     <div class="col-md-10 offset-md-3">
-                                        <table class="table nk-shop-table-info" style="width:100%">
-
+                                        <table class="table nk-shop-table-info" style="width:60%;">
                                         <?php
                                             $page = basename($_SERVER['REQUEST_URI']);
                                             $page_id = substr($page, -1);
@@ -477,35 +532,36 @@
 
                                             /* (3) Query DB */
                                             $sql = "SELECT * FROM item INNER JOIN category ON category.category_id = item.category_id WHERE item_id=" . $page_id . ";";
-                                            $result = mysqli_query($connection, $sql);
 
                                             /* (4) Fetch Results */
-                                            if ($result) {
+                                            if ($result = mysqli_query($connection, $sql)) {
                                                 while ($row = mysqli_fetch_assoc($result)) {
-                                                    echo '<tr>';
-                                                    echo '<td width="30%"><span class="text-black">Seller:</span></td>';
-                                                    echo '<td width="70%">' . $row['user_id'] . '</td>';
-                                                    echo '</tr>';
-                                                    echo '<tr>';
-                                                    echo '<td><span class="text-black">Product Category:</span></td>';
-                                                    echo '<td>' . $row['name'] . '</td>';
-                                                    echo '</tr>';
-                                                    echo '<tr>';
-                                                    echo '<td><span class="text-black">Product Condition:</span></td>';
-                                                    echo '<td>' . $row['condition'] . '/10</td>';
-                                                    echo '</tr>';
-                                                    echo '<tr>';
-                                                    echo '<td><span class="text-black">Product Age:</span></td>';
-                                                    echo '<td>' . $row['age'] . '</td>';
-                                                    echo '</tr>';
-                                                    echo '<tr>';
-                                                    echo '<td><span class="text-black">Ad Duration:</span></td>';
-                                                    echo '<td>' . $row['ad_duration'] . '</td>';
-                                                    echo '</tr>';
+                                                    echo '
+                                                    <tr>
+                                                        <td class="addinfo_table_right"><span class="text-black">Seller:</span></td>
+                                                        <td class="addinfo_table_left">' . $row['user_id'] . '</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="addinfo_table_right"><span class="text-black">Product Category:</span></td>
+                                                        <td class="addinfo_table_left">' . $row['name'] . '</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="addinfo_table_right"><span class="text-black">Product Condition:</span></td>
+                                                        <td class="addinfo_table_left">' . $row['condition'] . '/10</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="addinfo_table_right"><span class="text-black">Product Age:</span></td>
+                                                        <td class="addinfo_table_left">' . $row['age'] . ' years</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="addinfo_table_right"><span class="text-black">Ad Duration:</span></td>
+                                                        <td class="addinfo_table_left">' . $row['ad_duration'] . ' years</td>
+                                                    </tr>
+                                                    ';
                                                 }
+
                                                 /* (5) Release Connection */
                                                 mysqli_free_result($result);
-                                                //$result->close();
                                                 mysqli_close($connection);
                                             }
                                         ?>
@@ -536,31 +592,34 @@
 
                                         /* (3) Query DB */
                                         $sql = "SELECT * FROM item INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item_review.item_id=" . $page_id . ";";
-                                        $result = mysqli_query($connection, $sql);
 
                                         /* (4) Fetch Results */
-                                        if ($result) {
+                                        if ($result = mysqli_query($connection, $sql)) {
                                             while ($row = mysqli_fetch_assoc($result)) {
-                                                echo '<!-- START: Review -->';
-                                                echo '<div class="nk-review">';
-                                                /*echo '<div class="nk-review-avatar">';
-                                                echo '<a href="#"><img src="assets/images/avatar-1.jpg" alt=""></a>';
-                                                echo '</div>';*/
-                                                echo '<div class="nk-review-cont">';
-                                                echo '<div class="nk-review-meta">';
-                                                echo '<div class="nk-review-name"><a href="#">' . $row['name'] . '</a></div>';
-                                                echo '<div class="nk-review-date">' . $row['datetime'] . '</div>';
-                                                echo '<span class="nk-review-rating">';
-                                                echo '<span style="width: ' . $row['rating']*20 . '%;"><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></span>';
-                                                echo '<span><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></span>';
-                                                echo '</span>';
-                                                echo '</div>';
-                                                echo '<div class="nk-review-text">';
-                                                echo '<p>' . $row['review'] . '</p>';
-                                                echo '</div>';
-                                                echo '</div>';
-                                                echo '</div>';
-                                                echo '<!-- END: Review -->';
+                                                echo '
+                                                <!-- START: Review -->
+                                                <div class="nk-review">
+                                                ' .
+                                                //<div class="nk-review-avatar">
+                                                  //<a href="#"><img src="assets/images/avatar-1.jpg" alt=""></a>
+                                                //</div>
+                                                '
+                                                <div class="nk-review-cont">
+                                                    <div class="nk-review-meta">
+                                                        <div class="nk-review-name"><a href="#">' . $row['name'] . '</a></div>
+                                                            <div class="nk-review-date">' . $row['datetime'] . '</div>
+                                                                <span class="nk-review-rating">
+                                                                    <span style="width: ' . $row['rating']*20 . '%;"><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></span>
+                                                                    <span><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></span>
+                                                                </span>
+                                                    </div>
+                                                    <div class="nk-review-text">
+                                                        <p>' . $row['review'] . '</p>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                                <!-- END: Review -->
+                                                ';
                                             }
                                             /* (5) Release Connection */
                                             mysqli_free_result($result);
@@ -569,7 +628,10 @@
                                         }
                                     ?>
 
-                                    <div class="nk-gap-1"></div>
+        <div class="nk-gap-3"></div>
+        <div class="nk-divider nk-divider-color-gray-6"></div>
+        <div class="nk-gap-3"></div>
+
                                     <h3 class="h5 text-center">Add a Review</h3>
                                     <div class="nk-gap-1 mnt-7"></div>
 
@@ -623,7 +685,7 @@
 
                                         <div class="nk-gap-1"></div>
                                         <div class="text-center">
-                                            <button type="submit" class="nk-btn nk-btn-color-dark-1">Add a Review</button>
+                                            <button type="submit" name="review_submit" class="nk-btn nk-btn-color-dark-1">Add a Review</button>
                                         </div>
                                     </form>
                                 </div>
@@ -658,6 +720,9 @@
 
 
 <!-- START: Scripts -->
+
+<!-- Custom Styles -->
+<script src="assets/js/custom.js"></script>
 
 <!-- Object Fit Polyfill -->
 <script src="assets/vendor/object-fit-images/dist/ofi.min.js"></script>
@@ -716,3 +781,7 @@
 
 </body>
 </html>
+
+<?php
+    }//closing brace for earlier statement (session)
+?>
