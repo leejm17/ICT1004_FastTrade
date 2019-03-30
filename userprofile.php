@@ -200,7 +200,7 @@
 			$result = $conn->query($sql);
 			if ($result->num_rows > 0) {
 					while($row = $result->fetch_assoc()) {
-						$itemsid = $row['item_id'];
+						$itemshref = 'edit-item.php?item_id_var='.$row['item_id'].'';
 						$itemstitle = $row['title'];
 						$itemsdesc = $row['description'];
 						$itemsimg = $row['photo'];
@@ -217,15 +217,15 @@
 						} else {
 							$itemssold = "color:orange;'>Not sold";
 						}
+						
 						$recentlistings .= "<div style='float:left; margin-left:2%; margin-right:2%; margin-bottom:1%; max-width:280px; background-color:#f2f2f2; border-radius:5%;'>
 												<img src='data:image/jpeg;base64,".base64_encode($itemsimg)."' style='width:100%; height:200px; padding-bottom:1em; border-radius:8%; padding:5%;'/>
-												<!--<p>".$itemsid."</p>-->
 												<p class='nk-product-title h3' style='padding-left:0.5em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'>".$itemstitle."</p>
 												<p class='nk-product-price' style='padding-left:0.5em; margin-bottom:0px;'>$".$itemsprice."</p>
 												<p class='nk-product-description' style='padding-left:0.5em; height:100px; margin-top:0px; white-space: normal; overflow: auto;'>".$itemsdesc."</p>
 												<p class='nk-product-description' style='padding-left:0.5em; margin-bottom:0px;".$itemsstatus."</p>
 												<p class='nk-product-description' style='padding-left:0.5em; margin-top:0px;".$itemssold."</p>
-												<a href='edit-item.php' style='float:right; padding-right:1em; font-size:1.2em;'><i class='far fa-edit'></i>Edit item</a>
+												<a href='".$itemshref."' style='float:right; padding-right:1em; font-size:1.2em;'><i class='far fa-edit'></i>Edit item</a>
 											</div>";
 					}
 			} else {
