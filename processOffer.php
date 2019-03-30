@@ -44,12 +44,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_submit"])) {
         }
 
         /* (3) Query DB */
-        $sql = "INSERT INTO offer (buyer_id, item_id, seller_id, accept, asking_price, trading_place) VALUES (?, ?, ?, 0, ?, ?)";
+        $sql = "INSERT INTO offer (buyer_id, item_id, seller_id, accept, asking_price, trading_place, remarks) VALUES (?, ?, ?, 0, ?, ?, ?)";
 
         /* (4) Insert Into DB */
         if ($stmt = mysqli_prepare($connection, $sql)) {
             //echo '.................... | came into $stmt';
-            mysqli_stmt_bind_param($stmt, "sisds", $userid, $page_id, $seller_id, $submit_price, $submit_loc);
+            mysqli_stmt_bind_param($stmt, "sisdss", $userid, $page_id, $seller_id, $submit_price, $submit_loc, $submit_remarks);
             $result = mysqli_execute($stmt);
             if ($result == 0) {
                 echo '<script>alert("You have already made an offer for this product!")</script>';
