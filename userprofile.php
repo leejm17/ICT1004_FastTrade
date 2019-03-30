@@ -225,7 +225,7 @@
 												<p class='nk-product-description' style='padding-left:0.5em; height:100px; margin-top:0px; white-space: normal; overflow: auto;'>".$itemsdesc."</p>
 												<p class='nk-product-description' style='padding-left:0.5em; margin-bottom:0px;".$itemsstatus."</p>
 												<p class='nk-product-description' style='padding-left:0.5em; margin-top:0px;".$itemssold."</p>
-												<a href='#' style='float:right; padding-right:1em; font-size:1.2em;'><i class='far fa-edit'></i>Edit item</a>
+												<a href='edit-item.php' style='float:right; padding-right:1em; font-size:1.2em;'><i class='far fa-edit'></i>Edit item</a>
 											</div>";
 					}
 			} else {
@@ -252,7 +252,7 @@
 		}
 		//User Recent Listings
 		if ($recentlistings == "") {
-			$recentlistings = "<h4>No items listed! <a href='#'>List now?</a></h4>";
+			$recentlistings = "<h4>No items listed! <a href='sell-item.php'>List now?</a></h4>";
 		}
 		
 	?>
@@ -294,7 +294,7 @@
 					<?php echo($recentlistings);?>
 				</div>
 				
-				<a href="display-item.php" style="float:right;">View all listings <i class="fas fa-angle-double-right"></i> </a>
+				<a href="display-item.php" style="float:right;">View all listings <i class="fas fa-angle-double-right"></i></a>
 				<div style='clear: both;'></div>
 			</div>
 			<!-- END: SHOW RECENT LISTINGS-->
