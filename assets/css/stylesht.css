@@ -6,6 +6,17 @@
 	border-width: 0px;
 }
 
+.ChatBox > .ChatHeader h3:hover{
+	transition-property: background;
+  	transition-duration: 1s;
+	-webkit-animation: slide-fwd-center 0.45s cubic-bezier(0.075, 0.820, 0.165, 1.000) both;
+	        animation: slide-fwd-center 0.45s cubic-bezier(0.075, 0.820, 0.165, 1.000) both;
+	opacity: 0.8;
+  	transition: 0.4s;
+  	color:white;
+	font-size: 30px;
+}
+
 .ChatBox >.ChatHeader {
 	width:100%;
 	text-align: center;
@@ -43,7 +54,7 @@
 	-webkit-animation: slide-fwd-center 0.45s cubic-bezier(0.075, 0.820, 0.165, 1.000) both;
 	        animation: slide-fwd-center 0.45s cubic-bezier(0.075, 0.820, 0.165, 1.000) both;
 	opacity: 0.8;
-  	transition: 0.3s;
+  	transition: 0.5s;
   	color:white;
 	background: rgb(0,0,0); /* Old browsers */
 	background: -moz-linear-gradient(-45deg, rgb(0,0,0) 18%, rgb(56,56,56) 53%, rgb(15,15,15) 81%, rgb(2,0,0) 93%); /* FF3.6-15 */
@@ -85,7 +96,7 @@
 	-webkit-animation: slide-fwd-center 0.45s cubic-bezier(0.075, 0.820, 0.165, 1.000) both;
 	        animation: slide-fwd-center 0.45s cubic-bezier(0.075, 0.820, 0.165, 1.000) both;
 	opacity: 0.8;
-  	transition: 0.3s;
+  	transition: 0.6s;
   	color:white;
 	background: rgb(33,33,33); /* Old browsers */
 	background: -moz-linear-gradient(-45deg, rgba(33,33,33,1) 21%, rgba(84,84,84,1) 39%, rgba(107,107,107,1) 49%, rgba(102,102,102,1) 54%, rgba(35,35,35,1) 76%); /* FF3.6-15 */
@@ -115,7 +126,7 @@
 	-webkit-animation: slide-fwd-center 0.45s cubic-bezier(0.075, 0.820, 0.165, 1.000) both;
 	        animation: slide-fwd-center 0.45s cubic-bezier(0.075, 0.820, 0.165, 1.000) both;
 	opacity: 0.8;
-  	transition: 0.3s;
+  	transition: 0.8s;
   	color:white;
 	background: rgb(33,33,33); /* Old browsers */
 	background: -moz-linear-gradient(-45deg, rgba(33,33,33,1) 21%, rgba(84,84,84,1) 39%, rgba(107,107,107,1) 49%, rgba(102,102,102,1) 54%, rgba(35,35,35,1) 76%); /* FF3.6-15 */
@@ -145,11 +156,11 @@
 
 /* For styling the main div container holding each of buyer's message*/
 div.buyermessage_div_css{
-background: rgb(79,84,84); /* Old browsers */
-background: -moz-linear-gradient(-45deg, rgba(79,84,84,1) 7%, rgba(103,106,112,1) 23%, rgba(153,153,153,1) 37%, rgba(183,183,183,1) 47%, rgba(186,186,186,1) 53%, rgba(95,93,96,1) 84%); /* FF3.6-15 */
-background: -webkit-linear-gradient(-45deg, rgba(79,84,84,1) 7%,rgba(103,106,112,1) 23%,rgba(153,153,153,1) 37%,rgba(183,183,183,1) 47%,rgba(186,186,186,1) 53%,rgba(95,93,96,1) 84%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(135deg, rgba(79,84,84,1) 7%,rgba(103,106,112,1) 23%,rgba(153,153,153,1) 37%,rgba(183,183,183,1) 47%,rgba(186,186,186,1) 53%,rgba(95,93,96,1) 84%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f5454', endColorstr='#5f5d60',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	background: rgb(79,84,84); /* Old browsers */
+	background: -moz-linear-gradient(-45deg, rgba(79,84,84,1) 7%, rgba(103,106,112,1) 23%, rgba(153,153,153,1) 37%, rgba(183,183,183,1) 47%, rgba(186,186,186,1) 53%, rgba(95,93,96,1) 84%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(-45deg, rgba(79,84,84,1) 7%,rgba(103,106,112,1) 23%,rgba(153,153,153,1) 37%,rgba(183,183,183,1) 47%,rgba(186,186,186,1) 53%,rgba(95,93,96,1) 84%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(135deg, rgba(79,84,84,1) 7%,rgba(103,106,112,1) 23%,rgba(153,153,153,1) 37%,rgba(183,183,183,1) 47%,rgba(186,186,186,1) 53%,rgba(95,93,96,1) 84%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f5454', endColorstr='#5f5d60',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 	text-shadow: 2px 2px 4px #000000;
 	width:55%;
 	border-radius: 5px;
@@ -158,11 +169,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f5454', end
 
 /* For styling the main div container holding each of seller's message*/
 div.sellermessage_div_css{
-background: rgb(79,84,84); /* Old browsers */
-background: -moz-linear-gradient(-45deg, rgba(79,84,84,1) 7%, rgba(103,106,112,1) 23%, rgba(153,153,153,1) 37%, rgba(183,183,183,1) 47%, rgba(186,186,186,1) 53%, rgba(95,93,96,1) 84%); /* FF3.6-15 */
-background: -webkit-linear-gradient(-45deg, rgba(79,84,84,1) 7%,rgba(103,106,112,1) 23%,rgba(153,153,153,1) 37%,rgba(183,183,183,1) 47%,rgba(186,186,186,1) 53%,rgba(95,93,96,1) 84%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(135deg, rgba(79,84,84,1) 7%,rgba(103,106,112,1) 23%,rgba(153,153,153,1) 37%,rgba(183,183,183,1) 47%,rgba(186,186,186,1) 53%,rgba(95,93,96,1) 84%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f5454', endColorstr='#5f5d60',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	background: rgb(79,84,84); /* Old browsers */
+	background: -moz-linear-gradient(-45deg, rgba(79,84,84,1) 7%, rgba(103,106,112,1) 23%, rgba(153,153,153,1) 37%, rgba(183,183,183,1) 47%, rgba(186,186,186,1) 53%, rgba(95,93,96,1) 84%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(-45deg, rgba(79,84,84,1) 7%,rgba(103,106,112,1) 23%,rgba(153,153,153,1) 37%,rgba(183,183,183,1) 47%,rgba(186,186,186,1) 53%,rgba(95,93,96,1) 84%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(135deg, rgba(79,84,84,1) 7%,rgba(103,106,112,1) 23%,rgba(153,153,153,1) 37%,rgba(183,183,183,1) 47%,rgba(186,186,186,1) 53%,rgba(95,93,96,1) 84%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f5454', endColorstr='#5f5d60',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 	text-shadow: 2px 2px 4px #000000;
 	width:55%;
 	border-radius: 5px;
@@ -171,7 +182,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f5454', end
 
 /* For styling the Message Text */
 .messagetext{
-	font-size:28px;
+	font-size:25px;
 	font-family: Courier New;
 	color: white;
 	margin-left: 15px;
