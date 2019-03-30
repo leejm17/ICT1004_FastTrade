@@ -133,7 +133,7 @@ if (!isset($_SESSION['userid']) && !isset($_SESSION['activated'])){
 			<?php
 
 			//Errors
-			$title_err = $description_err = $category_err = $price_err = $picture1_err = $condition_err = $age_err = $adduration_err = "";
+			$title_err = $description_err = $category_err = $price_err = $picture1_err = $condition_err = $age_err = $adduration_err = $picturename_err = "";
 			$inputpass = 0; //Field values aka checksum
 
 
@@ -201,9 +201,21 @@ if (!isset($_SESSION['userid']) && !isset($_SESSION['activated'])){
 									//echo ("Image: " .$_POST["picture1"]. "<br/>");
 									$inputpass = ($inputpass + 1);
 							}
+							
+							//Pictures cant have the same name
+							if ( $_FILES['picture1']['name'] == $_FILES['picture2']['name'] ) {
+									$picturename_err = "<p style='color:red;'>*Picture names cannot be the same!</p>";
+							} else if ( $_FILES['picture1']['name'] == $_FILES['picture3']['name'] ) {
+									$picturename_err = "<p style='color:red;'>*Picture names cannot be the same!</p>";
+							} else if ( ($_FILES['picture2']['name'] && $_FILES['picture']['name'] != "") && ($_FILES['picture2']['name'] == $_FILES['picture3']['name']) )  {
+									$picturename_err = "<p style='color:red;'>*Picture names cannot be the same!</p>";
+							} else {
+									$inputpass = ($inputpass + 1);
+							}
+							
 
 							//if inputpass is not 9 {
-							if ($inputpass != 8) {
+							if ($inputpass != 9) {
 									echo("<div class='alert alert-danger'>
 											<strong style='padding-right:1em;'>Error!</strong> Fill in all the *required fields.
 									</div>");
@@ -215,7 +227,7 @@ if (!isset($_SESSION['userid']) && !isset($_SESSION['activated'])){
 			<!-- START: INSERT FORM DATA -->
 			<?php
 			//if ($inputpass == 11) { //Old form debugging (Status, Sold)
-			if ($inputpass == 8) {
+			if ($inputpass == 9) {
 					// Credentials
 					require_once('..\..\protected\config_fasttrade.php');
 					// Create connection
@@ -243,7 +255,7 @@ if (!isset($_SESSION['userid']) && !isset($_SESSION['activated'])){
 			<?php
 			$theitemid = 0;
 			//if ($inputpass == 11) { //Old form debugging (Status, Sold, userid(static))
-			if ($inputpass == 8) { //If all input fields are filled
+			if ($inputpass == 9) { //If all input fields are filled
 					//Credentials
 					require_once('..\..\protected\config_fasttrade.php');
 					// Create connection
@@ -424,6 +436,7 @@ if (!isset($_SESSION['userid']) && !isset($_SESSION['activated'])){
                                             <input name="picture3" type="file"/>
                                             <?php// echo ($picture3_err); ?>
                                     </div>
+									<?php echo($picturename_err); ?>
                                     <div class="form-group">
                                             <button class="nk-btn nk-btn-outline nk-btn-color-dark ml-10">Submit</button>
                                     </div>
