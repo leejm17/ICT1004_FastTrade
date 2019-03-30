@@ -283,36 +283,36 @@
                     $sql = '';
                     if (isset($_GET["q"])){
                         if(!empty($_GET["q"])){ //if query can get the variable q
-                            $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE title LIKE '%". $_GET["q"] ."%' AND item.status= 1 AND item.sold = 0 GROUP BY item.item_id;";
+                            $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE title LIKE '%". $_GET["q"] ."%' AND item.status= 1 AND item.sold = 0 AND item.due_date>NOW() GROUP BY item.item_id;";
                         }
                     } else if (isset($_GET["cat"])){
                         if(!empty($_GET["cat"])){ //if query can get the variable cat
-                            $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.category_id = '". $_GET["cat"] ."' AND item.status= 1 AND item.sold = 0 GROUP BY item.item_id;";
+                            $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.category_id = '". $_GET["cat"] ."' AND item.status= 1 AND item.sold = 0 AND item.due_date>NOW() GROUP BY item.item_id;";
                         }
                     }  else if (isset($_GET["genrange"])){
                         if(!empty($_GET["genrange"])){ //if query can get the variable genrange
                             $genrange = $_GET["genrange"];
                             if ($genrange == 1){
-                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.status= 1 AND item.sold = 0 GROUP BY item.item_id ORDER BY price ASC";
+                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.status= 1 AND item.sold = 0 AND item.due_date>NOW() GROUP BY item.item_id ORDER BY price ASC";
                             } else {
-                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id  WHERE item.status= 1 AND item.sold = 0 GROUP BY item.item_id ORDER BY price DESC";
+                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id  WHERE item.status= 1 AND item.sold = 0 AND item.due_date>NOW() GROUP BY item.item_id ORDER BY price DESC";
                             }
                         }
                     }  else if (isset($_GET["specrange"])){
                         if(!empty($_GET["specrange"])){ //if query can get the variable specrange
                             $specrange = $_GET["specrange"];
                             if ($specrange == 1){
-                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.price < 50 AND item.status= 1 AND item.sold = 0 GROUP BY item.item_id;";
+                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.price < 50 AND item.status= 1 AND item.sold = 0 AND item.due_date>NOW() GROUP BY item.item_id;";
                             } else if ($specrange == 2){
-                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.price >= 50 AND item.price < 100 AND item.status= 1 AND item.sold = 0 GROUP BY item.item_id;";
+                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.price >= 50 AND item.price < 100 AND item.status= 1 AND item.sold = 0 AND item.due_date>NOW() GROUP BY item.item_id;";
                             } else if ($specrange == 3){
-                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.price >= 100 AND item.price < 150 AND item.status= 1 AND item.sold = 0 GROUP BY item.item_id;";
+                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.price >= 100 AND item.price < 150 AND item.status= 1 AND item.sold = 0 AND item.due_date>NOW() GROUP BY item.item_id;";
                             } else{
-                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.price >= 150 AND item.status= 1 AND item.sold = 0 GROUP BY item.item_id;";
+                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.price >= 150 AND item.status= 1 AND item.sold = 0 AND item.due_date>NOW() GROUP BY item.item_id;";
                             }
                         }
                     } else {
-                        $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id  WHERE item.status= 1 AND item.sold = 0 GROUP BY item.item_id;";
+                        $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id  WHERE item.status= 1 AND item.sold = 0 AND item.due_date>NOW() GROUP BY item.item_id;";
                     }
 
                     /* (4) Fetch Results */

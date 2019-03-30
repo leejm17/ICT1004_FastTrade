@@ -51,25 +51,18 @@ echo
                     <div class="nk-nav-table">
                         <div class="nk-nav-row nk-nav-row-full nk-nav-row-center">
                             <ul class="nk-nav" data-nav-mobile="#nk-nav-mobile">
+                                <li class="'; if (stripos((basename($_SERVER['REQUEST_URI'])), "index.php") !== false) {echo "active";} echo '">
+                                    <a href="index.php">
+                                        Shop
 
-        <li class="active">
-            <a href="index.php">
-                Shop
+                                    </a>
+                                </li>
+                                <li class="'; if (stripos((basename($_SERVER['REQUEST_URI'])), "profile.php") !== false) {echo "active";} echo '">
+                                    <a href="userProfile.php">
+                                        My Profile
 
-            </a>
-        </li>
-        <li>
-            <a href="product.php">
-                Product
-
-            </a>
-        </li>
-<!--        <li>
-            <a href="shop-cart.html">
-                Cart
-
-            </a>
-        </li>-->
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>

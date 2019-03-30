@@ -177,7 +177,7 @@
                                 }
 
                                 /* (3) Query DB */
-                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.status=1 AND item_photo.item_id=" . $page_id . ";";
+                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.sold=0 AND item_photo.item_id=" . $page_id . " AND item.due_date>NOW();";
 
                                 /* (4) Fetch Results */
                                 if ($result = mysqli_query($connection, $sql)) {
@@ -208,7 +208,7 @@
                                 }
 
                                 /* (3) Query DB */
-                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.status=1 AND item_photo.item_id=" . $page_id . ";";
+                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.sold=0 AND item_photo.item_id=" . $page_id . " AND item.due_date>NOW();";
 
                                 /* (4) Fetch Results */
                                 if ($result = mysqli_query($connection, $sql)) {
@@ -247,7 +247,7 @@
                     }
 
                     /* (3) Query DB */
-                    $sql = "SELECT *, COUNT(DISTINCT item_review.datetime) AS count_review, SUM(item_review.rating)/COUNT(item_review.item_id) AS avg_rating FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item.status=1 AND item_photo.item_id=" . $page_id . ";";
+                    $sql = "SELECT *, COUNT(DISTINCT item_review.datetime) AS count_review, SUM(item_review.rating)/COUNT(item_review.item_id) AS avg_rating FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item.sold=0 AND item_photo.item_id=" . $page_id . " AND item.due_date>NOW();";
 
                     /* (4) Fetch Results */
                     if ($result = mysqli_query($connection, $sql)) {
@@ -377,7 +377,7 @@
                                                 }
 
                                                 /* (3) Query DB */
-                                                $sql = "SELECT * FROM item WHERE item.status=1 AND item_id=" . $page_id . ";";
+                                                $sql = "SELECT * FROM item WHERE item.sold=0 AND item_id=" . $page_id . " AND item.due_date>NOW();";
 
                                                 /* (4) Fetch Results */
                                                 if ($result = mysqli_query($connection, $sql)) {
@@ -486,7 +486,7 @@
                                         }
 
                                         /* (3) Query DB */
-                                        $sql = "SELECT COUNT(item_id) AS count_review FROM item_review WHERE item_id=" . $page_id . ";";
+                                        $sql = "SELECT COUNT(item_id) AS count_review FROM item_review WHERE item.sold=0 AND item_id=" . $page_id . " AND item.due_date>NOW();";
 
                                         /* (4) Fetch Results */
                                         if ($result = mysqli_query($connection, $sql)) {
@@ -531,12 +531,16 @@
                                             }
 
                                             /* (3) Query DB */
-                                            $sql = "SELECT * FROM item INNER JOIN category ON category.category_id = item.category_id WHERE item.status=1 AND item_id=" . $page_id . ";";
+                                            $sql = "SELECT *, DATE_FORMAT(due_date, '%D %M %Y') AS format_date FROM item INNER JOIN category ON category.category_id = item.category_id WHERE item_id=" . $page_id . ";";
 
                                             /* (4) Fetch Results */
                                             if ($result = mysqli_query($connection, $sql)) {
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                     echo '
+                                                    <tr>
+                                                        <td class="addinfo_table_right"><span class="text-black">Due By:</span></td>
+                                                        <td class="addinfo_table_left">' . $row['format_date'] . '</td>
+                                                    </tr>
                                                     <tr>
                                                         <td class="addinfo_table_right"><span class="text-black">Seller:</span></td>
                                                         <td class="addinfo_table_left">' . $row['user_id'] . '</td>
@@ -591,7 +595,7 @@
                                         }
 
                                         /* (3) Query DB */
-                                        $sql = "SELECT * FROM item INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item.status=1 AND item_review.item_id=" . $page_id . ";";
+                                        $sql = "SELECT *, DATE_FORMAT(datetime, '%D %M %Y') AS format_date  FROM item INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item.sold=0 AND item_review.item_id=" . $page_id . " AND item.due_date>NOW() ORDER BY datetime DESC;";
 
                                         /* (4) Fetch Results */
                                         if ($result = mysqli_query($connection, $sql)) {
@@ -607,7 +611,7 @@
                                                 <div class="nk-review-cont">
                                                     <div class="nk-review-meta">
                                                         <div class="nk-review-name"><a href="#">' . $row['name'] . '</a></div>
-                                                            <div class="nk-review-date">' . $row['datetime'] . '</div>
+                                                            <div class="nk-review-date">' . $row['format_date'] . '</div>
                                                                 <span class="nk-review-rating">
                                                                     <span style="width: ' . $row['rating']*20 . '%;"><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></span>
                                                                     <span><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></span>

@@ -139,8 +139,8 @@
 		// Query from item && item_review table to get rating
 		$itemrating = $itemratingcount = 0;
 		$sql = "SELECT *
-				FROM `item_review` 
-				INNER JOIN `item` 
+				FROM `item_review`
+				INNER JOIN `item`
 				ON item_review.item_id = item.item_id
 				WHERE item.user_id = '".$_SESSION['userid']."'
 				;";
@@ -189,7 +189,7 @@
 		//Query to print the 3 most recent listings
 		while ($arraysize > 0) {
 			$sql = "SELECT DISTINCT *
-					FROM `item` 
+					FROM `item`
 					INNER JOIN `item_photo`
 					ON item.item_id = item_photo.item_id
 					WHERE user_id = '".$_SESSION['userid']."' AND item.item_id = '".$top3id[$itemselect]."'
@@ -217,7 +217,7 @@
 						} else {
 							$itemssold = "color:orange;'>Not sold";
 						}
-						
+
 						$recentlistings .= "<div style='float:left; margin-left:2%; margin-right:2%; margin-bottom:1%; max-width:280px; background-color:#f2f2f2; border-radius:5%;'>
 												<img src='data:image/jpeg;base64,".base64_encode($itemsimg)."' style='width:100%; height:200px; padding-bottom:1em; border-radius:8%; padding:5%;'/>
 												<p class='nk-product-title h3' style='padding-left:0.5em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'>".$itemstitle."</p>
@@ -234,7 +234,7 @@
 			$arraysize -= 1;
 			$itemselect += 1;
 		}
-		
+
 		//User Display Picture
 		$pic = '<img src="data:image/jpeg;base64,'.base64_encode($pic).'" style="width:280px; padding-bottom:1em; border-radius:5%;"/>';
 		//User Display Name
@@ -254,7 +254,7 @@
 		if ($recentlistings == "") {
 			$recentlistings = "<h4>No items listed! <a href='sell-item.php'>List now?</a></h4>";
 		}
-		
+
 	?>
 
 
@@ -263,6 +263,25 @@
             <!-- START: Shop Header -->
             <div class="nk-shop-header">
                 <a href="index.php" class="nk-shop-header-back"><span class="nk-icon-arrow-left"></span> Back to Main Shop</a>
+                <?php
+                    if (!isset($_SESSION['userid']) && !isset($_SESSION['activated'])){
+                        echo '
+                        <a href="#" class="nk-btn-color-white" data-toggle="dropdown">
+                            Login
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="login.php">Login</a></li>
+                            <li><a href="register.php">Register</a></li>
+                        </ul>
+                         ';
+                     } else {
+                        echo '
+                        <a href="assets/php/logout.php" class="nk-btn-color-white">
+                            Logout
+                        </a>
+                        ';
+                     }
+                ?>
             </div>
             <!-- END: Shop Header -->
 
@@ -293,7 +312,7 @@
 				<div>
 					<?php echo($recentlistings);?>
 				</div>
-				
+
 				<a href="display-item.php" style="float:right;">View all listings <i class="fas fa-angle-double-right"></i></a>
 				<div style='clear: both;'></div>
 			</div>
@@ -302,7 +321,7 @@
         </div>
         <div class="nk-gap-3"></div>
     </div>
-	
+
 
     </div>
     <!-- END: Main Content -->

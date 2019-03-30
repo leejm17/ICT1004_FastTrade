@@ -180,7 +180,7 @@
         <div class="container">
             <!-- START: Shop Header -->
             <div class="nk-shop-header">
-                <a href="index.php" class="nk-shop-header-back"><span class="nk-icon-arrow-left"></span> Back to Main Shop</a>
+                <a href="userprofile.php" class="nk-shop-header-back"><span class="nk-icon-arrow-left"></span>Back to My Profile</a>
             </div>
             <!-- END: Shop Header -->
 

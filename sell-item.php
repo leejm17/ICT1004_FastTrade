@@ -118,12 +118,12 @@
         <div class="container">
             <!-- START: Shop Header -->
             <div class="nk-shop-header">
-                <a href="index.php" class="nk-shop-header-back"><span class="nk-icon-arrow-left"></span> Back to Main Shop</a>
+                <a href="userprofile.php" class="nk-shop-header-back"><span class="nk-icon-arrow-left"></span>Back to My Profile</a>
             </div>
             <!-- END: Shop Header -->
 
             <!-- START: Sell Item -->
-			
+
 			<!--START: TURN OFF PHP ERRORS-->
 			<?php error_reporting(0); ?>
 			<!--END: TURN OFF PHP ERRORS-->
@@ -199,7 +199,7 @@
 									//echo ("Image: " .$_POST["picture1"]. "<br/>");
 									$inputpass = ($inputpass + 1);
 							}
-							
+
 							//Pictures cant have the same name
 							if ( $_FILES['picture1']['name'] == $_FILES['picture2']['name'] ) {
 									$picturename_err = "<p style='color:red;'>*Picture names cannot be the same!</p>";
@@ -210,7 +210,7 @@
 							} else {
 									$inputpass = ($inputpass + 1);
 							}
-							
+
 
 							//if inputpass is not 9 {
 							if ($inputpass != 9) {
@@ -236,8 +236,8 @@
 					}
 					// Query to insert form input
 					$sql = "
-							INSERT INTO item (`title`, `description`, `condition`, `price`, `status`, `sold`, `user_id`, `category_id`, `age`, `ad_duration`)
-							VALUES ('".$_POST["title"]."', '".$_POST["description"]."', '".$_POST["condition"]."', '".$_POST["price"]."', '1', '0', '".$_SESSION['userid']."', '".$_POST["category"]."', '".$_POST["age"]."', '".$_POST["adduration"]."')
+							INSERT INTO item (`title`, `description`, `condition`, `price`, `status`, `sold`, `user_id`, `category_id`, `age`, `ad_duration`, `due_date`)
+							VALUES ('".$_POST["title"]."', '".$_POST["description"]."', '".$_POST["condition"]."', '".$_POST["price"]."', '1', '0', '".$_SESSION['userid']."', '".$_POST["category"]."', '".$_POST["age"]."', '".$_POST["adduration"]."', date_add(NOW(), INTERVAL ".$_POST["adduration"]." YEAR))
 							;";
 					$result = $conn->query($sql);
 					echo("

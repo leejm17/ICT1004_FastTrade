@@ -127,17 +127,17 @@
         <div class="container">
             <!-- START: Shop Header -->
             <div class="nk-shop-header">
-                <a href="index.php" class="nk-shop-header-back"><span class="nk-icon-arrow-left"></span> Back to Main Shop</a>
+                <a href="userprofile.php" class="nk-shop-header-back"><span class="nk-icon-arrow-left"></span>Back to My Profile</a>
             </div>
             <!-- END: Shop Header -->
-			
+
 			<!-- START: EDIT ITEM MAIN -->
-			
+
 			<!-- START: GET VALUES OF ITEM-TO-BE-EDITED -->
 			<?php
-				
+
 				$item_id_var = $_GET["item_id_var"];
-				
+
 				require_once('..\..\protected\config_fasttrade.php');
 				$conn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
 				if ($conn->connect_error) {
@@ -165,25 +165,25 @@
 				}
 			?>
 			<!-- END: GET VALUES OF ITEM-TO-BE-EDITED -->
-			
+
 			<!-- START: ERROR CHECK FORM VALUES -->
 			<?php
-				
+
 			?>
 			<!-- END: ERROR CHECK FORM VALUES -->
-			
+
 			<!-- START: UPDATE ITEM VALUES -->
 			<?php
-				
+
 			?>
 			<!-- END: UPDATE ITEM VALUES -->
-			
+
 			<!-- START: UPDATE PICTURE DATA -->
 			<?php
-				
+
 			?>
 			<!-- END: UPDATE PICTURE DATA -->
-			
+
 			<div class="nk-box">
 				<div class = "col-md-7">
 					<h3>Edit item</h3>
@@ -272,7 +272,7 @@
 				</div>
 			</div>
 			<!-- END: EDIT ITEM MAIN -->
-			
+
         </div>
         <div class="nk-gap-3"></div>
     </div>
