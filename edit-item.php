@@ -14,6 +14,9 @@
 	if (!isset($_SESSION['userid']) && !isset($_SESSION['activated'])){
 		header('Location: 403.php');
 	}
+	if (empty($_GET["item_id_var"])){
+		header('Location: 403.php');
+	}
 ?>
 <html lang="en">
 <head>
@@ -129,8 +132,143 @@
             <!-- END: Shop Header -->
 			
 			<!-- START: EDIT ITEM MAIN -->
+			
+			<!-- START: GET VALUES OF ITEM-TO-BE-EDITED -->
+			<?php
+				
+				$item_id_var = $_GET["item_id_var"];
+				
+				require_once('..\..\protected\config_fasttrade.php');
+				$conn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+				if ($conn->connect_error) {
+						die("Connection failed: " . $conn->connect_error);
+				}
+				// Query from item && item_photo table to get item variables
+				$sql = "SELECT *
+						FROM item
+						WHERE user_id = '".$_SESSION['userid']."' AND item_id = '".$item_id_var."'
+						;";
+				$result = $conn->query($sql);
+				if ($result->num_rows > 0) {
+						while($row = $result->fetch_assoc()) {
+								$item_id = $row['item_id'];
+								$title = $row['title'];
+								$description = $row['description'];
+								$condition = $row['condition'];
+								$price = $row['price'];
+								$status = $row['status'];
+								$sold = $row['sold'];
+								$category = $row['category_id'];
+								$age = $row['age'];
+								$adduration = $row['ad_duration'];
+						}
+				}
+			?>
+			<!-- END: GET VALUES OF ITEM-TO-BE-EDITED -->
+			
+			<!-- START: ERROR CHECK FORM VALUES -->
+			<?php
+				
+			?>
+			<!-- END: ERROR CHECK FORM VALUES -->
+			
+			<!-- START: UPDATE ITEM VALUES -->
+			<?php
+				
+			?>
+			<!-- END: UPDATE ITEM VALUES -->
+			
+			<!-- START: UPDATE PICTURE DATA -->
+			<?php
+				
+			?>
+			<!-- END: UPDATE PICTURE DATA -->
+			
 			<div class="nk-box">
 				<div class = "col-md-7">
+					<h3>Edit item</h3>
+						<form class="form-horizontal" action="edit-item.php" enctype="multipart/form-data" method="POST">
+							<!--Title-->
+							<div class="form-group">
+									<label for="title" class="inlabels control-label col-sm-5" style="font-size:1.25em;" >Title:</label>
+									<input name="title" class="form-control" type="text" id="title" value="<?php echo($title); ?>">
+									<!--<?php echo ($title_err); ?>-->
+							</div>
+							<!--Desc-->
+							<div class="form-group">
+									<label for="description" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Description:</label>
+									<input name="description" class="form-control" type="text" id="description" value="<?php echo($description); ?>">
+									<!--<?php echo ($description_err); ?>-->
+							</div>
+							<!--Condition-->
+							<div class="form-group">
+									<label class="inlabels control-label col-sm-5" for="condition" style="font-size:1.25em;">Condition: </label>
+									<select name="condition" class="form-control col-sm-5">
+											<option value ="">---Choose a Condition---</option>
+											<option value ="5"<?php if ($condition == 5){echo(" selected='selected'");}?>>Never Opened</option>
+											<option value ="4"<?php if ($condition == 4){echo(" selected='selected'");}?>>Perfect</option>
+											<option value ="3"<?php if ($condition == 3){echo(" selected='selected'");}?>>Great</option>
+											<option value ="2"<?php if ($condition == 2){echo(" selected='selected'");}?>>Good</option>
+											<option value ="1"<?php if ($condition == 1){echo(" selected='selected'");}?>>Minor Scratches</option>
+									</select>
+									<!--<?php echo ($condition_err); ?>-->
+							</div>
+							<!--Price-->
+							<div class="form-group">
+									<label for="price" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Price:</label>
+									<input name="price" class="form-control" type="text" id="price" value="<?php echo($price); ?>">
+									<!--<?php echo ($price_err); ?>-->
+							</div>
+							<!--Status--><!--values here dont affect query, but must be >0 to pass error check-->
+							<div class="form-group">
+									<label for="status" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Availability:</label>
+									<select name="status" class="form-control col-sm-5">
+											<option value ="">---Choose a Status---</option>
+											<option value ="1"<?php if ($status == 1){echo(" selected='selected'");}?>>Active</option>
+											<option value ="0"<?php if ($status == 0){echo(" selected='selected'");}?>>Inactive</option>
+									</select>
+									<!--<?php// echo ($status_err); ?>-->
+							</div>
+							<!--Sold--><!--values here dont affect query, but must be 0 to pass error check-->
+							<div class="form-group">
+									<label for="sold" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Item Status:</label>
+									<select name="sold" class="form-control col-sm-5">
+											<option value ="">---Choose a Status---</option>
+											<option value ="1"<?php if ($sold == 1){echo(" selected='selected'");}?>>Sold</option>
+											<option value ="0"<?php if ($sold == 0){echo(" selected='selected'");}?>>Selling</option>
+									</select>
+									<?php// echo ($sold_err); ?>
+							</div>
+							<!--Category-->
+							<div class="form-group">
+									<label class="inlabels control-label col-sm-5" for="category" style="font-size:1.25em;">Category: </label>
+									<select name="category" class="form-control col-sm-5">
+											<option value ="">---Choose a Category---</option>
+											<option value ="1"<?php if ($category == 1){echo(" selected='selected'");}?>>Home Appliance</option>
+											<option value ="2"<?php if ($category == 2){echo(" selected='selected'");}?>>Furniture</option>
+											<option value ="3"<?php if ($category == 3){echo(" selected='selected'");}?>>Computers and IT</option>
+											<option value ="4"<?php if ($category == 4){echo(" selected='selected'");}?>>Kids</option>
+											<option value ="5"<?php if ($category == 5){echo(" selected='selected'");}?>>Home Repair</option>
+											<option value ="6"<?php if ($category == 6){echo(" selected='selected'");}?>>Services</option>
+									</select>
+									<!--<?php echo ($category_err); ?>-->
+							</div>
+							<!--Age-->
+							<div class="form-group">
+									<label for="age" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Years of possession:</label>
+									<input name="age" class="form-control" type="text" id="age" placeholder="Year(s)" value="<?php echo($age); ?>">
+									<!--<?php echo ($age_err); ?>-->
+							</div>
+							<!--Ad Duration-->
+							<div class="form-group">
+									<label for="adduration" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Advertise for:</label>
+									<input name="adduration" class="form-control" type="text" id="adduration" placeholder="Year(s)" value="<?php echo($adduration); ?>">
+									<!--<?php echo ($adduration_err); ?>-->
+							</div>
+							<div class="form-group">
+									<button class="nk-btn nk-btn-outline nk-btn-color-dark ml-10">Update</button>
+							</div>
+						</form>
 				</div>
 			</div>
 			<!-- END: EDIT ITEM MAIN -->
