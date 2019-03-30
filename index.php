@@ -9,6 +9,9 @@
     License: You must have a valid license purchased only from ThemeForest (the above link) in order to legally use the theme for your project.
     Copyright 2018.
 -->
+<?php
+    session_start();
+?>
 
 <html lang="en">
 <head>
@@ -119,11 +122,21 @@
         <div class="container">
             <!-- START: Shop Header -->
             <div class="nk-shop-header">
+                <a class="nk-shop-header-back">
+                    <span class="nk-body-scrollbar-measure"></span>
+                    <?php
+                        if (!isset($_SESSION['userid']) && !isset($_SESSION['activated'])){
+                            echo 'Welcome!';
+                        } else {
+                            echo 'Hi there, ' . $_SESSION['userid'] . '!';
+                    }
+                    ?>
+                </a>
                 <a href="#" class="nk-shop-layout" data-cols="4">
                     <input type="text" id="productsearch" class="form-control required" name="productsearch" placeholder="Search Products" onkeydown="search()">
                 </a>
                 <script>
-                    //if enter key is pressed, redirect get query with value from search box 
+                    //if enter key is pressed, redirect get query with value from search box
                     function search() {
                         if(event.keyCode == 13) {
                             var page='index.php?q='+ document.getElementById("productsearch").value;
@@ -135,14 +148,25 @@
                     <span>Filter</span>
                     <span>Hide Filter</span>
                 </a>
-                <a href="#" class="nk-btn-color-white" data-toggle="dropdown">
-                    Login
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="login.php">Login</a></li>
-                    <li><a href="register.php">Register</a></li>
-                </ul>
-                <!--<a href="login.php" data-cols="3">Login</a>-->
+                <?php
+                    if (!isset($_SESSION['userid']) && !isset($_SESSION['activated'])){
+                        echo '
+                        <a href="#" class="nk-btn-color-white" data-toggle="dropdown">
+                            Login
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="login.php">Login</a></li>
+                            <li><a href="register.php">Register</a></li>
+                        </ul>
+                         ';
+                     } else {
+                        echo '
+                        <a href="#" class="nk-btn-color-white">
+                            Logout
+                        </a>
+                        ';
+                     }
+                ?>
             </div>
             <!-- END: Shop Header -->
 
@@ -254,8 +278,8 @@
                             if (mysqli_num_rows($result) == 0){
                                 echo '<div class="col-lg-12 col-md-6 col-sm-3">';
                                 echo '<h3>No results found!</h3>';
-                                echo '<p>Please try a different query</p>'; 
-                                echo '</div>';                           
+                                echo '<p>Please try a different query</p>';
+                                echo '</div>';
                             } else{
                                 while ($row = mysqli_fetch_assoc($result)) { //there is results found
                                     echo '<div class="nk-shop-product">';
@@ -286,8 +310,8 @@
                     } else{
                         echo '<div class="col-lg-12 col-md-6 col-sm-3">';
                         echo '<h3>No results found!</h3>';
-                        echo '<p>Please try a different query</p>'; 
-                        echo '</div>'; 
+                        echo '<p>Please try a different query</p>';
+                        echo '</div>';
                     }
 
                 ?>
@@ -376,3 +400,6 @@
 
 </body>
 </html>
+<?php
+    //closing brace for earlier statement (session)
+?>
