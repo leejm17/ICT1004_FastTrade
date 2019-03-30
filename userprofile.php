@@ -159,7 +159,7 @@
 				FROM `item`
 				INNER JOIN `item_photo`
 				ON item.item_id = item_photo.item_id
-				WHERE user_id = 'digbick'
+				WHERE user_id = '".$_SESSION['userid']."'
 				ORDER BY item.item_id
 				DESC
 				LIMIT 3
