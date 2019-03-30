@@ -9,7 +9,12 @@
     License: You must have a valid license purchased only from ThemeForest (the above link) in order to legally use the theme for your project.
     Copyright 2018.
 -->
-
+<?php
+    session_start();
+	if (!isset($_SESSION['userid']) && !isset($_SESSION['activated'])){
+		header('Location: 403.php');
+	}
+?>
 <html lang="en">
 <head>
     <meta charset="utf-8">
