@@ -122,7 +122,7 @@
         <div class="container">
             <!-- START: Shop Header -->
             <div class="nk-shop-header">
-                <a class="nk-shop-header-back">
+                <a href="index.php" class="nk-shop-header-back">
                     <span class="nk-body-scrollbar-measure"></span>
                     <?php
                         if (!isset($_SESSION['userid']) && !isset($_SESSION['activated'])){
@@ -181,11 +181,11 @@
                     <div class="col-lg col-md-4">
                         <h3 class="nk-shop-filter-item-title">Sort By</h3>
                         <ul class="nk-shop-filter-item">
-                            <li data-filter="Default AllCat AllPrice" ><a class="active" href="#">Default</a></li>
+                            <li><a class="active" href="#">Default</a></li>
                             <!--<li><a href="#">Popularity</a></li>-->
-                            <li data-filter="Default Newest AllCat AllPrice"><a href="#">Newest</a></li>
-                            <li data-filter="Default LowHigh AllCat AllPrice"><a href="#">Price: Low to High</a></li>
-                            <li data-filter="Default HighLow AllCat AllPrice"><a href="#">Price: High to Low</a></li>
+                            <li><a href="#">Newest</a></li>
+                            <li><a href="#">Price: Low to High</a></li>
+                            <li><a href="#">Price: High to Low</a></li>
                         </ul>
                     </div>
 <!--                    <div class="col-lg col-md-4">
@@ -230,7 +230,6 @@
                             <li><a href="#">$50.00 - $99.00</a></li>
                             <li><a href="#">$100.00 - $149.00</a></li>
                             <li><a href="#">Above $150.00</a></li>
-
                         </ul>
                     </div>
                 </div>
@@ -247,7 +246,6 @@
                     .nk-shop-products-4-col
             -->
             <div class="nk-shop-products nk-shop-products-4-col">
-
 
                 <?php
                     $page = basename($_SERVER['REQUEST_URI']);
@@ -268,7 +266,7 @@
                         if(!empty($_GET["q"])){ //if query can get the variable q
                             $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE title LIKE '%". $_GET["q"] ."%' GROUP BY item.item_id;";
                         }
-                    }else{
+                    } else {
                         $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id GROUP BY item.item_id;";
                     }
 
@@ -280,7 +278,7 @@
                                 echo '<h3>No results found!</h3>';
                                 echo '<p>Please try a different query</p>';
                                 echo '</div>';
-                            } else{
+                            } else {
                                 while ($row = mysqli_fetch_assoc($result)) { //there is results found
                                     echo '<div class="nk-shop-product">';
                                     echo '<div class="nk-shop-product-thumb">';
@@ -307,13 +305,12 @@
                                 mysqli_close($connection);
                             }
                         }
-                    } else{
+                    } else {
                         echo '<div class="col-lg-12 col-md-6 col-sm-3">';
                         echo '<h3>No results found!</h3>';
                         echo '<p>Please try a different query</p>';
                         echo '</div>';
                     }
-
                 ?>
 
             </div>
