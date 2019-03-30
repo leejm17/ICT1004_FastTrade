@@ -171,7 +171,7 @@
 							die("connection failed: " . $connection->connect_error);
 						}
 						
-						$sql = 'SELECT * FROM item_photo INNER JOIN item ON item.item_id = item_photo.item_id WHERE item.user_id = "wutdequack.dev"';
+						$sql = 'SELECT * FROM item_photo INNER JOIN item ON item.item_id = item_photo.item_id WHERE item.user_id = "wutdequack.dev" GROUP BY item.item_id';
 						$result = $connection->query($sql);
 						
 						while ($row = mysqli_fetch_assoc($result)) 
@@ -199,6 +199,7 @@
 								
 										<option value ="">
 										<?php 
+										$condition = '';
 										if ($row["condition"]==1) 
 										{
 											$condition = "Minor Scratches (1)";
