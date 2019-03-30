@@ -283,7 +283,7 @@
 			<!-- START: ADD NEW ITEM -->
 			<div>
 				<h3 style="margin-top:2em;">List new item</h3>
-					<a href="sell-item.php">Add new item</a>
+					<p><a href="sell-item.php" title="Sell item"><button class="nk-btn nk-btn-color-dark-1">Add new item</button></a></p><br/>
 				<div style='clear: both;'></div>
 			</div>
 			<!-- END: ADD NEW ITEM -->
