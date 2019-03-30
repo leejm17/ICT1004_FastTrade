@@ -161,7 +161,7 @@
                          ';
                      } else {
                         echo '
-                        <a href="#" class="nk-btn-color-white">
+                        <a href="assets/php/logout.php" class="nk-btn-color-white">
                             Logout
                         </a>
                         ';
@@ -183,11 +183,16 @@
                         <ul class="nk-shop-filter-item">
                             <li><a class="active" href="#">Default</a></li>
                             <!--<li><a href="#">Popularity</a></li>-->
-                            <li><a href="#">Newest</a></li>
-                            <li><a href="#">Price: Low to High</a></li>
-                            <li><a href="#">Price: High to Low</a></li>
+                            <li><a href="#" onclick="pricegenrange(1)">Price: Low to High</a></li>
+                            <li><a href="#" onclick="pricegenrange(2)">Price: High to Low</a></li>
                         </ul>
                     </div>
+                    <script>
+                    function pricegenrange(x) {
+                        var page='index.php?genrange='+x;
+                        document.location.href=page;
+                    }
+                    </script>
 <!--                    <div class="col-lg col-md-4">
                         <h3 class="nk-shop-filter-item-title">Gender</h3>
                         <ul class="nk-shop-filter-item">
@@ -200,14 +205,21 @@
                         <h3 class="nk-shop-filter-item-title">Category</h3>
                         <ul class="nk-shop-filter-item">
                             <li><a class="active" href="#">Show All</a></li>
-                            <li><a href="#">Computers and IT</a></li>
-                            <li><a href="#">Furniture</a></li>
-                            <li><a href="#">Home Appliance</a></li>
-                            <li><a href="#">Home Repair</a></li>
-                            <li><a href="#">Kids</a></li>
-                            <li><a href="#">Services</a></li>
+                            <li><a href="#" onclick ="catfilter(1)">Computers and IT</a></li>
+                            <li><a href="#" onclick ="catfilter(2)">Furniture</a></li>
+                            <li><a href="#" onclick ="catfilter(3)">Home Appliance</a></li>
+                            <li><a href="#" onclick ="catfilter(4)">Home Repair</a></li>
+                            <li><a href="#" onclick ="catfilter(5)">Kids</a></li>
+                            <li><a href="#" onclick ="catfilter(6)">Services</a></li>
                         </ul>
                     </div>
+
+                    <script>
+                    function catfilter(x) {
+                        var page='index.php?cat='+x;
+                        document.location.href=page;
+                    }
+                    </script>
 <!--                    <div class="col-lg col-md-4">
                         <h3 class="nk-shop-filter-item-title">Color</h3>
                         <ul class="nk-shop-filter-item">
@@ -226,12 +238,18 @@
                         <h3 class="nk-shop-filter-item-title">Price</h3>
                         <ul class="nk-shop-filter-item">
                             <li><a class="active" href="#">Show All</a></li>
-                            <li><a href="#">Below $50.00</a></li>
-                            <li><a href="#">$50.00 - $99.00</a></li>
-                            <li><a href="#">$100.00 - $149.00</a></li>
-                            <li><a href="#">Above $150.00</a></li>
+                            <li><a href="#" onclick="pricespecrange(1)">Below $50.00</a></li>
+                            <li><a href="#" onclick="pricespecrange(2)">$50.00 - $99.00</a></li>
+                            <li><a href="#" onclick="pricespecrange(3)">$100.00 - $149.00</a></li>
+                            <li><a href="#" onclick="pricespecrange(4)">Above $150.00</a></li>
                         </ul>
                     </div>
+                    <script>
+                    function pricespecrange(x) {
+                        var page='index.php?specrange='+x;
+                        document.location.href=page;
+                    }
+                    </script>
                 </div>
             </div>
             <!-- END: Shop Filter -->
@@ -262,12 +280,39 @@
                     }
 
                     /* (3) Query DB - if can get Query*/
+                    $sql = '';
                     if (isset($_GET["q"])){
                         if(!empty($_GET["q"])){ //if query can get the variable q
-                            $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE title LIKE '%". $_GET["q"] ."%' GROUP BY item.item_id;";
+                            $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE title LIKE '%". $_GET["q"] ."%' AND item.status= 1 AND item.sold = 0 GROUP BY item.item_id;";
+                        }
+                    } else if (isset($_GET["cat"])){
+                        if(!empty($_GET["cat"])){ //if query can get the variable cat
+                            $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.category_id = '". $_GET["cat"] ."' AND item.status= 1 AND item.sold = 0 GROUP BY item.item_id;";
+                        }
+                    }  else if (isset($_GET["genrange"])){
+                        if(!empty($_GET["genrange"])){ //if query can get the variable genrange
+                            $genrange = $_GET["genrange"];
+                            if ($genrange == 1){
+                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.status= 1 AND item.sold = 0 GROUP BY item.item_id ORDER BY price ASC";
+                            } else {
+                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id  WHERE item.status= 1 AND item.sold = 0 GROUP BY item.item_id ORDER BY price DESC";
+                            }
+                        }
+                    }  else if (isset($_GET["specrange"])){
+                        if(!empty($_GET["specrange"])){ //if query can get the variable specrange
+                            $specrange = $_GET["specrange"];
+                            if ($specrange == 1){
+                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.price < 50 AND item.status= 1 AND item.sold = 0 GROUP BY item.item_id;";
+                            } else if ($specrange == 2){
+                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.price >= 50 AND item.price < 100 AND item.status= 1 AND item.sold = 0 GROUP BY item.item_id;";
+                            } else if ($specrange == 3){
+                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.price >= 100 AND item.price < 150 AND item.status= 1 AND item.sold = 0 GROUP BY item.item_id;";
+                            } else{
+                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.price >= 150 AND item.status= 1 AND item.sold = 0 GROUP BY item.item_id;";
+                            }
                         }
                     } else {
-                        $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id GROUP BY item.item_id;";
+                        $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id  WHERE item.status= 1 AND item.sold = 0 GROUP BY item.item_id;";
                     }
 
                     /* (4) Fetch Results */

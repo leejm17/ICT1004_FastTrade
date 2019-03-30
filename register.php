@@ -285,18 +285,18 @@
 </html>
 <?php
     if(isset($_SESSION['ErrArray'])){
-        session_unset($_SESSION["ErrArray"]);
+        unset($_SESSION["ErrArray"]);
     }
     if(isset($_SESSION['name'])){
-        session_unset($_SESSION["name"]);
+        unset($_SESSION["name"]);
     }
     if(isset($_SESSION['username'])){
-        session_unset($_SESSION["username"]);
+        unset($_SESSION["username"]);
     }
     if(isset($_SESSION['email'])){
-        session_unset($_SESSION["email"]);
+        unset($_SESSION["email"]);
     }
     if(isset($_SESSION['verification_status'])){
-        session_unset($_SESSION["verification_status"]);
+        unset($_SESSION["verification_status"]);
     }
 ?>
