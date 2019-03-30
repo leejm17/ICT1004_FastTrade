@@ -88,10 +88,10 @@
 
 
 <!-- POST to Process Review action -->
-<?php include 'processReview.php'; ?>
+<?php include 'assets/php/processReview.php'; ?>
 
 <!-- POST to Process Modal action -->
-<?php include 'processOffer.php'; ?>
+<?php include 'assets/php/processOffer.php'; ?>
 
 
 
@@ -177,7 +177,7 @@
                                 }
 
                                 /* (3) Query DB */
-                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item_photo.item_id=" . $page_id . ";";
+                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.status=1 AND item_photo.item_id=" . $page_id . ";";
 
                                 /* (4) Fetch Results */
                                 if ($result = mysqli_query($connection, $sql)) {
@@ -208,7 +208,7 @@
                                 }
 
                                 /* (3) Query DB */
-                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item_photo.item_id=" . $page_id . ";";
+                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.status=1 AND item_photo.item_id=" . $page_id . ";";
 
                                 /* (4) Fetch Results */
                                 if ($result = mysqli_query($connection, $sql)) {
@@ -247,7 +247,7 @@
                     }
 
                     /* (3) Query DB */
-                    $sql = "SELECT *, COUNT(DISTINCT item_review.datetime) AS count_review, SUM(item_review.rating)/COUNT(item_review.item_id) AS avg_rating FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item_photo.item_id=" . $page_id . ";";
+                    $sql = "SELECT *, COUNT(DISTINCT item_review.datetime) AS count_review, SUM(item_review.rating)/COUNT(item_review.item_id) AS avg_rating FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item.status=1 AND item_photo.item_id=" . $page_id . ";";
 
                     /* (4) Fetch Results */
                     if ($result = mysqli_query($connection, $sql)) {
@@ -377,7 +377,7 @@
                                                 }
 
                                                 /* (3) Query DB */
-                                                $sql = "SELECT * FROM item WHERE item_id=" . $page_id . ";";
+                                                $sql = "SELECT * FROM item WHERE item.status=1 AND item_id=" . $page_id . ";";
 
                                                 /* (4) Fetch Results */
                                                 if ($result = mysqli_query($connection, $sql)) {
@@ -531,7 +531,7 @@
                                             }
 
                                             /* (3) Query DB */
-                                            $sql = "SELECT * FROM item INNER JOIN category ON category.category_id = item.category_id WHERE item_id=" . $page_id . ";";
+                                            $sql = "SELECT * FROM item INNER JOIN category ON category.category_id = item.category_id WHERE item.status=1 AND item_id=" . $page_id . ";";
 
                                             /* (4) Fetch Results */
                                             if ($result = mysqli_query($connection, $sql)) {
@@ -591,7 +591,7 @@
                                         }
 
                                         /* (3) Query DB */
-                                        $sql = "SELECT * FROM item INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item_review.item_id=" . $page_id . ";";
+                                        $sql = "SELECT * FROM item INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item.status=1 AND item_review.item_id=" . $page_id . ";";
 
                                         /* (4) Fetch Results */
                                         if ($result = mysqli_query($connection, $sql)) {
