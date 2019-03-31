@@ -16,7 +16,7 @@ echo '
                 My Offers
             </a>
             <ul class="dropdown-menu" id="offers_dropdown">
-                <li><a class="dropdown-anchor" href="#">Offers Sent</a></li>
+                <li><a class="dropdown-anchor" href="offersSent.php">Offers Sent</a></li>
                 <li><a class="dropdown-anchor" href="#">Offers Received</a></li>
                 <li><a class="dropdown-anchor" href="#">Offers Accepted</a></li>
                 <li><a class="dropdown-anchor" href="#">Offers Rejected</a></li>

@@ -19,10 +19,13 @@ span.input_error {
 .modal-backdrop {
     z-index: -1;
 }
+.nk-footer {
+    z-index: 0;
+}
 .modal-open {
     padding-right: 0px !important;
 }
-#product_body {
+.product_body {
     padding-right: 0px !important;
 }
 

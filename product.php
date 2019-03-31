@@ -71,7 +71,6 @@
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="assets/css/custom.css">
-</style>
 </head>
 
 
@@ -84,7 +83,7 @@
     Additional Classes:
         .nk-bg-gradient
 -->
-<body id="product_body">
+<body class="product_body">
 
 
 <!-- POST to Process Review action -->
@@ -178,7 +177,7 @@
                                 }
 
                                 /* (3) Query DB */
-                                $sql = "SELECT item_photo.photo, item.title FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.sold=0 AND item_photo.item_id=" . $page_id . " AND item.due_date>NOW();";
+                                $sql = "SELECT item_photo.photo, item.title FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.sold=0 AND item_photo.item_id=" . $page_id . ";";
 
                                 /* (4) Fetch Results */
                                 if ($result = mysqli_query($connection, $sql)) {
@@ -210,7 +209,7 @@
                                 }
 
                                 /* (3) Query DB */
-                                $sql = "SELECT item_photo.photo, item.title FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.sold=0 AND item_photo.item_id=" . $page_id . " AND item.due_date>NOW();";
+                                $sql = "SELECT item_photo.photo, item.title FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.sold=0 AND item_photo.item_id=" . $page_id . ";";
 
                                 /* (4) Fetch Results */
                                 if ($result = mysqli_query($connection, $sql)) {
@@ -250,7 +249,7 @@
                     }
 
                     /* (3) Query DB */
-                    $sql = "SELECT item.title, item.description, item.price, COUNT(DISTINCT item_review.datetime) AS count_review, SUM(item_review.rating)/COUNT(item_review.item_id) AS avg_rating FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item.sold=0 AND item_photo.item_id=" . $page_id . " AND item.due_date>NOW();";
+                    $sql = "SELECT item.title, item.description, item.price, COUNT(DISTINCT item_review.datetime) AS count_review, SUM(item_review.rating)/COUNT(item_review.item_id) AS avg_rating FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item.sold=0 AND item_photo.item_id=" . $page_id . ";";
 
                     /* (4) Fetch Results */
                     if ($result = mysqli_query($connection, $sql)) {
@@ -303,7 +302,7 @@
                     }
 
                     /* (3) Query DB */
-                    $sql = "SELECT item_id, user_id FROM item WHERE sold=0 AND item_id=" . $page_id . " AND item.due_date>NOW() GROUP BY item.user_id ";
+                    $sql = "SELECT item_id, user_id , sold, due_date FROM item WHERE item_id=" . $page_id . " GROUP BY item.user_id ";
 
                     /* (4) Fetch Results */
                     if ($result = mysqli_query($connection, $sql)) {
@@ -313,6 +312,18 @@
                                 <div class="alert alert-danger" style="display:inline-block;">
                                     You own this item!
                                     <a href="edit-item.php?item_id_var=' . $row["item_id"] . '" style="float:right; padding-left:1em;"><i class="far fa-edit"></i>Edit</a>
+                                </div>
+                                ';
+                            } else if ($row['sold'] == 1) {
+                                echo '
+                                <div class="alert alert-danger" style="display:inline-block;">
+                                    This item has been sold.
+                                </div>
+                                ';
+                            } else if ($row['due_date'] < date("Y-m-d H:i:s")) {
+                                echo '
+                                <div class="alert alert-danger" style="display:inline-block;">
+                                    This item has passed its due date.
                                 </div>
                                 ';
                             } else {
@@ -476,9 +487,11 @@
                 <!-- END: Confirm modal -->
 
                 <!-- END: Make An Offer -->
+
             </div>
-        </div>
             <!-- END: Product Details -->
+
+        </div>
 
         <div class="nk-gap-3 hide-chat"></div>
         <div class="nk-divider nk-divider-color-gray-6 hide-chat"></div>
@@ -635,7 +648,7 @@
                                         }
 
                                         /* (3) Query DB */
-                                        $sql = "SELECT name, rating, review, DATE_FORMAT(datetime, '%D %M %Y') AS format_date  FROM item INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item.sold=0 AND item_review.item_id=" . $page_id . " AND item.due_date>NOW() ORDER BY datetime DESC;";
+                                        $sql = "SELECT name, rating, review, DATE_FORMAT(datetime, '%D %M %Y') AS format_date  FROM item INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item.sold=0 AND item_review.item_id=" . $page_id . " ORDER BY datetime DESC;";
 
                                         /* (4) Fetch Results */
                                         if ($result = mysqli_query($connection, $sql)) {
