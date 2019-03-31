@@ -254,12 +254,12 @@
 
 <?php
     if(isset($_SESSION['identifierErr'])){
-        session_unset($_SESSION["identifierErr"]);
+        unset($_SESSION["identifierErr"]);
     }
     if(isset($_SESSION['identifier'])){
-        session_unset($_SESSION["identifier"]);
+        unset($_SESSION["identifier"]);
     }
     if(isset($_SESSION['need_verification'])){
-        session_unset($_SESSION["need_verification"]);
+        unset($_SESSION["need_verification"]);
     }
 ?>

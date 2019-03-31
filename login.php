@@ -246,9 +246,9 @@
 
 <?php
     if(isset($_SESSION['ErrArray'])){
-        session_unset($_SESSION["ErrArray"]);
+        unset($_SESSION["ErrArray"]);
     }
     if(isset($_SESSION['identifier'])){
-        session_unset($_SESSION["identifier"]);
+        unset($_SESSION["identifier"]);
     }
 ?>

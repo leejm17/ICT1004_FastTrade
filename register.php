@@ -12,7 +12,7 @@
 <?php
     session_start();
     $name = $username = $email = $verification_status = 0;
-    $nameErr = $usernameErr = $emailErr = $passwordErr = $passwordCfmErr = '';
+    $nameErr = $usernameErr = $emailErr = $passwordErr = $passwordCfmErr = $recaptchaErr = '';
     if(isset($_SESSION['ErrArray']) && !empty($_SESSION['ErrArray'])){
         $ErrArray = $_SESSION['ErrArray'];
         if(isset($_SESSION['ErrArray'][0]) && !empty($_SESSION['ErrArray'][0])){
@@ -29,6 +29,9 @@
         }
         if(isset($_SESSION['ErrArray'][4]) && !empty($_SESSION['ErrArray'][4])){
             $passwordCfmErr = $ErrArray[4];
+        }
+        if(isset($_SESSION['ErrArray'][5]) && !empty($_SESSION['ErrArray'][5])){
+            $recaptchaErr = $ErrArray[5];
         }
     }
 
@@ -98,6 +101,9 @@
 
     <!-- jQuery -->
     <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
+
+    <!-- Google Recaptcha -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script> 
 
 
 </head>
@@ -191,6 +197,10 @@
                     </div>
                 </div>
                 <div class="nk-gap-1"></div>
+                <!-- Google reCAPTCHA box -->
+                <div class="g-recaptcha" data-sitekey="6LfTIpsUAAAAALfjbRj_5YAEZJNA0BmubsmkbX-f"></div>
+                <div class="nk-gap-1"></div>
+                <?php if(!empty($recaptchaErr)){echo '<div class="alert alert-danger">', $recaptchaErr , '</div>';} ?>
                 <a href="login.php" class="text-center" style="display:block;">Already an existing user? Login here!</a>
                 <div class="nk-gap-1"></div>
                 <div class="text-center">
@@ -288,18 +298,18 @@
 </html>
 <?php
     if(isset($_SESSION['ErrArray'])){
-        session_unset($_SESSION["ErrArray"]);
+        unset($_SESSION["ErrArray"]);
     }
     if(isset($_SESSION['name'])){
-        session_unset($_SESSION["name"]);
+        unset($_SESSION["name"]);
     }
     if(isset($_SESSION['username'])){
-        session_unset($_SESSION["username"]);
+        unset($_SESSION["username"]);
     }
     if(isset($_SESSION['email'])){
-        session_unset($_SESSION["email"]);
+        unset($_SESSION["email"]);
     }
     if(isset($_SESSION['verification_status'])){
-        session_unset($_SESSION["verification_status"]);
+        unset($_SESSION["verification_status"]);
     }
 ?>
