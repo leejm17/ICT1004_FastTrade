@@ -8,7 +8,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["review_submit"])) {
     $message = $_POST["message"];
 
     $page = $_POST["page_id"];
-    $page_id = substr($page, -1);
+    //$page_id = substr($page, -1);
+    $page_id = $_GET["id"];
 
     if (empty($name) || !preg_match("/^[a-zA-Z0-9 ]*$/", $name)) {
         $name_err = "Please enter a valid name.";

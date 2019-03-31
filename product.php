@@ -164,7 +164,8 @@
                             <div>
                             <?php
                                 $page = basename($_SERVER['REQUEST_URI']);
-                                $page_id = substr($page, -1);
+                                //$page_id = substr($page, -1);
+                                $page_id = $_GET["id"];
 
                                 /* (1) Connect to Database */
                                 require_once('..\..\protected\config_fasttrade.php');
@@ -195,7 +196,8 @@
                             <div class="nk-carousel-inner nk-popup-gallery">
                             <?php
                                 $page = basename($_SERVER['REQUEST_URI']);
-                                $page_id = substr($page, -1);
+                                //$page_id = substr($page, -1);
+                                $page_id = $_GET["id"];
 
                                 /* (1) Connect to Database */
                                 require_once('..\..\protected\config_fasttrade.php');
@@ -234,7 +236,8 @@
                 </div>
                 <?php
                     $page = basename($_SERVER['REQUEST_URI']);
-                    $page_id = substr($page, -1);
+                    //$page_id = substr($page, -1);
+                    $page_id = $_GET["id"];
 
                     /* (1) Connect to Database */
                     require_once('..\..\protected\config_fasttrade.php');
@@ -286,7 +289,8 @@
 
                 <?php
                     $page = basename($_SERVER['REQUEST_URI']);
-                    $page_id = substr($page, -1);
+                    //$page_id = substr($page, -1);
+                    $page_id = $_GET["id"];
 
                     /* (1) Connect to Database */
                     require_once('..\..\protected\config_fasttrade.php');
@@ -396,7 +400,8 @@
                                           <table class="table nk-shop-table-info" style="width:100%">
                                               <?php
                                                 $page = basename($_SERVER['REQUEST_URI']);
-                                                $page_id = substr($page, -1);
+                                                //$page_id = substr($page, -1);
+                                                $page_id = $_GET["id"];
 
                                                 /* (1) Connect to Database */
                                                 require_once('..\..\protected\config_fasttrade.php');
@@ -505,7 +510,8 @@
                                 <a class="nav-link active" href="#tab-reviews" role="tab" data-toggle="tab">Reviews
                                     <?php
                                         $page = basename($_SERVER['REQUEST_URI']);
-                                        $page_id = substr($page, -1);
+                                        //$page_id = substr($page, -1);
+                                        $page_id = $_GET["id"];
 
                                         /* (1) Connect to Database */
                                         require_once('..\..\protected\config_fasttrade.php');
@@ -550,7 +556,8 @@
                                         <table class="table nk-shop-table-info" style="width:60%;">
                                         <?php
                                             $page = basename($_SERVER['REQUEST_URI']);
-                                            $page_id = substr($page, -1);
+                                            //$page_id = substr($page, -1);
+                                            $page_id = $_GET["id"];
 
                                             /* (1) Connect to Database */
                                             require_once('..\..\protected\config_fasttrade.php');
@@ -614,7 +621,8 @@
 
                                     <?php
                                         $page = basename($_SERVER['REQUEST_URI']);
-                                        $page_id = substr($page, -1);
+                                        //$page_id = substr($page, -1);
+                                        $page_id = $_GET["id"];
 
                                         /* (1) Connect to Database */
                                         require_once('..\..\protected\config_fasttrade.php');
@@ -662,8 +670,8 @@
                                                 echo '
                                                 <div class="row">
                                                     <div style="text-align: center;" class="col-lg-12 col-md-6 col-sm-3">
-                                                    </div>
                                                         <p style="font-size: 24px">Be the first to review this product!</p>
+                                                    </div>
                                                 </div>
                                                 ';
                                             }
@@ -676,7 +684,8 @@
 
                                     <?php
                                         $page = basename($_SERVER['REQUEST_URI']);
-                                        $page_id = substr($page, -1);
+                                        //$page_id = substr($page, -1);
+                                        $page_id = $_GET["id"];
 
                                         /* (1) Connect to Database */
                                         require_once('..\..\protected\config_fasttrade.php');

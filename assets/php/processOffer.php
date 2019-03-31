@@ -11,7 +11,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_submit"])) {
     $seller_id = $_POST["seller_id"];
 
     $page = $_POST["page_id"];
-    $page_id = substr($page, -1);
+    //$page_id = substr($page, -1);
+    $page_id = $_GET["id"];
 
     if (empty($submit_price) || !preg_match("/^((SGD *)|(\$))*[0-9]+(?:\.[0-9]{2})?$/i", $submit_price)) {
         $price_err = "Please enter a valid price.";
