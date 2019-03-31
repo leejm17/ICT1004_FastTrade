@@ -1,13 +1,4 @@
 <!DOCTYPE html>
-<?php
-	session_start();
-	if(!isset($_SESSION['userid']) && !isset($_SESSION['activated']))
-	{
-		header('Location: 403.php');
-	} else  {
-            $userid = $_SESSION['userid'];
-            $activate = $_SESSION['activated'];
-?>
 <!--
     Name: Skylith - Viral & Creative Multipurpose HTML Template
     Version: 1.0.3
@@ -18,16 +9,26 @@
     License: You must have a valid license purchased only from ThemeForest (the above link) in order to legally use the theme for your project.
     Copyright 2018.
 -->
+<?php
+	session_start();
+	if(!isset($_SESSION['userid']) && !isset($_SESSION['activated']))
+	{
+		header('Location: 403.php');
+	} else {
+            $userid = $_SESSION['userid'];
+            $activate = $_SESSION['activated'];
+?>
 
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Fast Trade | Shop</title>
+    <title>Fast Trade | My Listings</title>
 
-    <meta name="description" content="Shop Menu">
-    <meta name="keywords" content="menu, products, items, overview, content">
+    <meta name="description" content="All Listings">
+    <meta name="keywords" content="myproducts, myitems">
+    <meta name="author" content="Tan Chin How">
 
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
 
@@ -111,12 +112,7 @@
         <div class="container">
             <!-- START: Shop Header -->
             <div class="nk-shop-header">
-                <a href="#" class="nk-shop-layout-toggle active" data-cols="4"><span class="nk-icon-layout-3"></span></a>
-                <a href="#" class="nk-shop-filter-toggle">
-                    <span>Filter</span>
-                    <span>Hide Filter</span>
-                </a>
-                <a href="#" class="nk-shop-layout-toggle" data-cols="3">Login</a>
+                <a href="userprofile.php" class="nk-shop-header-back"><span class="nk-icon-arrow-left"></span> Back to My Profile</a>
             </div>
             <!-- END: Shop Header -->
 
@@ -292,10 +288,10 @@
 									<input name="adduration" class="form-control" type="number" id="adduration" value="<?php echo $row["ad_duration"] ?>" readonly>
 								</div>
 
-								<!---Have not link with edit-item--->
-								<div class="form-group">
-								<button class="nk-btn nk-btn-outline nk-btn-color-dark ml-5" id = "edit"> Edit </button>
-								</div>
+
+                                                                    <div class="form-group">
+                                                                        <a class="nk-btn nk-btn-outline nk-btn-color-dark ml-5" href="edit-item.php?item_id_var=<?php echo $row["item_id"] ?>">Edit</a>
+                                                                    </div>
 								--------------------------------------------------------------------
 
 								<?php

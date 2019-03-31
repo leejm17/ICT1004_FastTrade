@@ -13,21 +13,21 @@
     session_start();
 	if (!isset($_SESSION['userid']) && !isset($_SESSION['activated'])){
 		header('Location: 403.php');
-	}
-	if (empty($_GET["item_id_var"])){
+	} if (empty($_GET["item_id_var"])){
 		header('Location: 403.php');
 	}
 ?>
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>FastTrade | Login</title>
+    <title>FastTrade | Edit Item</title>
 
-    <meta name="description" content="sell, buy, online">
-    <meta name="keywords" content="login">
-    <meta name="author" content="Jonathan Lee">
+    <meta name="description" content="Keep your item up to date!">
+    <meta name="keywords" content="update, product, item">
+    <meta name="author" content="Dominic Keeley Gian">
 
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
 
@@ -130,15 +130,15 @@
                 <a href="userprofile.php" class="nk-shop-header-back"><span class="nk-icon-arrow-left"></span> Back to My Profile</a>
             </div>
             <!-- END: Shop Header -->
-			
+
 			<!-- START: EDIT ITEM MAIN -->
-			
+
 			<!-- START: GET VALUES OF ITEM-TO-BE-EDITED -->
 			<?php
-				
+
 				$item_id_var = $_GET["item_id_var"];
 				$itemshref = 'edit-item.php?item_id_var='.$item_id_var.'';
-				
+
 				require_once('..\..\protected\config_fasttrade.php');
 				$conn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
 				if ($conn->connect_error) {
@@ -182,16 +182,16 @@
 								$piccount += 1;
 						}
 				}
-				
+
 			?>
 			<!-- END: GET VALUES OF ITEM-TO-BE-EDITED -->
-			
+
 			<!-- START: ERROR CHECK FORM VALUES -->
 			<?php
 				//Errors
 				$title_err = $description_err = $condition_err = $price_err = $status_err = $sold_err = $category_err = $age_err = $adduration_err = $picture1_err = $picture2_err = $picture3_err = $picturename_err = "";
 				$inputpass = 0; //Field values aka checksum
-				
+
 				if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					//Title
 					if (empty($_POST['title'])) {
@@ -281,7 +281,7 @@
 				}
 			?>
 			<!-- END: ERROR CHECK FORM VALUES -->
-			
+
 			<!-- START: UPDATE ITEM VALUES -->
 			<?php
 				if ($inputpass == 10) {
@@ -296,7 +296,7 @@
 					// Query to update form input
 					$sql = "
 							UPDATE item
-							SET 
+							SET
 							title='".$_POST["title"]."',
 							description='".$_POST["description"]."',
 							item.condition='".$_POST["condition"]."',
@@ -318,7 +318,7 @@
 				}
 			?>
 			<!-- END: UPDATE ITEM VALUES -->
-			
+
 			<!-- START: UPDATE PICTURE DATA -->
 			<?php
 				if ($inputpass == 10) {
@@ -337,9 +337,9 @@
 						// Query to update form input
 						$sql = "
 								UPDATE item_photo
-								SET 
+								SET
 								photo='".$imgData1."'
-								WHERE item_photo_id = '".$picid[0]."' 
+								WHERE item_photo_id = '".$picid[0]."'
 								;";
 						mysqli_query($conn, $sql);
 					}
@@ -357,9 +357,9 @@
 							// Query to update form input
 							$sql = "
 									UPDATE item_photo
-									SET 
+									SET
 									photo='".$imgData2."'
-									WHERE item_photo_id = '".$picid[1]."' 
+									WHERE item_photo_id = '".$picid[1]."'
 									;";
 							mysqli_query($conn, $sql);
 						}
@@ -378,9 +378,9 @@
 							// Query to update form input
 							$sql = "
 									UPDATE item_photo
-									SET 
+									SET
 									photo='".$imgData3."'
-									WHERE item_photo_id = '".$picid[2]."' 
+									WHERE item_photo_id = '".$picid[2]."'
 									;";
 							mysqli_query($conn, $sql);
 						}
@@ -389,7 +389,7 @@
 				}
 			?>
 			<!-- END: UPDATE PICTURE DATA -->
-			
+
 			<div class="nk-box">
 				<div class = "col-md-7">
 					<h3>Edit item</h3>
@@ -510,7 +510,7 @@
 											echo($pic[2]);
 											echo("<br/><i class='fas fa-minus-circle' style='color:red;'></i> Delete image : <input type='checkbox' name='picture3' value='rmpic3'>");
 										}
-										
+
 									?>
 									<br/><i class="fas fa-pencil-alt"></i> Update Image:
 									<input name="picture3" type="file"/>
@@ -526,7 +526,7 @@
 				</div>
 			</div>
 			<!-- END: EDIT ITEM MAIN -->
-			
+
         </div>
         <div class="nk-gap-3"></div>
     </div>

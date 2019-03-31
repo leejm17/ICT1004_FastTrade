@@ -15,16 +15,17 @@
 		header('Location: 403.php');
 	}
 ?>
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Fast Trade | Shop</title>
+    <title>Fast Trade | List an Item</title>
 
-    <meta name="description" content="Shop Menu">
-    <meta name="keywords" content="menu, products, items, overview, content">
-    <meta name="author" content="Lee Jun Ming">
+    <meta name="description" content="List an Item">
+    <meta name="keywords" content="sell, product, item">
+    <meta name="author" content="Dominic Keeley Gian">
 
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
 
