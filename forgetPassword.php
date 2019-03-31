@@ -32,8 +32,8 @@
 
     <title>FastTrade | Login</title>
 
-    <meta name="description" content="sell, buy, online">
-    <meta name="keywords" content="login">
+    <meta name="description" content="Forget Password">
+    <meta name="keywords" content="password, forget">
     <meta name="author" content="Jonathan Lee">
 
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
@@ -147,14 +147,16 @@
 
             <form action="assets/php/forgetPasswordBackend.php" class="nk-form nk-form-style-1" method="POST">
                 <div class="row vertical-gap">
-                    <div class="col-sm-10">
-                        <p><strong>Forgot your password?</strong> Please enter your username/email to search for your account.</p>                        
+                    <div class="col-sm-10 text-center" style="float:none; margin:0 auto;">
+                        <p><strong>Forgot your password?</strong> Please enter your username/email to search for your account.</p>
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-8" style="float:none; margin:0 auto;">
                         <input type="text" class="form-control required" name="identifier" placeholder="Your Username/Email" value=<?php if(!empty($identifierErr) && !empty($identifier)){echo '"', $identifier, '"';}else{echo "";} ?>>
-                        <?php if(!empty($identifierErr)){echo '<p class="text-danger">', $identifierErr , '</p>';} ?>                        
+                        <?php if(!empty($identifierErr)){echo '<p class="text-danger">', $identifierErr , '</p>';} ?>
                     </div>
                 </div>
+                <div class="nk-gap-1"></div>
+                <a href="register.php" class="text-center" style="display:block;">Don't have an account? Register now!</a>
                 <div class="nk-gap-1"></div>
                 <div class="text-center">
                     <button type="submit" class="nk-btn nk-btn-color-dark-1">Send Login Link</button>

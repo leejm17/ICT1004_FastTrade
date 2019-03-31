@@ -147,16 +147,17 @@
 
             <form action="assets/php/loginValidation.php" class="nk-form nk-form-style-1" method="POST">
                 <div class="row vertical-gap">
-                    <div class="col-sm-8">
+                    <div class="col-sm-8" style="float:none; margin:0 auto;">
                         <input type="text" class="form-control required" name="identifier" placeholder="Your Username/Email" value=<?php if(!empty($identifierErr) && !empty($identifier)){echo '"', $identifier, '"';}else{echo "";} ?>>
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-8" style="float:none; margin:0 auto;">
                         <input type="password" class="form-control required" name="password" placeholder="Your Password">
                         <?php if(!empty($passwordErr)){echo '<p class="text-danger">', $passwordErr , '</p>';} else if(!empty($identifierErr)){echo '<p class="text-danger">', $identifierErr , '</p>';} ?>
                     </div>
                 </div>
                 <div class="nk-gap-1"></div>
-                <a href="forgetPassword.php">Forgot Password?</a>
+                <a href="forgetPassword.php" class="text-center" style="display:block;">Forgot Password?</a>
+                <a href="register.php" class="text-center" style="display:block;">Don't have an account? Register now!</a>
                 <div class="nk-gap-1"></div>
                 <div class="text-center">
                     <button type="submit" class="nk-btn nk-btn-color-dark-1">Login</button>

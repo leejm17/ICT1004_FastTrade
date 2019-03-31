@@ -184,11 +184,14 @@
                         <input type="password" class="form-control required" name="password" placeholder="Your Password">
                         <?php if(!empty($passwordErr)){echo '<p class="text-danger">', $passwordErr , '</p>';} ?>
                     </div>
+                    <div class="col-sm-6"></div>
                     <div class="col-sm-6">
                         <input type="password" class="form-control required" name="passwordCfm" placeholder="Re-Enter Your Password">
                         <?php if(!empty($passwordCfmErr)){echo '<p class="text-danger">', $passwordCfmErr , '</p>';} ?>
                     </div>
                 </div>
+                <div class="nk-gap-1"></div>
+                <a href="login.php" class="text-center" style="display:block;">Already an existing user? Login here!</a>
                 <div class="nk-gap-1"></div>
                 <div class="text-center">
                     <button type="submit" class="nk-btn nk-btn-color-dark-1">Register</button>
