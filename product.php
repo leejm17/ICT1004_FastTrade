@@ -386,7 +386,7 @@
                               <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                   <div class="modal-header">
-                                    <h5 class="modal-title" id="confirmModalLabel">Please review your offer</h5>
+                                    <h5 class="modal-title font-weight-bold" id="confirmModalLabel">Please review your offer</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                       <span aria-hidden="true">&times;</span>
                                     </button>
@@ -417,19 +417,19 @@
                                                         echo '
                                                         <tr>
                                                             <td style="width:25%"></td>
-                                                            <td style="width:25%"><span class="text-black">Product:</span></td>
-                                                            <td colspan="2"><span class="text-black">' . $row['title'] . '</span></td>
+                                                            <td style="width:25%"><span class="font-weight-bold">Product:</span></td>
+                                                            <td colspan="2"><span class="">' . $row['title'] . '</span></td>
                                                         </tr>
                                                         <tr>
                                                             <td style="width:25%"></td>
-                                                            <td style="width:25%"><span class="text-black">Seller:</span></td>
-                                                            <td colspan="2"><span class="text-black">' . $row['user_id'] . '</span></td>
+                                                            <td style="width:25%"><span class="font-weight-bold">Seller:</span></td>
+                                                            <td colspan="2"><span class="">' . $row['user_id'] . '</span></td>
                                                             <input type=hidden name="seller_id" value="' . $row['user_id'] . '" />
                                                         </tr>
                                                         <td colspan="4"></td>
                                                         <tr>
-                                                            <td colspan="2" style="text-align:center;"><span class="text-black"><u>Original Price</u></span></td>
-                                                            <td colspan="2" style="text-align:center;"><span class="text-black"><u>Your Bargain</u></span></td>
+                                                            <td colspan="2" style="text-align:center;"><span class="font-weight-bold"><u>Original Price</u></span></td>
+                                                            <td colspan="2" style="text-align:center;"><span class="font-weight-bold"><u>Your Bargain</u></span></td>
                                                         </tr>
                                                         <tr>
                                                             <td colspan="2" style="text-align:center;"><span class="text-black">SGD ' . $row['price'] . '</span></td>

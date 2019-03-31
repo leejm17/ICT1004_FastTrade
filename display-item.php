@@ -110,11 +110,9 @@
 
     <div class="bg-white">
         <div class="container">
-            <!-- START: Shop Header -->
-            <div class="nk-shop-header">
-                <a href="userprofile.php" class="nk-shop-header-back"><span class="nk-icon-arrow-left"></span> Back to My Profile</a>
-            </div>
-            <!-- END: Shop Header -->
+            <!-- START: User Profile Header -->
+            <?php include 'php/profile_header.inc.php'; ?>
+            <!-- END: User Profile Header -->
 
             <!--
                 START: Shop Filter

@@ -178,11 +178,9 @@
 
     <div class="bg-white">
         <div class="container">
-            <!-- START: Shop Header -->
-            <div class="nk-shop-header">
-                <a href="userprofile.php" class="nk-shop-header-back"><span class="nk-icon-arrow-left"></span>Back to My Profile</a>
-            </div>
-            <!-- END: Shop Header -->
+            <!-- START: User Profile Header -->
+            <?php include 'php/profile_header.inc.php'; ?>
+            <!-- END: User Profile Header -->
 
             <!-- Was supposed to have sth here-->
             <div class="nk-gap-1"></div>
@@ -220,15 +218,17 @@
                 <div class="nk-gap-1 mnt-7"></div>
 
             <form action="assets/php/updateGeneralProfile.php" class="nk-form nk-form-style-1" method="POST">
-                <div style="padding-top: 5px;" class="col-sm-8">
+                <div style="padding-top: 5px; float:none; margin:0 auto;" class="col-sm-8">
                     Name:
                     <input type="text" class="form-control required" name="name" placeholder="Your Username/Email" <?php echo 'value="'.$name.'"'?>>
                 </div>
-                <div class="col-sm-8">
+                <div class="nk-gap-1"></div>
+                <div class="col-sm-8" style="float:none; margin:0 auto;">
                     Gender:
                     <input type="text" class="form-control required" name="gender" placeholder="Your Gender" <?php if($gender == NULL){echo 'value="NULL"';}else{echo 'value="'.$gender.'"';}?>>
                 </div>
-                <div class="col-sm-8">
+                <div class="nk-gap-1"></div>
+                <div class="col-sm-8" style="float:none; margin:0 auto;">
                     Contact Info:
                     <input type="text" class="form-control required" name="contact_info" placeholder="Your Contact Info" <?php if($contact_info == NULL){echo 'value="NULL"';}else{echo 'value="'.$contact_info.'"';}?>>
                 </div>
@@ -258,15 +258,17 @@
             <div class="nk-gap-1 mnt-7"></div>
 
             <form action="assets/php/updatePassword.php" class="nk-form nk-form-style-1" method="POST">
-                <div style="padding-top: 5px;" class="col-sm-8">
+                <div style="padding-top: 5px; float:none; margin:0 auto;" class="col-sm-8">
                     Old Password:
                     <input type="password" class="form-control required" name="old_password" placeholder="Your Old Password">
                 </div>
-                <div class="col-sm-8">
+                <div class="nk-gap-1"></div>
+                <div class="col-sm-8" style="float:none; margin:0 auto;">
                     New Password:
                     <input type="password" class="form-control required" name="new_password" placeholder="Your New Password">
                 </div>
-                <div class="col-sm-8">
+                <div class="nk-gap-1"></div>
+                <div class="col-sm-8" style="float:none; margin:0 auto;">
                     Confirm New Password:
                     <input type="password" class="form-control required" name="new_password_cfm" placeholder="Confirm New Password">
                 </div>

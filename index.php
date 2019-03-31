@@ -151,7 +151,7 @@
                 <?php
                     if (!isset($_SESSION['userid']) && !isset($_SESSION['activated'])){
                         echo '
-                        <a href="#" class="nk-btn-color-white" data-toggle="dropdown">
+                        <a href="#" class="nk-btn-color-white dropdown-toggle" data-toggle="dropdown">
                             Login
                         </a>
                         <ul class="dropdown-menu">
@@ -161,6 +161,16 @@
                          ';
                      } else {
                         echo '
+                        <a href="#" class="nk-btn-color-white dropdown-toggle" data-toggle="dropdown">
+                            My Profile
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="userprofile.php">Profile Overview</a></li>
+                            <li><a href="updateProfile.php">Profile Update</a></li>
+                            <li class="dropdown-divider"></li>
+                            <li><a href="display-item.php">All My Listings</a></li>
+                            <li><a href="sell-item.php">Sell An Item</a></li>
+                        </ul>
                         <a href="assets/php/logout.php" class="nk-btn-color-white">
                             Logout
                         </a>

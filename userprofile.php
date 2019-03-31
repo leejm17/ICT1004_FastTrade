@@ -260,30 +260,24 @@
 
     <div class="bg-white">
         <div class="container">
-            <!-- START: Shop Header -->
+            <!-- START: User Profile Header -->
             <div class="nk-shop-header">
-                <a href="index.php" class="nk-shop-header-back"><span class="nk-icon-arrow-left"></span> Back to Main Shop</a>
-                <?php
-                    if (!isset($_SESSION['userid']) && !isset($_SESSION['activated'])){
-                        echo '
-                        <a href="#" class="nk-btn-color-white" data-toggle="dropdown">
-                            Login
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="login.php">Login</a></li>
-                            <li><a href="register.php">Register</a></li>
-                        </ul>
-                         ';
-                     } else {
-                        echo '
-                        <a href="assets/php/logout.php" class="nk-btn-color-white">
-                            Logout
-                        </a>
-                        ';
-                     }
-                ?>
+                <a href="index.php" class="nk-shop-header-back"><span class="nk-icon-arrow-left"></span>Back to Shop</a>
+                <a href="#" class="nk-btn-color-white dropdown-toggle" data-toggle="dropdown">
+                    My Profile
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-anchor" href="userprofile.php">Profile Overview</a></li>
+                    <li><a class="dropdown-anchor" href="updateProfile.php">Profile Update</a></li>
+                    <li class="dropdown-divider"></li>
+                    <li><a class="dropdown-anchor" href="display-item.php">All My Listings</a></li>
+                    <li><a class="dropdown-anchor" href="sell-item.php">Sell An Item</a></li>
+                </ul>
+                <a href="assets/php/logout.php" class="nk-btn-color-white">
+                    Logout
+                </a>
             </div>
-            <!-- END: Shop Header -->
+            <!-- END: User Profile Header -->
 
             <!-- START: USER PROFILE MAIN -->
             <div class="nk-box">

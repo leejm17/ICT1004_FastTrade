@@ -40,3 +40,7 @@ span.input_error {
     text-align: left;
     border: none !important;
 }
+
+ul > li > a.dropdown-anchor {
+    color: #b9a186;
+}

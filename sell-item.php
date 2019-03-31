@@ -21,9 +21,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Fast Trade | List an Item</title>
+    <title>Fast Trade | Sell An Item</title>
 
-    <meta name="description" content="List an Item">
+    <meta name="description" content="Sell An Item">
     <meta name="keywords" content="sell, product, item">
     <meta name="author" content="Dominic Keeley Gian">
 
@@ -35,9 +35,6 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i%7cWork+Sans:400,500,700%7cPT+Serif:400i,500i,700i" rel="stylesheet">
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="assets/vendor/bootstrap/dist/css/bootstrap.min.css">
 
     <!-- FontAwesome -->
     <script defer src="assets/vendor/fontawesome-free/js/all.js"></script>
@@ -66,6 +63,9 @@
 
     <!-- jQuery -->
     <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/dist/css/bootstrap.min.css">
 
 
 </head>
@@ -117,11 +117,9 @@
 
     <div class="bg-white">
         <div class="container">
-            <!-- START: Shop Header -->
-            <div class="nk-shop-header">
-                <a href="userprofile.php" class="nk-shop-header-back"><span class="nk-icon-arrow-left"></span>Back to My Profile</a>
-            </div>
-            <!-- END: Shop Header -->
+            <!-- START: User Profile Header -->
+            <?php include 'php/profile_header.inc.php'; ?>
+            <!-- END: User Profile Header -->
 
             <!-- START: Sell Item -->
 
