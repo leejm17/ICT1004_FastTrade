@@ -390,11 +390,11 @@
                                             <label class="inlabels control-label col-sm-5" for="category" style="font-size:1.25em;">Category: </label>
                                             <select name="category" class="form-control col-sm-5">
                                                     <option value ="">---Choose a Category---</option>
-                                                    <option value ="1">Home Appliance</option>
+                                                    <option value ="1">Computers and IT</option>
                                                     <option value ="2">Furniture</option>
-                                                    <option value ="3">Computers and IT</option>
-                                                    <option value ="4">Kids</option>
-                                                    <option value ="5">Home Repair</option>
+                                                    <option value ="3">Home Appliance</option>
+                                                    <option value ="4">Home Repair</option>
+                                                    <option value ="5">Kids</option>
                                                     <option value ="6">Services</option>
                                             </select>
                                             <?php echo ($category_err); ?>

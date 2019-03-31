@@ -181,10 +181,10 @@
                     <div class="col-lg col-md-4">
                         <h3 class="nk-shop-filter-item-title">Sort By</h3>
                         <ul class="nk-shop-filter-item">
-                            <li><a class="active" href="#">Default</a></li>
+                            <li><a class="<?php if (empty($_SERVER["QUERY_STRING"]) || isset($_GET["cat"]) || isset($_GET["specrange"])) echo "active"; ?>" href="index.php">Default</a></li>
                             <!--<li><a href="#">Popularity</a></li>-->
-                            <li><a href="#" onclick="pricegenrange(1)">Price: Low to High</a></li>
-                            <li><a href="#" onclick="pricegenrange(2)">Price: High to Low</a></li>
+                            <li><a class="<?php if (isset($_GET["genrange"]) && $_GET["genrange"]==1) echo "active"; ?>" href="#" onclick="pricegenrange(1)">Price: Low to High</a></li>
+                            <li><a class="<?php if (isset($_GET["genrange"]) && $_GET["genrange"]==2) echo "active"; ?>" href="#" onclick="pricegenrange(2)">Price: High to Low</a></li>
                         </ul>
                     </div>
                     <script>
@@ -204,13 +204,13 @@
                     <div class="col-lg col-md-4">
                         <h3 class="nk-shop-filter-item-title">Category</h3>
                         <ul class="nk-shop-filter-item">
-                            <li><a class="active" href="#">Show All</a></li>
-                            <li><a href="#" onclick ="catfilter(1)">Computers and IT</a></li>
-                            <li><a href="#" onclick ="catfilter(2)">Furniture</a></li>
-                            <li><a href="#" onclick ="catfilter(3)">Home Appliance</a></li>
-                            <li><a href="#" onclick ="catfilter(4)">Home Repair</a></li>
-                            <li><a href="#" onclick ="catfilter(5)">Kids</a></li>
-                            <li><a href="#" onclick ="catfilter(6)">Services</a></li>
+                            <li><a class="<?php if (empty($_SERVER["QUERY_STRING"]) || isset($_GET["genrange"]) || isset($_GET["specrange"])) echo "active"; ?>" href="index.php">Show All</a></li>
+                            <li><a class="<?php if (isset($_GET["cat"]) && $_GET["cat"]==1) echo "active"; ?>" href="#" onclick ="catfilter(1)">Computers and IT</a></li>
+                            <li><a class="<?php if (isset($_GET["cat"]) && $_GET["cat"]==2) echo "active"; ?>" href="#" onclick ="catfilter(2)">Furniture</a></li>
+                            <li><a class="<?php if (isset($_GET["cat"]) && $_GET["cat"]==3) echo "active"; ?>" href="#" onclick ="catfilter(3)">Home Appliance</a></li>
+                            <li><a class="<?php if (isset($_GET["cat"]) && $_GET["cat"]==4) echo "active"; ?>" href="#" onclick ="catfilter(4)">Home Repair</a></li>
+                            <li><a class="<?php if (isset($_GET["cat"]) && $_GET["cat"]==5) echo "active"; ?>" href="#" onclick ="catfilter(5)">Kids</a></li>
+                            <li><a class="<?php if (isset($_GET["cat"]) && $_GET["cat"]==6) echo "active"; ?>" href="#" onclick ="catfilter(6)">Services</a></li>
                         </ul>
                     </div>
 
@@ -237,11 +237,11 @@
                     <div class="col-lg col-md-4">
                         <h3 class="nk-shop-filter-item-title">Price</h3>
                         <ul class="nk-shop-filter-item">
-                            <li><a class="active" href="#">Show All</a></li>
-                            <li><a href="#" onclick="pricespecrange(1)">Below $50.00</a></li>
-                            <li><a href="#" onclick="pricespecrange(2)">$50.00 - $99.00</a></li>
-                            <li><a href="#" onclick="pricespecrange(3)">$100.00 - $149.00</a></li>
-                            <li><a href="#" onclick="pricespecrange(4)">Above $150.00</a></li>
+                            <li><a class="<?php if (empty($_SERVER["QUERY_STRING"]) || isset($_GET["genrange"]) || isset($_GET["cat"])) echo "active"; ?>" href="index.php">Show All</a></li>
+                            <li><a class="<?php if (isset($_GET["specrange"]) && $_GET["specrange"]==1) echo "active"; ?>" href="#" onclick="pricespecrange(1)">Below $50.00</a></li>
+                            <li><a class="<?php if (isset($_GET["specrange"]) && $_GET["specrange"]==2) echo "active"; ?>" href="#" onclick="pricespecrange(2)">$50.00 - $99.00</a></li>
+                            <li><a class="<?php if (isset($_GET["specrange"]) && $_GET["specrange"]==3) echo "active"; ?>" href="#" onclick="pricespecrange(3)">$100.00 - $149.00</a></li>
+                            <li><a class="<?php if (isset($_GET["specrange"]) && $_GET["specrange"]==4) echo "active"; ?>" href="#" onclick="pricespecrange(4)">Above $150.00</a></li>
                         </ul>
                     </div>
                     <script>

@@ -453,11 +453,11 @@
 									<label class="inlabels control-label col-sm-5" for="category" style="font-size:1.25em;">Category: </label>
 									<select name="category" class="form-control col-sm-5">
 											<option value ="">---Choose a Category---</option>
-											<option value ="1"<?php if ($category == 1){echo(" selected='selected'");}?>>Home Appliance</option>
+											<option value ="1"<?php if ($category == 1){echo(" selected='selected'");}?>>Computers and IT</option>
 											<option value ="2"<?php if ($category == 2){echo(" selected='selected'");}?>>Furniture</option>
-											<option value ="3"<?php if ($category == 3){echo(" selected='selected'");}?>>Computers and IT</option>
-											<option value ="4"<?php if ($category == 4){echo(" selected='selected'");}?>>Kids</option>
-											<option value ="5"<?php if ($category == 5){echo(" selected='selected'");}?>>Home Repair</option>
+											<option value ="3"<?php if ($category == 3){echo(" selected='selected'");}?>>Home Appliance</option>
+											<option value ="4"<?php if ($category == 4){echo(" selected='selected'");}?>>Home Repair</option>
+											<option value ="5"<?php if ($category == 5){echo(" selected='selected'");}?>>Kids</option>
 											<option value ="6"<?php if ($category == 6){echo(" selected='selected'");}?>>Services</option>
 									</select>
 									<?php echo ($category_err); ?>
