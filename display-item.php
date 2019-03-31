@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<?php 
+<?php
 	session_start();
 	if(!isset($_SESSION['userid']) && !isset($_SESSION['activated']))
 	{
 		header('Location: 403.php');
-	}
-	?>
+	} else  {
+            $userid = $_SESSION['userid'];
+            $activate = $_SESSION['activated'];
+?>
 <!--
     Name: Skylith - Viral & Creative Multipurpose HTML Template
     Version: 1.0.3
@@ -16,7 +18,7 @@
     License: You must have a valid license purchased only from ThemeForest (the above link) in order to legally use the theme for your project.
     Copyright 2018.
 -->
-    
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -66,8 +68,8 @@
 
     <!-- jQuery -->
     <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
-    
-    
+
+
 </head>
 
 
@@ -81,7 +83,7 @@
         .nk-bg-gradient
 -->
 <body>
-    
+
 
 
 
@@ -94,7 +96,7 @@
 -->
 <?php include("php/navbar.inc.php") ?>
 <!-- END: Navbar Header -->
-    
+
 
 
     <!--
@@ -165,74 +167,74 @@
             <!-- END: Shop Filter -->
 			<div class="nk-box">
 
-				
+
 				<div class="col-sm-6">
 				<?php
-						
-						
-						require_once('config_fasttrade.php');
+
+
+						require_once('..\..\protected\config_fasttrade.php');
 						// Create connection
 						$connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
 				 		if ($connection->connect_error) {
 							die("connection failed: " . $connection->connect_error);
 						}
-						
-						$sql = 'SELECT * FROM item_photo INNER JOIN item ON item.item_id = item_photo.item_id WHERE item.user_id = "wutdequack.dev" GROUP BY item.item_id';
+
+						$sql = 'SELECT * FROM item_photo INNER JOIN item ON item.item_id = item_photo.item_id WHERE item.user_id = "' . $userid . '" GROUP BY item.item_id';
 						$result = $connection->query($sql);
-												
-						while ($row = mysqli_fetch_assoc($result)) 
+
+						while ($row = mysqli_fetch_assoc($result))
 						{
 
-				
-						echo '<div class = "col-md-3"><figure><img class="img-responsive" src="data:image/jpg;base64,' . 
+
+						echo '<div class = "col-md-3"><figure><img class="img-responsive" src="data:image/jpg;base64,' .
 						base64_encode($row['photo']) . '"/></figure><br/></div>';
 						?>
 								<!--- Get the values($row["values"]) from the query and display it
 									  Disabled editing from user unless they click the button edit which will direct them to edit-item.
 									  edit-item page will get the item id of that particular item and allow editing.
 								--->
-								
+
 								<div class="form-group">
 									<label for="title" class="inlabels control-label col-sm-5" >Title:</label>
 									<input name="title" class="form-control" type="text" id="title" value="<?php echo $row["title"]?>" readonly >
 								</div>
-								
+
 								<div class="form-group">
 									<label for="description" class="inlabels control-label col-sm-5" >Description:</label>
 									<input name="description" class="form-control" type="text" id="description" value="<?php echo $row["description"] ?>" readonly>
 								</div>
-								
+
 								<div class="form-group">
 									<label class="inlabels control-label col-sm-5" for="condition">Condition: </label>
 									<select name="condition" class="form-control col-sm-5" disabled >
-	
-								
+
+
 										<option value ="">
-										<?php 
+										<?php
 										$condition = '';
-										if ($row["condition"]==1) 
+										if ($row["condition"]==1)
 										{
 											$condition = "Minor Scratches (1)";
 										}
-										else if ($row["condition"]==2 )	
+										else if ($row["condition"]==2 )
 										{
 											$condition = "Good (2)";
 										}
-										else if ($row["condition"]==3) 
+										else if ($row["condition"]==3)
 										{
 											$condition = "Great (3)";
 										}
-										else if ($row["condition"]==4) 
+										else if ($row["condition"]==4)
 										{
 											$condition = "Perfect (4)";
 										}
-										else if ($row["condition"]==5) 
+										else if ($row["condition"]==5)
 										{
 											$condition = "Never Opened (5)";
 										}
-										
+
 										echo('---'.$condition);?>---</option>
-										
+
 										<option value ="5">Never Opened</option>
 										<option value ="4">Perfect</option>
 										<option value ="3">Great</option>
@@ -244,33 +246,33 @@
 										<label class="inlabels control-label col-sm-5" for="category">Category: </label>
 										<select name="category" class="form-control col-sm-5" disabled>
 											<option value ="">
-											
-										<?php 
-										if ($row["category_id"]==1) 
+
+										<?php
+										if ($row["category_id"]==1)
 										{
 											$category = "Home Appliance (1)";
 										}
-										else if ($row["category_id"]==2 )	
+										else if ($row["category_id"]==2 )
 										{
 											$category = "Furniture (2)";
 										}
-										else if ($row["category_id"]==3) 
+										else if ($row["category_id"]==3)
 										{
 											$category = "Computers and IT (3)";
 										}
-										else if ($row["category_id"]==4) 
+										else if ($row["category_id"]==4)
 										{
 											$category = "Kids (4)";
 										}
-										else if ($row["category_id"]==5) 
+										else if ($row["category_id"]==5)
 										{
 											$category = "Home Repair (5)";
 										}
-										else if ($row["category_id"]==6) 
+										else if ($row["category_id"]==6)
 										{
 											$category = "Services (6)";
 										}
-										
+
 										echo('---'.$category);?>---</option>
 											<option value ="1">Home Appliance</option>
 											<option value ="2">Furniture</option>
@@ -289,7 +291,7 @@
 									<label for="adduration" class="inlabels control-label col-sm-5" >Advertise for:</label>
 									<input name="adduration" class="form-control" type="number" id="adduration" value="<?php echo $row["ad_duration"] ?>" readonly>
 								</div>
-								
+
 								<!---Have not link with edit-item--->
 								<div class="form-group">
 								<button class="nk-btn nk-btn-outline nk-btn-color-dark ml-5" id = "edit"> Edit </button>
@@ -301,19 +303,19 @@
 						$connection->close();
 				?>
 				</div>
-				
-			</div>		
-	
+
+			</div>
+
 			<!-- END: Sell Item -->
         </div>
 
 
     </div>
 	</div>
-	
+
     <!-- END: Main Content -->
 
-    
+
         <!--
     START: Footer
 
@@ -379,6 +381,9 @@
 <script src="assets/js/skylith-init.js"></script>
 <!-- END: Scripts -->
 
-    
+
 </body>
 </html>
+<?php
+        }
+?>
