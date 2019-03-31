@@ -366,8 +366,14 @@
 </html>
 
 <?php
-    unset($_SESSION['profilepic_msg']);
-    unset($_SESSION['UpdateGenErr']);
-    unset($_SESSION['UpdatePwdErr']);
-    }//closing brace for earlier statement (session)
+if(isset($_SESSION['profilepic_msg'])){
+    session_unset($_SESSION["profilepic_msg"]);
+}
+if(isset($_SESSION['UpdateGenErr'])){
+    session_unset($_SESSION["UpdateGenErr"]);
+}
+if(isset($_SESSION['UpdatePwdErr'])){
+    session_unset($_SESSION["UpdatePwdErr"]);
+}
+}//closing brace for earlier statement (session)
 ?>
