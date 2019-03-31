@@ -24,8 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_submit"])) {
     }
 
     if (empty($submit_remarks) || !preg_match("/^[a-zA-Z0-9!.,&+()'\"\:\?\/ ]*$/", $submit_remarks)) {
-        $remarks_err = "Please refrain from using the following special characters";
-        $error_msg = $error_msg . "Please refrain from using the following special characters.\n ";
+        $remarks_err = "Please refrain from using special characters";
+        $error_msg = $error_msg . "Please refrain from using special characters.\n ";
     }
 
     if ($error_msg != "") {

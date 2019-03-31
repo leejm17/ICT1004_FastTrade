@@ -177,7 +177,7 @@
                                 }
 
                                 /* (3) Query DB */
-                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.sold=0 AND item_photo.item_id=" . $page_id . " AND item.due_date>NOW();";
+                                $sql = "SELECT item_photo.photo, item.title FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.sold=0 AND item_photo.item_id=" . $page_id . " AND item.due_date>NOW();";
 
                                 /* (4) Fetch Results */
                                 if ($result = mysqli_query($connection, $sql)) {
@@ -208,7 +208,7 @@
                                 }
 
                                 /* (3) Query DB */
-                                $sql = "SELECT * FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.sold=0 AND item_photo.item_id=" . $page_id . " AND item.due_date>NOW();";
+                                $sql = "SELECT item_photo.photo, item.title FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.sold=0 AND item_photo.item_id=" . $page_id . " AND item.due_date>NOW();";
 
                                 /* (4) Fetch Results */
                                 if ($result = mysqli_query($connection, $sql)) {
@@ -216,7 +216,7 @@
                                         echo '
                                         <div>
                                             <div>
-                                                <a href="data:image/jpeg;base64, ' . base64_encode($row['photo']) . '" class="nk-gallery-item" data-size="700x800"><img src="data:image/jpeg;base64, ' . base64_encode($row['photo']) . '" alt="" class="nk-carousel-parallax-img"></a>
+                                                <a href="data:image/jpeg;base64, ' . base64_encode($row['photo']) . '" class="nk-gallery-item" data-size="700x800"><img src="data:image/jpeg;base64, ' . base64_encode($row['photo']) . '" alt="' . $row['title'] . '" class="nk-carousel-parallax-img"></a>
                                             </div>
                                         </div>
                                         ';
@@ -247,7 +247,7 @@
                     }
 
                     /* (3) Query DB */
-                    $sql = "SELECT *, COUNT(DISTINCT item_review.datetime) AS count_review, SUM(item_review.rating)/COUNT(item_review.item_id) AS avg_rating FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item.sold=0 AND item_photo.item_id=" . $page_id . " AND item.due_date>NOW();";
+                    $sql = "SELECT item.title, item.description, item.price, COUNT(DISTINCT item_review.datetime) AS count_review, SUM(item_review.rating)/COUNT(item_review.item_id) AS avg_rating FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item.sold=0 AND item_photo.item_id=" . $page_id . " AND item.due_date>NOW();";
 
                     /* (4) Fetch Results */
                     if ($result = mysqli_query($connection, $sql)) {
@@ -284,18 +284,50 @@
 
                 <!-- START: Make An Offer -->
 
-<!--                <form action="#">
-                    <div class="input-group">
-                        <button class="nk-btn nk-btn-color-dark">Negotiate</button>
-                    </div>
-                </form>-->
+                <?php
+                    $page = basename($_SERVER['REQUEST_URI']);
+                    $page_id = substr($page, -1);
 
-                <button id="chat_btn" type="button" class="btn btn-info">
-                  Chat!
-                </button>
-                <button id="make_offer" type="button" class="btn btn-primary" data-toggle="modal" data-target="#offerModal">
-                  Make an Offer!
-                </button>
+                    /* (1) Connect to Database */
+                    require_once('..\..\protected\config_fasttrade.php');
+                    $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+
+                    /* (2) Handle Connection Error */
+                    //      mysqli_connect_errno returns the last error code
+                    if (mysqli_connect_errno()) {
+                        die(mysqli_connect_errno());    // die() is equivalent to exit()
+                    }
+
+                    /* (3) Query DB */
+                    $sql = "SELECT item_id, user_id FROM item WHERE sold=0 AND item_id=" . $page_id . " AND item.due_date>NOW() GROUP BY item.user_id ";
+
+                    /* (4) Fetch Results */
+                    if ($result = mysqli_query($connection, $sql)) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            if ($userid == $row['user_id']) {
+                                echo '
+                                <div class="alert alert-danger" style="display:inline-block;">
+                                    You own this item!
+                                    <a href="edit-item.php?item_id_var=' . $row["item_id"] . '" style="float:right; padding-left:1em;"><i class="far fa-edit"></i>Edit</a>
+                                </div>
+                                ';
+                            } else {
+                                echo '
+                                <button id="chat_btn" type="button" class="btn btn-info">
+                                    Chat!
+                                </button>
+                                <button id="make_offer" type="button" class="btn btn-primary" data-toggle="modal" data-target="#offerModal">
+                                    Make an Offer!
+                                </button>
+                                ';
+                            }
+                        }
+
+                        /* (5) Release Connection */
+                        mysqli_free_result($result);
+                        mysqli_close($connection);
+                    }
+                ?>
 
                 <!-- START: Offer modal -->
                 <div class="container-fluid">
@@ -377,7 +409,7 @@
                                                 }
 
                                                 /* (3) Query DB */
-                                                $sql = "SELECT * FROM item WHERE item.sold=0 AND item_id=" . $page_id . " AND item.due_date>NOW();";
+                                                $sql = "SELECT title, user_id, price FROM item WHERE item.sold=0 AND item_id=" . $page_id . " AND item.due_date>NOW();";
 
                                                 /* (4) Fetch Results */
                                                 if ($result = mysqli_query($connection, $sql)) {
@@ -486,7 +518,7 @@
                                         }
 
                                         /* (3) Query DB */
-                                        $sql = "SELECT COUNT(item_id) AS count_review FROM item_review WHERE item.sold=0 AND item_id=" . $page_id . " AND item.due_date>NOW();";
+                                        $sql = "SELECT COUNT(item_id) AS count_review FROM item_review WHERE item_id=" . $page_id . ";";
 
                                         /* (4) Fetch Results */
                                         if ($result = mysqli_query($connection, $sql)) {
@@ -531,7 +563,7 @@
                                             }
 
                                             /* (3) Query DB */
-                                            $sql = "SELECT *, DATE_FORMAT(due_date, '%D %M %Y') AS format_date FROM item INNER JOIN category ON category.category_id = item.category_id WHERE item_id=" . $page_id . ";";
+                                            $sql = "SELECT item.user_id, category.name, item.condition, item.age, item.ad_duration, DATE_FORMAT(due_date, '%D %M %Y') AS format_date FROM item INNER JOIN category ON category.category_id = item.category_id WHERE item_id=" . $page_id . ";";
 
                                             /* (4) Fetch Results */
                                             if ($result = mysqli_query($connection, $sql)) {
@@ -595,103 +627,143 @@
                                         }
 
                                         /* (3) Query DB */
-                                        $sql = "SELECT *, DATE_FORMAT(datetime, '%D %M %Y') AS format_date  FROM item INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item.sold=0 AND item_review.item_id=" . $page_id . " AND item.due_date>NOW() ORDER BY datetime DESC;";
+                                        $sql = "SELECT name, rating, review, DATE_FORMAT(datetime, '%D %M %Y') AS format_date  FROM item INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item.sold=0 AND item_review.item_id=" . $page_id . " AND item.due_date>NOW() ORDER BY datetime DESC;";
 
                                         /* (4) Fetch Results */
                                         if ($result = mysqli_query($connection, $sql)) {
-                                            while ($row = mysqli_fetch_assoc($result)) {
+                                            if (mysqli_num_rows($result) > 0) {
+                                                while ($row = mysqli_fetch_assoc($result)) {
+                                                    echo '
+                                                    <!-- START: Review -->
+                                                    <div class="nk-review">
+                                                    ' .
+                                                    //<div class="nk-review-avatar">
+                                                      //<a href="#"><img src="assets/images/avatar-1.jpg" alt=""></a>
+                                                    //</div>
+                                                    '
+                                                    <div class="nk-review-cont">
+                                                        <div class="nk-review-meta">
+                                                            <div class="nk-review-name" style="font-size:18px">' . $row['name'] . '</div>
+                                                                <div class="nk-review-date">' . $row['format_date'] . '</div>
+                                                                    <span class="nk-review-rating">
+                                                                        <span style="width: ' . $row['rating']*20 . '%;"><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></span>
+                                                                        <span><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></span>
+                                                                    </span>
+                                                        </div>
+                                                        <div class="nk-review-text">
+                                                            <p>' . $row['review'] . '</p>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                    <!-- END: Review -->
+                                                    ';
+                                                    }
+                                            } else {
                                                 echo '
-                                                <!-- START: Review -->
-                                                <div class="nk-review">
-                                                ' .
-                                                //<div class="nk-review-avatar">
-                                                  //<a href="#"><img src="assets/images/avatar-1.jpg" alt=""></a>
-                                                //</div>
-                                                '
-                                                <div class="nk-review-cont">
-                                                    <div class="nk-review-meta">
-                                                        <div class="nk-review-name"><a href="#">' . $row['name'] . '</a></div>
-                                                            <div class="nk-review-date">' . $row['format_date'] . '</div>
-                                                                <span class="nk-review-rating">
-                                                                    <span style="width: ' . $row['rating']*20 . '%;"><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></span>
-                                                                    <span><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></span>
-                                                                </span>
+                                                <div class="row">
+                                                    <div style="text-align: center;" class="col-lg-12 col-md-6 col-sm-3">
                                                     </div>
-                                                    <div class="nk-review-text">
-                                                        <p>' . $row['review'] . '</p>
-                                                    </div>
+                                                        <p style="font-size: 24px">Be the first to review this product!</p>
                                                 </div>
-                                                </div>
-                                                <!-- END: Review -->
                                                 ';
                                             }
+
                                             /* (5) Release Connection */
                                             mysqli_free_result($result);
-                                            //$result->close();
                                             mysqli_close($connection);
                                         }
                                     ?>
 
-        <div class="nk-gap-3"></div>
-        <div class="nk-divider nk-divider-color-gray-6"></div>
-        <div class="nk-gap-3"></div>
+                                    <?php
+                                        $page = basename($_SERVER['REQUEST_URI']);
+                                        $page_id = substr($page, -1);
 
-                                    <h3 class="h5 text-center">Add a Review</h3>
-                                    <div class="nk-gap-1 mnt-7"></div>
+                                        /* (1) Connect to Database */
+                                        require_once('..\..\protected\config_fasttrade.php');
+                                        $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
 
-                                    <form action="" method="POST" class="nk-form nk-form-style-1">
-                                        <div class="nk-rating">
-                                            <span>Your Rating</span>
+                                        /* (2) Handle Connection Error */
+                                        //      mysqli_connect_errno returns the last error code
+                                        if (mysqli_connect_errno()) {
+                                            die(mysqli_connect_errno());    // die() is equivalent to exit()
+                                        }
 
-                                            <input type="radio" id="review-rate-5" name="review-rate" value="5">
-                                            <label for="review-rate-5">
-                                                <span><i class="fa fa-star"></i></span>
-                                            </label>
+                                        /* (3) Query DB */
+                                        $sql = "SELECT user_id FROM item WHERE sold=0 AND item_id=" . $page_id . " AND due_date>NOW();";
 
-                                            <input type="radio" id="review-rate-4" name="review-rate" value="4">
-                                            <label for="review-rate-4">
-                                                <span><i class="fa fa-star"></i></span>
-                                            </label>
+                                        /* (4) Fetch Results */
+                                        if ($result = mysqli_query($connection, $sql)) {
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                if ($userid != $row['user_id']) {
+                                                    echo '
+                                                    <div class="nk-gap-3"></div>
+                                                    <div class="nk-divider nk-divider-color-gray-6"></div>
+                                                    <div class="nk-gap-3"></div>
 
-                                            <input type="radio" id="review-rate-3" name="review-rate" value="3">
-                                            <label for="review-rate-3">
-                                                <span><i class="fa fa-star"></i></span>
-                                            </label>
+                                                    <h3 class="h5 text-center">Add a Review</h3>
+                                                    <div class="nk-gap-1 mnt-7"></div>
 
-                                            <input type="radio" id="review-rate-2" name="review-rate" value="2">
-                                            <label for="review-rate-2">
-                                                <span><i class="fa fa-star"></i></span>
-                                            </label>
+                                                    <form action="" method="POST" class="nk-form nk-form-style-1">
+                                                        <div class="nk-rating">
+                                                            <span>Your Rating</span>
+                                                            <input type="radio" id="review-rate-5" name="review-rate" value="5">
+                                                            <label for="review-rate-5">
+                                                                <span><i class="fa fa-star"></i></span>
+                                                            </label>
 
-                                            <input type="radio" id="review-rate-1" name="review-rate" value="1">
-                                            <label for="review-rate-1">
-                                                <span><i class="fa fa-star"></i></span>
-                                            </label>
-                                        </div>
-                                        <span class="nk-rating input_error"><?php echo $review_rate_err; ?></span>
+                                                            <input type="radio" id="review-rate-4" name="review-rate" value="4">
+                                                            <label for="review-rate-4">
+                                                                <span><i class="fa fa-star"></i></span>
+                                                            </label>
 
-                                        <div class="nk-gap mt-10"></div>
-                                        <div class="row vertical-gap">
-                                            <div class="col-sm-6">
-                                                <input type="text" class="form-control required" name="name" placeholder="Your Name" value="<?php echo $name; ?>">
-                                                <span class="input_error"><?php echo $name_err; ?></span>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <input type="email" class="form-control required" name="email" placeholder="Your Email" value=<?php echo $email; ?>>
-                                                <span class="input_error"><?php echo $email_err; ?></span>
-                                            </div>
-                                        </div>
-                                        <div class="nk-gap-1"></div>
-                                        <textarea class="form-control required" name="message" rows="5" placeholder="Your Comment" aria-required="true"><?php echo $message; ?></textarea>
-                                        <span class="input_error"><?php echo $message_err; ?></span>
+                                                            <input type="radio" id="review-rate-3" name="review-rate" value="3">
+                                                            <label for="review-rate-3">
+                                                                <span><i class="fa fa-star"></i></span>
+                                                            </label>
 
-                                        <input type="hidden" name="page_id" value="<?php echo basename($_SERVER['REQUEST_URI']); ?>">
+                                                            <input type="radio" id="review-rate-2" name="review-rate" value="2">
+                                                            <label for="review-rate-2">
+                                                                <span><i class="fa fa-star"></i></span>
+                                                            </label>
 
-                                        <div class="nk-gap-1"></div>
-                                        <div class="text-center">
-                                            <button type="submit" name="review_submit" class="nk-btn nk-btn-color-dark-1">Add a Review</button>
-                                        </div>
-                                    </form>
+                                                            <input type="radio" id="review-rate-1" name="review-rate" value="1">
+                                                            <label for="review-rate-1">
+                                                                <span><i class="fa fa-star"></i></span>
+                                                            </label>
+                                                        </div>
+                                                        <span class="nk-rating input_error">'. $review_rate_err . '</span>
+
+                                                        <div class="nk-gap mt-10"></div>
+                                                        <div class="row vertical-gap">
+                                                            <div class="col-sm-6">
+                                                                <input type="text" class="form-control required" name="name" placeholder="Title" value="' . $name . '">
+                                                                <span class="input_error">' . $name_err . '</span>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <input type="text" class="form-control required" name="email" placeholder="By: ' . $userid . '" disabled value="' . $userid . '">
+                                                                <!--<span class="input_error">' . $email_err . '</span>-->
+                                                            </div>
+                                                        </div>
+                                                        <div class="nk-gap-1"></div>
+                                                        <textarea class="form-control required" name="message" rows="5" placeholder="Your Comment" aria-required="true">' . $message . '</textarea>
+                                                        <span class="input_error">' . $message_err . '</span>
+
+                                                        <input type="hidden" name="page_id" value="' . basename($_SERVER['REQUEST_URI']) . '">
+
+                                                        <div class="nk-gap-1"></div>
+                                                        <div class="text-center">
+                                                            <button type="submit" name="review_submit" class="nk-btn nk-btn-color-dark-1">Add a Review</button>
+                                                        </div>
+                                                    </form>
+                                                    ';
+                                                }
+                                            }
+
+                                            /* (5) Release Connection */
+                                            mysqli_free_result($result);
+                                            mysqli_close($connection);
+                                        }
+                                    ?>
                                 </div>
                             </div>
                             <!-- END: Tab Reviews -->
