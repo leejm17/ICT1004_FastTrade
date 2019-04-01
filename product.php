@@ -71,6 +71,10 @@
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="assets/css/custom.css">
+
+    <!-- Google Recaptcha -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script> 
+
 </head>
 
 
@@ -795,6 +799,11 @@
                                                         <span class="input_error">' . $message_err . '</span>
 
                                                         <input type="hidden" name="page_id" value="' . basename($_SERVER['REQUEST_URI']) . '">
+                                                        
+                                                        <div class="nk-gap-1"></div>
+                                                        <!-- Google reCAPTCHA box -->
+                                                        <div class="g-recaptcha" data-sitekey="6LfTIpsUAAAAALfjbRj_5YAEZJNA0BmubsmkbX-f"></div>
+                                                        <span class="input_error">' . $recaptcha_err . '</span>
 
                                                         <div class="nk-gap-1"></div>
                                                         <div class="text-center">
