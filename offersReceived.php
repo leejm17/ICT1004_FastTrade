@@ -23,10 +23,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Fast Trade | Offers Sent</title>
+    <title>Fast Trade | Offers Received</title>
 
-    <meta name="description" content="Review Offers Sent">
-    <meta name="keywords" content="offers, sent, review">
+    <meta name="description" content="Review Offers Received">
+    <meta name="keywords" content="offers, received, review">
     <meta name="author" content="Lee Jun Ming">
 
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
@@ -130,7 +130,7 @@
             <?php include 'php/profile_header.inc.php'; ?>
             <!-- END: User Profile Header -->
 
-            <h2 class="text-center">Offers Sent</h2>
+            <h2 class="text-center">Offers Received</h2>
             <div class="nk-gap-3"></div>
 
             <?php
@@ -145,13 +145,11 @@
                 }
 
                 /* (3) Query DB */
-                $sql = "SELECT item_photo.photo, item.title, offer.seller_id, item.price, offer.asking_price, offer.trading_place, offer.remarks, item.description, item.item_id,
-                        COUNT(DISTINCT item_review.datetime) AS count_review, SUM(item_review.rating)/COUNT(item_review.item_id) AS avg_rating
+                $sql = "SELECT item_photo.photo, item.title, offer.buyer_id, item.price, offer.asking_price, offer.trading_place, offer.remarks, item.description, item.item_id
                         FROM item
                         INNER JOIN item_photo ON item.item_id = item_photo.item_id
                         INNER JOIN offer ON item.item_id = offer.item_id
-                        INNER JOIN item_review ON item.item_id = item_review.item_id
-                        WHERE offer.buyer_id = '" . $userid . "' AND item.sold = 0 AND item.due_date>NOW()
+                        WHERE offer.seller_id = '" . $userid . "' AND item.sold = 0 AND item.due_date>NOW()
                         GROUP BY item.item_id;";
                 // AND item.due_date>NOW()
                 //echo $sql;
@@ -165,7 +163,7 @@
                             echo '<br>';
                             echo $row['title'];
                             echo '<br>';
-                            echo $row['seller_id'];
+                            echo $row['buyer_id'];
                             echo '<br>';
                             echo $row['avg_rating']*20;
                             echo '<br>';
@@ -181,22 +179,17 @@
                             echo '<br>';*/
 
                             echo '
-                            <!-- START: Offers Sent -->
+                            <!-- START: Offers Received -->
 
                             <div class="row vertical-gap align-items-center" style="border: 3px solid #999; border-radius: 10px;">
                                     <div class="col-md-3 offset-md-1 col-sm-3 offset-sm-1" style="">
                                         <img style="max-height: 100%; max-width: 100%;" src="data:image/jpeg;base64, ' . base64_encode($row['photo']) . '" alt="' . $row['title'] . '" />
                                     </div>
                                     <div class="col-md-4 col-sm-4" style="">
-                                        <!--START: Title + Rating-->
+                                        <!--START: Title-->
                                         <h1 class="nk-product-title h4"><a href="product.php?id='. $row['item_id'] .'" style="color: inherit; text-decoration:none">'. $row['title'] .'</a></h1>
-                                        <h1 class="nk-product-title h6">Seller: '. $row['seller_id'] .'</h1>
-                                        <a class="nk-product-rating">
-                                            <span style="width: '. $row['avg_rating']*20 .'%"><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></span>
-                                            <span><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></span>
-                                        </a>
-                                        <small>('. $row['count_review'] .' reviews)</small>
-                                         <!--END: Title + Rating-->
+                                        <h1 class="nk-product-title h6">Buyer: '. $row['buyer_id'] .'</h1>
+                                         <!--END: Title-->
                                         <div class="nk-product-description">
                                             <!--<p>'. $row['description'] .'</p>-->
                                             <table class="table" style="width:100%;">
@@ -214,11 +207,11 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3 col-sm-3" style="">
-                                        <button id="amend_btn" type="button" class="btn btn-success" data-toggle="modal" data-target="#amendModal'. $row['item_id'] .'">
-                                            <span class="fa fa-edit"></span> Amend
+                                        <button id="accept_btn" type="button" class="btn btn-success" data-toggle="modal" data-target="#acceptModal'. $row['item_id'] .'">
+                                            <span class="fa fa-check"></span> Accept
                                         </button>
-                                        <button id="cancel_btn" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal'. $row['item_id'] .'">
-                                            <span class="fa fa-close"></span> Delete
+                                        <button id="delete_btn" type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectModal'. $row['item_id'] .'">
+                                            <span class="fa fa-close"></span> Reject
                                         </button>
                                     </div>
                             </div>';
@@ -230,66 +223,15 @@
                             ';
 
                             echo '
-                            <!-- START: Amend modal -->
-                            <div class="container-fluid">
-                                <div class="col-lg-6">
-                                    <form id="js_offer_review" method="POST">
-                                        <div class="modal fade" id="amendModal'. $row['item_id'] .'" tabindex="-1" role="dialog" aria-labelledby="amendModalLabel'. $row['item_id'] .'" aria-hidden="true">
-                                          <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                              <div class="modal-header">
-                                                <h5 class="modal-title font-weight-bold" id="amendModalLabel'. $row['item_id'] .'">What is your new offer?</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                  <span aria-hidden="true">&times;</span>
-                                                </button>
-                                              </div>
-                                              <div class="modal-body">
-                                                  <div class="form-group">
-                                                      <label class="control-label col-lg-5 col-md-3 col-sm-3 col-xs-12" for="offer_price">I would like to offer:</label>
-                                                      <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="div_offer_price">
-                                                          <input type="text" class="form-control" id="offer_price" name="offer_price" placeholder="enter up to two decimal values" value="'. $row['asking_price'] .'">
-                                                          <!--<span class="input_error" id="offer_price_error"></span>-->
-                                                      </div>
-                                                  </div>
-                                                  <div class="form-group">
-                                                      <label class="control-label col-lg-5 col-md-3 col-sm-3 col-xs-12" for="offer_loc">Meetup Location:</label>
-                                                      <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="div_offer_loc">
-                                                          <input type="text" class="form-control" id="offer_loc" name="offer_loc" placeholder="where is a convenient location?" value="'. $row['trading_place'] .'">
-                                                          <!--<span class="input_error" id="offer_price_error"></span>-->
-                                                      </div>
-                                                  </div>
-                                                  <div class="form-group">
-                                                      <label class="control-label col-lg-5 col-md-3 col-sm-3 col-xs-12" for="offer_remarks">Remarks (if any):</label>
-                                                      <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12" id="div_offer_remarks">
-                                                          <input type="text" class="form-control" id="offer_remarks" name="offer_remarks" value="'. $row['remarks'] .'">
-                                                          <!--<span class="input_error" id="offer_price_error"></span>-->
-                                                      </div>
-                                                  </div>
-                                                  <input type="hidden" name="page_id" value="'. $row['item_id'] .'">
-                                              </div>
-                                              <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                <button type="submit" class="btn btn-info">Review Offer</button>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <!-- END: Amend modal -->
-                            ';
-
-                            echo '
-                            <!-- START: Confirm modal -->
+                            <!-- START: Accept modal -->
                             <div class="container-fluid">
                                 <div class="col-lg-6">
                                     <form class="form-horizontal" method="POST">
-                                        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel'. $row['item_id'].'" aria-hidden="true">
+                                        <div class="modal fade" id="acceptModal'. $row['item_id'] .'" tabindex="-1" role="dialog" aria-labelledby="acceptModalLabel'. $row['item_id'].'" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title font-weight-bold" id="confirmModalLabel'. $row['item_id'] .'">Please review your offer</h5>
+                                                        <h5 class="modal-title font-weight-bold" id="acceptModalLabel'. $row['item_id'] .'">Accept this offer?</h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
@@ -304,37 +246,36 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="width:25%"></td>
-                                                                    <td style="width:25%"><span class="font-weight-bold">Seller:</span></td>
-                                                                    <td colspan="2"><span class="">' . $row['seller_id'] . '</span></td>
-                                                                    <input type=hidden name="seller_id" value="' . $row['seller_id'] . '" />
+                                                                    <td style="width:25%"><span class="font-weight-bold">Buyer:</span></td>
+                                                                    <td colspan="2"><span class="">' . $row['buyer_id'] . '</span></td>
+                                                                    <input type=hidden name="buyer_id" value="' . $row['buyer_id'] . '" />
                                                                 </tr>
                                                                     <td colspan="4"></td>
                                                                 <tr>
-                                                                    <td colspan="2" style="text-align:center;"><span class="font-weight-bold"><u>Original Price</u></span></td>
-                                                                    <td colspan="2" style="text-align:center;"><span class="font-weight-bold"><u>Your Bargain</u></span></td>
+                                                                    <td colspan="2" style="text-align:center;"><span class="font-weight-bold"><u>Your Price</u></span></td>
+                                                                    <td colspan="2" style="text-align:center;"><span class="font-weight-bold"><u>The Bargain</u></span></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td colspan="2" style="text-align:center;"><span class="text-black">SGD ' . $row['price'] . '</span></td>
-                                                                    <td colspan="2" style="text-align:center;">SGD <span class="text-black" id="submit_price" name="submit_price"></span></td>
-                                                                    <input type=hidden id="hidden_submit_price" name="submit_price" />
+                                                                    <td colspan="2" style="text-align:center;">SGD <span class="text-black">' . $row['price'] . '</span></td>
+                                                                    <td colspan="2" style="text-align:center;">SGD <span class="text-black">' . $row['asking_price'] . '</span></td>
+                                                                    <input type=hidden id="hidden_accept_submit_price" name="accept_submit_price" value="' . $row['asking_price'] . '" />
                                                                 </tr>
                                                                      <td colspan="4"></td>
                                                                 <tr>
-                                                                    <td colspan="4" style="text-align:center;">Meetup Location: <span class="text-black" id="submit_loc" name="submit_loc"></span></td>
-                                                                    <input type=hidden id="hidden_submit_loc" name="submit_loc" />
+                                                                    <td colspan="4" style="text-align:center;">Meetup Location: <span class="text-black">' . $row['trading_place'] . '</span></td>
+                                                                    <input type=hidden id="hidden_accept_submit_loc" name="accept_submit_loc" value="' . $row['trading_place'] . '" />
                                                                 </tr>
                                                                 <tr>
-                                                                    <td colspan="4" style="text-align:center;">Remarks (if any): <span class="text-black" id="submit_remarks" name="submit_remarks"></span></td>
-                                                                    <input type=hidden id="hidden_submit_remarks" name="submit_remarks" />
+                                                                    <td colspan="4" style="text-align:center;">Remarks (if any): <span class="text-black">' . $row['remarks'] . '</span></td>
+                                                                    <input type=hidden id="hidden_accept_submit_remarks" name="accept_submit_remarks" value="' . $row['remarks'] . '" />
                                                                 </tr>
                                                             </table>
                                                         </div>
-                                                        <input type="hidden" name="page_id" value="'. $row['item_id'] .'">
+                                                        <input type="hidden" name="item_id" value="'. $row['item_id'] .'">
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#amendModal'. $row['item_id'] .'">Cancel</button>
-                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Go Back</button>
-                                                        <button type="submit" name="offer_submit" class="btn btn-success">Submit Offer!</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal">Cancel</button>
+                                                        <button type="submit" name="offer_accept" class="btn btn-success">Accept Offer!</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -342,45 +283,44 @@
                                     </form>
                                 </div>
                             </div>
-                            <!-- END: Confirm modal -->
+                            <!-- END: Accept modal -->
                             ';
 
                             echo '
-                            <!-- START: Delete modal -->
+                            <!-- START: Reject modal -->
                             <div class="container-fluid">
                                 <div class="col-lg-6">
                                     <form class="form-horizontal" method="POST">
-                                        <div class="modal fade" id="deleteModal'. $row['item_id'] .'" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel'. $row['item_id'] .'" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title font-weight-bold" id="deleteModalLabel'. $row['item_id'] .'">Remove your offer?</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                        <input type="hidden" name="page_id" value="'. $row['item_id'] .'">
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                                                        <button type="submit" name="offer_delete" class="btn btn-danger">Yes</button>
-                                                    </div>
-                                                </div>
+                                        <div class="modal fade" id="rejectModal'. $row['item_id'] .'" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel'. $row['item_id'] .'" aria-hidden="true">
+                                          <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <h5 class="modal-title font-weight-bold" id="rejectModalLabel'. $row['item_id'] .'">Reject this offer?</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <input type="hidden" name="item_id" value="'. $row['item_id'] .'">
+                                              </div>
+                                              <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                                                <button type="submit" name="offer_delete" class="btn btn-danger">Yes</button>
+                                              </div>
                                             </div>
+                                          </div>
                                         </div>
                                     </form>
                                 </div>
                             </div>
-                            <!-- END: Delete modal -->
+                            <!-- END: Reject modal -->
 
-                            <!-- END: Offers Sent -->
+                            <!-- END: Offers Received -->
                             ';
                         }
                     } else {
                         echo '
                         <div class="row">
                             <div style="text-align: center;" class="col-lg-12 col-md-6 col-sm-3">
-                                <p style="font-size: 24px">You have not made any offers.</p>
-                                <a href="index.php" style="font-size: 20px; color: inherit; text-decoration:none">Go to the home page to start!</a>
+                                <p style="font-size: 24px">You have not received any offers.</p>
                             </div>
                         </div>
 

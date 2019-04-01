@@ -57,6 +57,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_submit"])) {
     }
 }
 
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_accept"])) {
+    $buyer_id = $_POST["buyer_id"];
+    $item_id = $_POST["item_id"];
+
+    /* (1) Connect to Database */
+    require_once('..\..\protected\config_fasttrade.php');
+    $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+
+    /* (2) Handle Connection Error */
+    if (mysqli_connect_errno()) {
+        die(mysqli_connect_errno());    // die() is equivalent to exit()
+    }
+
+    /* (3) Query DB */
+    $sql = "UPDATE item, offer
+            SET item.status=0, item.sold=1, offer.accept=1
+            WHERE offer.buyer_id='". $buyer_id ."' AND offer.seller_id=item.user_id AND offer.item_id=" . $item_id;
+
+    /* (4) Update DB */
+    if (mysqli_query($connection, $sql)) {
+        echo '<script>alert("You have accepted this offer!")</script>';
+    } else {
+        echo '<script>alert("Accept failed!")</script>';
+    }
+
+    /* (5) Release Connection */
+    mysqli_close($connection);
+}
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_delete"])) {
     $item_id = $_POST["page_id"];
 
