@@ -136,6 +136,7 @@
 
 				$item_id_var = $_GET["item_id_var"];
 				$itemshref = 'edit-item.php?item_id_var='.$item_id_var.'';
+				$delitemhref = 'delete-item.php?item_id_var='.$item_id_var.'';
 
 				require_once('..\..\protected\config_fasttrade.php');
 				$conn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
@@ -308,9 +309,13 @@
 							WHERE item_id = '".$item_id_var."'
 							;";
 					if (mysqli_query($conn, $sql)) {
-						echo "Record updated successfully";
+						echo("<div class='alert alert-success'>
+									<strong style='padding-right:1em;'>Success!</strong> Item updated
+							</div>");
 					} else {
-						echo "Error updating record: " . mysqli_error($conn);
+						echo("<div class='alert alert-danger'>
+									<strong style='padding-right:1em;'>Error!</strong> ".mysqli_error($conn)."
+							</div>");
 					}
 					mysqli_close($conn);
 				}
@@ -387,6 +392,39 @@
 				}
 			?>
 			<!-- END: UPDATE PICTURE DATA -->
+			
+			<!-- START: DELETE PICTURE DATA -->
+			<?php
+				// Credentials
+				require_once('..\..\protected\config_fasttrade.php');
+				// Create connection
+				//$conn = new mysqli($servername, $username, $password, $dbname);
+				$conn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+				if ($conn->connect_error) {
+						die("Connection failed: " . $conn->connect_error);
+				}
+				
+				if (isset($_POST['picture2chk'])) {
+					// Query to delete image
+					$sql = "
+							DELETE FROM item_photo
+							WHERE item_photo_id = '".$picid[1]."'
+							;";
+					mysqli_query($conn, $sql);
+				}
+
+				if (isset($_POST['picture3chk'])) {
+					// Query to delete image
+					$sql = "
+							DELETE FROM item_photo
+							WHERE item_photo_id = '".$picid[2]."'
+							;";
+					mysqli_query($conn, $sql);
+				}
+				
+				mysqli_close($conn);
+			?>
+			<!-- END: DELETE PICTURE DATA -->
 
 			<div class="nk-box">
 				<div class = "col-md-7">
@@ -492,7 +530,7 @@
 											echo(" No <i class='fas fa-image'></i> uploaded ");
 										} else {
 											echo($pic[1]);
-											echo("<br/><i class='fas fa-minus-circle' style='color:red;'></i> Delete image : <input type='checkbox' name='picture2' value='rmpic2'>");
+											echo("<br/><i class='fas fa-minus-circle' style='color:red;'></i> Delete image : <input type='checkbox' name='picture2chk' value='rmpic2'>");
 										}
 									?>
 									<br/><i class="fas fa-pencil-alt"></i> Update Image:
@@ -506,7 +544,7 @@
 											echo(" No <i class='fas fa-image'></i> uploaded ");
 										} else {
 											echo($pic[2]);
-											echo("<br/><i class='fas fa-minus-circle' style='color:red;'></i> Delete image : <input type='checkbox' name='picture3' value='rmpic3'>");
+											echo("<br/><i class='fas fa-minus-circle' style='color:red;'></i> Delete image : <input type='checkbox' name='picture3chk' value='rmpic3'>");
 										}
 
 									?>
@@ -519,6 +557,7 @@
 						<!--END: Picture values-->
 						<div class="form-group">
 								<button class="nk-btn nk-btn-outline nk-btn-color-dark ml-10">Update</button>
+								<a href="<?php echo($delitemhref) ?>" class="nk-btn nk-btn-outline nk-btn-color-dark ml-10" style="color:#ff4949 !important;">Delete</a>
 						</div>
 						</form>
 				</div>
