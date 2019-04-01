@@ -313,6 +313,30 @@
                                     You own this item!
                                     <a href="edit-item.php?item_id_var=' . $row["item_id"] . '" style="float:right; padding-left:1em;"><i class="far fa-edit"></i>Edit</a>
                                 </div>
+                                <br />
+                                <a href="#" class="alert alert-info dropdown-toggle" data-toggle="dropdown">
+                                    View All Chats
+                                </a>
+                                <ul class="dropdown-menu" style="border-width: 0px;">';
+
+                                    $sql_1 = "SELECT item_id, buyer_id FROM offer WHERE item_id=". $page_id .";";
+                                    if ($result_1 = mysqli_query($connection, $sql_1)) {
+                                        if (mysqli_num_rows($result_1) > 0) {
+                                            while ($row = mysqli_fetch_assoc($result_1)) {
+                                                echo '
+                                                <li class="alert alert-info" style="background: white; margin: 0px;"><a id="chat_btn" href="product.php?id='. $row['item_id'] .'&buyer_id='. $row['buyer_id'] .'">Chat with '. $row['buyer_id'] .'</a></li>
+                                                ';
+                                            }
+                                        } else {
+                                            echo '
+                                            <li class="alert alert-info" style="background: white; margin: 0px;">There are no offers yet</li>
+                                            ';
+                                        }
+                                        mysqli_free_result($result_1);
+                                    }
+
+                                echo '
+                                </ul>
                                 ';
                             } else if ($row['sold'] == 1) {
                                 echo '
