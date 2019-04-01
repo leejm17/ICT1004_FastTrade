@@ -331,13 +331,13 @@
                                     <!--Title-->
                                     <div class="form-group">
                                             <label for="title" class="inlabels control-label col-sm-5" style="font-size:1.25em;" >Title:</label>
-                                            <input name="title" class="form-control" type="text" id="title" placeholder="Enter Title">
+                                            <input name="title" class="form-control" type="text" id="title" placeholder="Enter Title" value="<?php echo($_POST['title']); ?>">
                                             <?php echo ($title_err); ?>
                                     </div>
                                     <!--Desc-->
                                     <div class="form-group">
                                             <label for="description" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Description:</label>
-                                            <input name="description" class="form-control" type="text" id="description" placeholder="Enter Description">
+                                            <input name="description" class="form-control" type="text" id="description" placeholder="Enter Description" value="<?php echo($_POST['description']); ?>">
                                             <?php echo ($description_err); ?>
                                     </div>
                                     <!--Condition-->
@@ -345,18 +345,18 @@
                                             <label class="inlabels control-label col-sm-5" for="condition" style="font-size:1.25em;">Condition: </label>
                                             <select name="condition" class="form-control col-sm-5">
                                                     <option value ="">---Choose a Condition---</option>
-                                                    <option value ="5">Never Opened</option>
-                                                    <option value ="4">Perfect</option>
-                                                    <option value ="3">Great</option>
-                                                    <option value ="2">Good</option>
-                                                    <option value ="1">Minor Scratches</option>
+                                                    <option value ="5" <?php if($_POST['condition'] == 5){echo("selected='selected'");}?>>Never Opened</option>
+                                                    <option value ="4" <?php if($_POST['condition'] == 4){echo("selected='selected'");}?>>Perfect</option>
+                                                    <option value ="3" <?php if($_POST['condition'] == 3){echo("selected='selected'");}?>>Great</option>
+                                                    <option value ="2" <?php if($_POST['condition'] == 2){echo("selected='selected'");}?>>Good</option>
+                                                    <option value ="1" <?php if($_POST['condition'] == 1){echo("selected='selected'");}?>>Minor Scratches</option>
                                             </select>
                                             <?php echo ($condition_err); ?>
                                     </div>
                                     <!--Price-->
                                     <div class="form-group">
                                             <label for="price" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Price:</label>
-                                            <input name="price" class="form-control" type="text" id="price" placeholder="Enter Price">
+                                            <input name="price" class="form-control" type="text" id="price" placeholder="Enter Price" value="<?php echo($_POST['price']); ?>">
                                             <?php echo ($price_err); ?>
                                     </div>
                                     <!--Status--><!--values here dont affect query, but must be >0 to pass error check-->
@@ -388,25 +388,25 @@
                                             <label class="inlabels control-label col-sm-5" for="category" style="font-size:1.25em;">Category: </label>
                                             <select name="category" class="form-control col-sm-5">
                                                     <option value ="">---Choose a Category---</option>
-                                                    <option value ="1">Computers and IT</option>
-                                                    <option value ="2">Furniture</option>
-                                                    <option value ="3">Home Appliance</option>
-                                                    <option value ="4">Home Repair</option>
-                                                    <option value ="5">Kids</option>
-                                                    <option value ="6">Services</option>
+                                                    <option value ="1" <?php if($_POST['condition'] == 1){echo("selected='selected'");}?>>Computers and IT</option>
+                                                    <option value ="2" <?php if($_POST['condition'] == 2){echo("selected='selected'");}?>>Furniture</option>
+                                                    <option value ="3" <?php if($_POST['condition'] == 3){echo("selected='selected'");}?>>Home Appliance</option>
+                                                    <option value ="4" <?php if($_POST['condition'] == 4){echo("selected='selected'");}?>>Home Repair</option>
+                                                    <option value ="5" <?php if($_POST['condition'] == 5){echo("selected='selected'");}?>>Kids</option>
+                                                    <option value ="6" <?php if($_POST['condition'] == 6){echo("selected='selected'");}?>>Services</option>
                                             </select>
                                             <?php echo ($category_err); ?>
                                     </div>
                                     <!--Age-->
                                     <div class="form-group">
                                             <label for="age" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Years of possession:</label>
-                                            <input name="age" class="form-control" type="text" id="age" placeholder="Year(s)">
+                                            <input name="age" class="form-control" type="text" id="age" placeholder="Year(s)" value="<?php echo($_POST['age']); ?>">
                                             <?php echo ($age_err); ?>
                                     </div>
                                     <!--Ad Duration-->
                                     <div class="form-group">
                                             <label for="adduration" class="inlabels control-label col-sm-5" style="font-size:1.25em;">Advertise for:</label>
-                                            <input name="adduration" class="form-control" type="text" id="adduration" placeholder="Year(s)">
+                                            <input name="adduration" class="form-control" type="text" id="adduration" placeholder="Year(s)" value="<?php echo($_POST['adduration']); ?>">
                                             <?php echo ($adduration_err); ?>
                                     </div>
                                     <!--Image (1st)-->
