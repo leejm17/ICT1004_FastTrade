@@ -172,7 +172,7 @@ $conn->close();
 				</div>
 				<div class="ChatInput">
 					<form method='post' action="messagebox.php" id='chatForm'>
-						<input type='text' name='textfield' id='text' placeholder="Type your message to the seller..." />
+						<input type='text' name='textfield' id='text' placeholder="Type your message to the seller..." autocomplete="off"/>
 						<input type='submit' name='submit' value='Send' id="sendbutton"/>
 					</form>
 				</div>
