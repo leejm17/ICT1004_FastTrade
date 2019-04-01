@@ -289,7 +289,7 @@
                                 <div class="form-group container-fluid">
                                     <a class="nk-btn nk-btn-outline nk-btn-color-dark ml-5" href="edit-item.php?item_id_var=<?php echo $row["item_id"] ?>">Edit</a>
                                 </div>
-								 
+
 
 								<?php
 							}
@@ -301,6 +301,7 @@
 
 			<!-- END: Sell Item -->
         </div>
+        <div class="nk-gap-3"></div>
         <div class="nk-divider nk-divider-color-gray-6"></div>
         <div class="nk-gap-3"></div>
 
@@ -308,7 +309,7 @@
 	</div>
 
     <!-- END: Main Content -->
-        
+
 
         <!--
     START: Footer

@@ -392,7 +392,7 @@
 				}
 			?>
 			<!-- END: UPDATE PICTURE DATA -->
-			
+
 			<!-- START: DELETE PICTURE DATA -->
 			<?php
 				// Credentials
@@ -403,7 +403,7 @@
 				if ($conn->connect_error) {
 						die("Connection failed: " . $conn->connect_error);
 				}
-				
+
 				if (isset($_POST['picture2chk'])) {
 					// Query to delete image
 					$sql = "
@@ -421,7 +421,7 @@
 							;";
 					mysqli_query($conn, $sql);
 				}
-				
+
 				mysqli_close($conn);
 			?>
 			<!-- END: DELETE PICTURE DATA -->
@@ -565,6 +565,8 @@
 			<!-- END: EDIT ITEM MAIN -->
 
         </div>
+        <div class="nk-gap-3"></div>
+        <div class="nk-divider nk-divider-color-gray-6"></div>
         <div class="nk-gap-3"></div>
     </div>
 

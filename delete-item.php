@@ -197,7 +197,7 @@
 				if ($conn->connect_error) {
 						die("Connection failed: " . $conn->connect_error);
 				}
-				
+
 				if (($_POST['deletelistingbutton']) == 'deletelisting') {
 					//Remove the item photo
 					$sql = "DELETE
@@ -215,7 +215,7 @@
 								<strong style='padding-right:1em;'>Success!</strong> Item Deleted
 						</div>");
 				}
-				
+
 				mysqli_close($conn);
 			?>
 			<!-- END: DELETE ITEM LISTING -->
@@ -301,7 +301,7 @@
 							<p class='nk-product-description' style='padding-left:0.5em; margin-top:0px;'>Advertised for <?php echo($adduration); ?> years</p>
 						</div>
 						<!--END: Text values-->
-						
+
 						<div class="form-group">
 								<button type="submit" class="nk-btn nk-btn-outline nk-btn-color-dark ml-10" style="color:#ff4949 !important;" name="deletelistingbutton" value="deletelisting">Delete</button>
 						</div>
@@ -311,6 +311,8 @@
 			<!-- END: EDIT ITEM MAIN -->
 
         </div>
+        <div class="nk-gap-3"></div>
+        <div class="nk-divider nk-divider-color-gray-6"></div>
         <div class="nk-gap-3"></div>
     </div>
 

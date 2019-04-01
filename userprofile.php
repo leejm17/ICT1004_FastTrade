@@ -261,22 +261,7 @@
     <div class="bg-white">
         <div class="container">
             <!-- START: User Profile Header -->
-            <div class="nk-shop-header">
-                <a href="index.php" class="nk-shop-header-back"><span class="nk-icon-arrow-left"></span>Back to Shop</a>
-                <a href="#" class="nk-btn-color-white dropdown-toggle" data-toggle="dropdown">
-                    My Profile
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-anchor" href="userprofile.php">Profile Overview</a></li>
-                    <li><a class="dropdown-anchor" href="updateProfile.php">Profile Update</a></li>
-                    <li class="dropdown-divider"></li>
-                    <li><a class="dropdown-anchor" href="display-item.php">All My Listings</a></li>
-                    <li><a class="dropdown-anchor" href="sell-item.php">Sell An Item</a></li>
-                </ul>
-                <a href="assets/php/logout.php" class="nk-btn-color-white">
-                    Logout
-                </a>
-            </div>
+            <?php include 'php/profile_header.inc.php'; ?>
             <!-- END: User Profile Header -->
 
             <!-- START: USER PROFILE MAIN -->
@@ -293,16 +278,72 @@
 					</div>
 				</div>
 			</div>
+
+                        <div class="nk-gap-3"></div>
+                        <div class="nk-divider nk-divider-color-gray-6"></div>
+                        <div class="nk-gap-3"></div>
+
 			<!-- START: ADD NEW ITEM -->
-			<div>
-				<h3 style="margin-top:2em;">List new item</h3>
-					<p><a href="sell-item.php" title="Sell item"> <i class="far fa-plus-square fa-6x" style="color:black;"></i> </a></p><br/>
-				<div style='clear: both;'></div>
-			</div>
+<!--                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <button type="button" class="btn btn-light" style="width:200px; height:100px;">
+                                        <span class="far fa-plus-square fa-2x"></span><strong> LIST NEW ITEM</strong>
+                                    </button>
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    <button type="button" class="btn btn-info" style="width:200px; height:100px;">
+                                        <span class="fa fa-mail-forward fa-2x"></span><strong> OFFERS SENT</strong>
+                                    </button>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <button type="button" class="btn btn-warning" style="width:200px; height:100px;">
+                                        <span class="far fa-envelope fa-2x"></span><strong> OFFERS RECEIVED</strong>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="nk-gap-3"></div>
+                            <div class="row">
+                                <div class="col-md-6 text-center">
+                                    <button type="button" class="btn btn-success" style="width:200px; height:100px;">
+                                        <span class="fa fa-check fa-2x"></span><strong> ACCEPTED OFFERS</strong>
+                                    </button>
+                                </div>
+                                <div class="col-md-6 text-center">
+                                    <button type="button" class="btn btn-danger" style="width:200px; height:100px;">
+                                        <span class="fa fa-close fa-2x"></span><strong> REJECTED OFFERS</strong>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>-->
 			<!-- END: ADD NEW ITEM -->
-			<!-- START: SHOW RECENT LISTINGS-->
+                        <div class="container-fluid">
+                            <div class="row" style="float:none; margin:0 auto;">
+                                <div style="display: inline;">
+                                    <a class="btn btn-light" href="sell-item.php" style="width:200px; line-height:80px; display:block;"><span class="far fa-plus-square fa-2x"></span><strong> LIST NEW ITEM</strong></a>
+                                </div>
+                                <div style="display: inline;">
+                                    <a class="btn btn-info" href="offersSent.php" style="width:200px; line-height:80px; display:block;"><span class="fa fa-mail-forward fa-2x"></span><strong> OFFERS SENT</strong></a>
+                                </div>
+                                <div style="display: inline;">
+                                    <a class="btn btn-warning" href="offersReceived.php" style="width:200px; line-height:80px; display:block;"><span class="far fa-envelope fa-2x"></span><strong> OFFERS RECEIVED</strong></a>
+                                </div>
+                                <div style="display: inline;">
+                                    <a class="btn btn-success" href="offersAccepted.php" style="width:200px; line-height:80px; display:block;"><span class="fa fa-check fa-2x"></span><strong> ACCEPTED OFFERS</strong></a>
+                                </div>
+                                <div style="display: inline;">
+                                    <a class="btn btn-danger" href="offersRejected.php" style="width:200px; line-height:80px; display:block;"><span class="fa fa-close fa-2x"></span><strong> REJECTED OFFERS</strong></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="nk-gap-1"></div>
+                        <div class="nk-divider nk-divider-color-gray-6"></div>
+                        <div class="nk-gap-3"></div>
+
+                        <!-- START: SHOW RECENT LISTINGS-->
 			<div>
-				<h3 style="margin-top:2em;">Recent Listings</h3>
+				<h3>Recent Listings</h3>
 				<div>
 					<?php echo($recentlistings);?>
 				</div>
@@ -313,6 +354,8 @@
 			<!-- END: SHOW RECENT LISTINGS-->
 			<!-- START: USER PROFILE MAIN -->
         </div>
+        <div class="nk-gap-3"></div>
+        <div class="nk-divider nk-divider-color-gray-6"></div>
         <div class="nk-gap-3"></div>
     </div>
 

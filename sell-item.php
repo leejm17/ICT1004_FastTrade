@@ -443,6 +443,11 @@
             </div>
             <!-- END: Sell Item -->
         </div>
+
+        <div class="nk-gap-3"></div>
+        <div class="nk-divider nk-divider-color-gray-6"></div>
+        <div class="nk-gap-3"></div>
+        
     </div>
 
 

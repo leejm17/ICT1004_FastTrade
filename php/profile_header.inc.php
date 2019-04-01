@@ -8,12 +8,19 @@ echo '
             <ul class="dropdown-menu" id="profile_dropdown">
                 <li><a class="dropdown-anchor" href="userprofile.php">Profile Overview</a></li>
                 <li><a class="dropdown-anchor" href="updateProfile.php">Profile Update</a></li>
+
                 <li class="dropdown-divider"></li>
+
                 <li><a class="dropdown-anchor" href="display-item.php">All My Listings</a></li>
                 <li><a class="dropdown-anchor" href="sell-item.php">Sell An Item</a></li>
+
                 <li class="dropdown-divider"></li>
+
                 <li><a class="dropdown-anchor" href="offersSent.php">Offers Sent</a></li>
-                <li><a class="dropdown-anchor" href="#">Offers Received</a></li>
+                <li><a class="dropdown-anchor" href="offersReceived.php">Offers Received</a></li>
+
+                <li class="dropdown-divider"></li>
+
                 <li><a class="dropdown-anchor" href="#">Offers Accepted</a></li>
                 <li><a class="dropdown-anchor" href="#">Offers Rejected</a></li>
             </ul>
