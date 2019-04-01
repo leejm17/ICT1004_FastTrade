@@ -122,7 +122,7 @@
             -->
             <div class="nk-shop-filter">
                 <div class="row vertical-gap">
-                    <div class="col-lg col-md-4">
+                    <div class="col-lg-4 col-sm-4 col-md-4">
                         <h3 class="nk-shop-filter-item-title">Sort By</h3>
                         <ul class="nk-shop-filter-item">
                             <li data-filter="Default AllCat AllPrice" ><a class="active" href="#">Default</a></li>
@@ -133,7 +133,7 @@
                         </ul>
                     </div>
 
-                    <div class="col-lg col-md-4">
+                    <div class="col-lg-4 col-sm-4 col-md-4">
                         <h3 class="nk-shop-filter-item-title">Category</h3>
                         <ul class="nk-shop-filter-item">
                             <li><a class="active" href="#">Show All</a></li>
@@ -146,7 +146,7 @@
                         </ul>
                     </div>
 
-                    <div class="col-lg col-md-4">
+                    <div class="col-lg-4 col-sm-4 col-md-4">
                         <h3 class="nk-shop-filter-item-title">Price</h3>
                         <ul class="nk-shop-filter-item">
                             <li><a class="active" href="#">Show All</a></li>
@@ -162,7 +162,7 @@
 			<div class="nk-box">
 
 
-				<div class="col-sm-6">
+				<div class="col-sm-10 col-md-10 col-lg-10" style="border-style:solid; border-width:2px; margin-left: 10%;">
 				<?php
 
 
@@ -180,7 +180,7 @@
 						{
 
 
-						echo '<div class = "col-md-3"><figure><img class="img-responsive" src="data:image/jpg;base64,' .
+						echo '<div class = "col-lg-12 col-sm-12 col-md-12"><figure><img style="width:85%; margin-top:1%; margin-left:7.5%; margin-right:7.5%; margin-top:8%;" class="img-responsive" src="data:image/jpg;base64,' .
 						base64_encode($row['photo']) . '"/></figure><br/></div>';
 						?>
 								<!--- Get the values($row["values"]) from the query and display it
@@ -188,19 +188,19 @@
 									  edit-item page will get the item id of that particular item and allow editing.
 								--->
 
-								<div class="form-group">
-									<label for="title" class="inlabels control-label col-sm-5" >Title:</label>
-									<input name="title" class="form-control" type="text" id="title" value="<?php echo $row["title"]?>" readonly >
+								<div class="form-group container-fluid">
+									<label for="title" class="inlabels control-label col-md-8 col-lg-8 col-sm-8" style="margin-left:7.5%;">Title:</label>
+									<input name="title" class="form-control col-md-8 col-lg-8 col-sm-8" type="text" id="title" value="<?php echo $row["title"]?>" style="margin-left:7.5%;" readonly >
 								</div>
 
-								<div class="form-group">
-									<label for="description" class="inlabels control-label col-sm-5" >Description:</label>
-									<input name="description" class="form-control" type="text" id="description" value="<?php echo $row["description"] ?>" readonly>
+								<div class="form-group container-fluid">
+									<label for="description" class="inlabels control-label col-md-8 col-lg-8 col-sm-8" style="margin-left:7.5%;">Description:</label>
+									<input name="description" class="form-control col-md-8 col-lg-8 col-sm-8" type="text" id="description" value="<?php echo $row["description"] ?>" style="margin-left:7.5%;" readonly>
 								</div>
 
-								<div class="form-group">
-									<label class="inlabels control-label col-sm-5" for="condition">Condition: </label>
-									<select name="condition" class="form-control col-sm-5" disabled >
+								<div class="form-group container-fluid">
+									<label class="inlabels control-label col-sm-5" style="margin-left:7.5%;" for="condition">Condition: </label>
+									<select name="condition" class="form-control col-md-8 col-lg-8 col-sm-8" style="margin-left:7.5%;" disabled >
 
 
 										<option value ="">
@@ -236,9 +236,9 @@
 										<option value ="1">Minor Scratches</option>
 									</select>
 								</div>
-										<div class="form-group">
-										<label class="inlabels control-label col-sm-5" for="category">Category: </label>
-										<select name="category" class="form-control col-sm-5" disabled>
+										<div class="form-group container-fluid">
+										<label class="inlabels control-label col-sm-5" style="margin-left:7.5%;" for="category">Category: </label>
+										<select name="category" class="form-control col-md-8 col-lg-8 col-sm-8" style="margin-left:7.5%;" disabled>
 											<option value ="">
 
 										<?php
@@ -276,21 +276,20 @@
 											<option value ="6">Services</option>
 									</select>
 								</div>
-								<div class="form-group">
-									<label for="age" class="inlabels control-label col-sm-5" >Years of possession:</label>
-									<input name="age" class="form-control" type="number" id="age" value="<?php echo $row["age"] ?>" readonly>
+								<div class="form-group container-fluid">
+									<label for="age" class="inlabels control-label col-md-8 col-lg-8 col-sm-8" style="margin-left:7.5%;">Years of possession:</label>
+									<input name="age" class="form-control col-md-8 col-lg-8 col-sm-8" type="number" id="age" style="margin-left:7.5%;" value="<?php echo $row["age"] ?>" readonly>
 								</div>
 
-								<div class="form-group">
-									<label for="adduration" class="inlabels control-label col-sm-5" >Advertise for:</label>
-									<input name="adduration" class="form-control" type="number" id="adduration" value="<?php echo $row["ad_duration"] ?>" readonly>
+								<div class="form-group container-fluid">
+									<label for="adduration" class="inlabels control-label col-md-8 col-lg-8 col-sm-8" style="margin-left:7.5%;">Advertise for:</label>
+									<input name="adduration" class="form-control col-md-8 col-lg-8 col-sm-8" type="number" id="adduration" style="margin-left:7.5%;" value="<?php echo $row["ad_duration"] ?>" readonly>
 								</div>
 
-
-                                                                    <div class="form-group">
-                                                                        <a class="nk-btn nk-btn-outline nk-btn-color-dark ml-5" href="edit-item.php?item_id_var=<?php echo $row["item_id"] ?>">Edit</a>
-                                                                    </div>
-								--------------------------------------------------------------------
+                                <div class="form-group container-fluid">
+                                    <a class="nk-btn nk-btn-outline nk-btn-color-dark ml-5" href="edit-item.php?item_id_var=<?php echo $row["item_id"] ?>">Edit</a>
+                                </div>
+								 
 
 								<?php
 							}
@@ -302,13 +301,14 @@
 
 			<!-- END: Sell Item -->
         </div>
-
+        <div class="nk-divider nk-divider-color-gray-6"></div>
+        <div class="nk-gap-3"></div>
 
     </div>
 	</div>
 
     <!-- END: Main Content -->
-
+        
 
         <!--
     START: Footer
