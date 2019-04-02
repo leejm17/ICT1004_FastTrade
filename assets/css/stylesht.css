@@ -125,7 +125,7 @@
   	transition-duration: 1s;
 	-webkit-animation: slide-fwd-center 0.45s cubic-bezier(0.075, 0.820, 0.165, 1.000) both;
 	        animation: slide-fwd-center 0.45s cubic-bezier(0.075, 0.820, 0.165, 1.000) both;
-	opacity: 0.8;
+	opacity: 0.7;
   	transition: 0.8s;
   	color:white;
 	background: rgb(33,33,33); /* Old browsers */
@@ -182,7 +182,7 @@ div.sellermessage_div_css{
 
 /* For styling the Message Text */
 .messagetext{
-	font-size:25px;
+	font-size:18px;
 	font-family: Courier New;
 	color: white;
 	margin-left: 15px;
