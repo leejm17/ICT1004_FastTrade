@@ -167,9 +167,21 @@
                         <ul class="dropdown-menu">
                             <li><a href="userprofile.php">Profile Overview</a></li>
                             <li><a href="updateProfile.php">Profile Update</a></li>
+
                             <li class="dropdown-divider"></li>
+
                             <li><a href="display-item.php">All My Listings</a></li>
                             <li><a href="sell-item.php">Sell An Item</a></li>
+
+                            <li class="dropdown-divider"></li>
+
+                            <li><a href="offersSent.php">Offers Sent</a></li>
+                            <li><a href="offersReceived.php">Offers Received</a></li>
+
+                            <li class="dropdown-divider"></li>
+
+                            <li><a href="offersAccepted.php">Offers Accepted</a></li>
+                            <li><a href="rejectedOffers.php">Offers Rejected</a></li>
                         </ul>
                         <a href="assets/php/logout.php" class="nk-btn-color-white">
                             Logout

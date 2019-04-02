@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_submit"])) {
         }
 
         /* (3) Query DB */
-        $sql = "INSERT INTO offer (buyer_id, item_id, seller_id, accept, asking_price, trading_place, remarks) VALUES (?, ?, ?, 0, ?, ?, ?)";
+        $sql = "INSERT INTO offer (buyer_id, item_id, seller_id, accept, asking_price, trading_place, remarks) VALUES (?, ?, ?, 2, ?, ?, ?)";
 
         /* (4) Insert Into DB */
         if ($stmt = mysqli_prepare($connection, $sql)) {

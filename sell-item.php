@@ -158,8 +158,8 @@
 							}
 							//Price
 							if (empty($_POST['price'])) {
-									$price_err = "<p style='color:red;'>*Is this charity?</p>";
-							} else if ( (strval($_POST['price'])) != (strval(intval($_POST['price']))) ) {
+									$price_err = "<p style='color:red;'>*Please enter a price?</p>";
+							} else if ( (strval($_POST['price'])) != (strval(floatval($_POST['price']))) ) {
 									$price_err = "<p style='color:red;'>*Please enter valid integers for price</p>";
 							} else {
 									//echo ("Price: " .$_POST["price"]. "<br/>");
@@ -447,7 +447,7 @@
         <div class="nk-gap-3"></div>
         <div class="nk-divider nk-divider-color-gray-6"></div>
         <div class="nk-gap-3"></div>
-        
+
     </div>
 
 

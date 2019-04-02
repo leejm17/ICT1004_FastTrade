@@ -58,6 +58,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_submit"])) {
 }
 
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_delete"])) {
+    $item_id = $_POST["page_id"];
+
+    /* (1) Connect to Database */
+    require_once('..\..\protected\config_fasttrade.php');
+    $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
+
+    /* (2) Handle Connection Error */
+    if (mysqli_connect_errno()) {
+        die(mysqli_connect_errno());    // die() is equivalent to exit()
+    }
+
+    /* (3) Query DB */
+    $sql = "DELETE FROM offer WHERE item_id = ". $item_id;
+
+    /* (4) Delete DB */
+    if (mysqli_query($connection, $sql)) {
+        echo '<script>alert("Your offer has been nullified!")</script>';
+    } else {
+        echo '<script>alert("Delete failed!")</script>';
+    }
+
+    /* (5) Release Connection */
+    mysqli_close($connection);
+}
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_accept"])) {
     $buyer_id = $_POST["buyer_id"];
     $item_id = $_POST["item_id"];
@@ -88,8 +115,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_accept"])) {
 }
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_delete"])) {
-    $item_id = $_POST["page_id"];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_reject"])) {
+    $buyer_id = $_POST["buyer_id"];
+    $item_id = $_POST["item_id"];
 
     /* (1) Connect to Database */
     require_once('..\..\protected\config_fasttrade.php');
@@ -101,13 +129,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_delete"])) {
     }
 
     /* (3) Query DB */
-    $sql = "DELETE FROM offer WHERE item_id = ". $item_id;
+    $sql = "UPDATE item, offer
+            SET offer.accept=0
+            WHERE offer.buyer_id='". $buyer_id ."' AND offer.seller_id=item.user_id AND offer.item_id=" . $item_id;
 
-    /* (4) Delete DB */
+    /* (4) Update DB */
     if (mysqli_query($connection, $sql)) {
-        echo '<script>alert("Your offer has been nullified!")</script>';
+        echo '<script>alert("You have rejected this offer!")</script>';
     } else {
-        echo '<script>alert("Delete failed!")</script>';
+        echo '<script>alert("Reject failed!")</script>';
     }
 
     /* (5) Release Connection */

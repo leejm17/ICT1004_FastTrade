@@ -151,7 +151,7 @@
                         INNER JOIN item_photo ON item.item_id = item_photo.item_id
                         INNER JOIN offer ON item.item_id = offer.item_id
                         INNER JOIN item_review ON item.item_id = item_review.item_id
-                        WHERE offer.buyer_id = '" . $userid . "' AND item.sold = 0 AND item.due_date>NOW()
+                        WHERE offer.buyer_id = '" . $userid . "' AND offer.accept = 2 AND item.sold = 0
                         GROUP BY item.item_id;";
                 // AND item.due_date>NOW()
                 //echo $sql;
@@ -379,7 +379,7 @@
                         echo '
                         <div class="row">
                             <div style="text-align: center;" class="col-lg-12 col-md-6 col-sm-3">
-                                <p style="font-size: 24px">You have not made any offers.</p>
+                                <p style="font-size: 24px">You have no offers pending.</p>
                                 <a href="index.php" style="font-size: 20px; color: inherit; text-decoration:none">Go to the home page to start!</a>
                             </div>
                         </div>

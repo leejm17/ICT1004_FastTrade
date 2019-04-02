@@ -755,7 +755,7 @@
                                         }
 
                                         /* (3) Query DB */
-                                        $sql = "SELECT user_id FROM item WHERE sold=0 AND item_id=" . $page_id . " AND due_date>NOW();";
+                                        $sql = "SELECT user_id FROM item WHERE item_id=" . $page_id;
 
                                         /* (4) Fetch Results */
                                         if ($result = mysqli_query($connection, $sql)) {

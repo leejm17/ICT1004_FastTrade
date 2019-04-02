@@ -7,19 +7,19 @@ $page = $page_id = $name = $email = $message = $review_rate = "";
 $name_err = $email_err = $message_err = $review_rate_err = $recaptcha_err = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["review_submit"])) {
-      // Validate reCAPTCHA box 
-      if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response'])){ 
-        // Google reCAPTCHA API secret key 
-        $secretKey = SECRET_KEY; 
-         
-        // Verify the reCAPTCHA response 
-        $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secretKey.'&response='.$_POST['g-recaptcha-response']); 
-         
-        // Decode json data 
-        $responseData = json_decode($verifyResponse); 
-         
-        // If reCAPTCHA response is valid 
-        if($responseData->success){ 
+      // Validate reCAPTCHA box
+      if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response'])){
+        // Google reCAPTCHA API secret key
+        $secretKey = SECRET_KEY;
+
+        // Verify the reCAPTCHA response
+        $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secretKey.'&response='.$_POST['g-recaptcha-response']);
+
+        // Decode json data
+        $responseData = json_decode($verifyResponse);
+
+        // If reCAPTCHA response is valid
+        if($responseData->success){
             $name = $_POST["name"];
             //$email = $_POST["email"];
             $message = $_POST["message"];
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["review_submit"])) {
             $page_id = $_GET["id"];
 
             if (empty($name) || !preg_match("/^[a-zA-Z0-9 ]*$/", $name)) {
-                $name_err = "Please enter a valid name.";
+                $name_err = "Please enter a valid title header.";
             }
 
             /*if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {

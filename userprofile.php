@@ -20,10 +20,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>FastTrade | Login</title>
+    <title>FastTrade | My Profile</title>
 
-    <meta name="description" content="sell, buy, online">
-    <meta name="keywords" content="login">
+    <meta name="description" content="My Profile Page">
+    <meta name="keywords" content="profile, user, overview, online">
     <meta name="author" content="Jonathan Lee">
 
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
@@ -282,8 +282,8 @@
 
                         <li class="dropdown-divider"></li>
 
-                        <li><a class="dropdown-anchor" href="#">Offers Accepted</a></li>
-                        <li><a class="dropdown-anchor" href="#">Offers Rejected</a></li>
+                        <li><a class="dropdown-anchor" href="offersAccepted.php">Offers Accepted</a></li>
+                        <li><a class="dropdown-anchor" href="rejectedOffers.php">Offers Rejected</a></li>
                     </ul>
                 <a href="assets/php/logout.php" class="nk-btn-color-white">
                     Logout
@@ -344,6 +344,7 @@
                             </div>
                         </div>-->
 			<!-- END: ADD NEW ITEM -->
+
                         <div class="container-fluid">
                             <div class="row" style="float:none; margin:0 auto;">
                                 <div style="display: inline;">
@@ -359,7 +360,7 @@
                                     <a class="btn btn-success" href="offersAccepted.php" style="width:200px; line-height:80px; display:block;"><span class="fa fa-check fa-2x"></span><strong> ACCEPTED OFFERS</strong></a>
                                 </div>
                                 <div style="display: inline;">
-                                    <a class="btn btn-danger" href="offersRejected.php" style="width:200px; line-height:80px; display:block;"><span class="fa fa-close fa-2x"></span><strong> REJECTED OFFERS</strong></a>
+                                    <a class="btn btn-danger" href="rejectedOffers.php" style="width:200px; line-height:80px; display:block;"><span class="fa fa-close fa-2x"></span><strong> REJECTED OFFERS</strong></a>
                                 </div>
                             </div>
                         </div>

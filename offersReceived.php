@@ -149,7 +149,7 @@
                         FROM item
                         INNER JOIN item_photo ON item.item_id = item_photo.item_id
                         INNER JOIN offer ON item.item_id = offer.item_id
-                        WHERE offer.seller_id = '" . $userid . "' AND item.sold = 0 AND item.due_date>NOW()
+                        WHERE offer.seller_id = '" . $userid . "' AND offer.accept = 2 AND item.sold = 0
                         GROUP BY item.item_id;";
                 // AND item.due_date>NOW()
                 //echo $sql;
@@ -210,7 +210,7 @@
                                         <button id="accept_btn" type="button" class="btn btn-success" data-toggle="modal" data-target="#acceptModal'. $row['item_id'] .'">
                                             <span class="fa fa-check"></span> Accept
                                         </button>
-                                        <button id="delete_btn" type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectModal'. $row['item_id'] .'">
+                                        <button id="reject_btn" type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectModal'. $row['item_id'] .'">
                                             <span class="fa fa-close"></span> Reject
                                         </button>
                                     </div>
@@ -303,7 +303,7 @@
                                               </div>
                                               <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                                                <button type="submit" name="offer_delete" class="btn btn-danger">Yes</button>
+                                                <button type="submit" name="offer_reject" class="btn btn-danger">Yes</button>
                                               </div>
                                             </div>
                                           </div>
@@ -321,6 +321,7 @@
                         <div class="row">
                             <div style="text-align: center;" class="col-lg-12 col-md-6 col-sm-3">
                                 <p style="font-size: 24px">You have not received any offers.</p>
+                                <a href="sell-item.php" style="font-size: 20px; color: inherit; text-decoration:none">List one now!</a>
                             </div>
                         </div>
 

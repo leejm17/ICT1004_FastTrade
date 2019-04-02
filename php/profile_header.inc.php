@@ -21,8 +21,8 @@ echo '
 
                 <li class="dropdown-divider"></li>
 
-                <li><a class="dropdown-anchor" href="#">Offers Accepted</a></li>
-                <li><a class="dropdown-anchor" href="#">Offers Rejected</a></li>
+                <li><a class="dropdown-anchor" href="offersAccepted.php">Offers Accepted</a></li>
+                <li><a class="dropdown-anchor" href="rejectedOffers.php">Offers Rejected</a></li>
             </ul>
         <a href="assets/php/logout.php" class="nk-btn-color-white">
             Logout
