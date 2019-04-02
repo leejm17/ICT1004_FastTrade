@@ -261,7 +261,34 @@
     <div class="bg-white">
         <div class="container">
             <!-- START: User Profile Header -->
-            <?php include 'php/profile_header.inc.php'; ?>
+            <div class="nk-shop-header">
+                <a href="index.php" class="nk-shop-header-back"><span class="nk-icon-arrow-left"></span>Back to Shop</a>
+                    <a href="#" class="nk-btn-color-white dropdown-toggle" data-toggle="dropdown">
+                        Menu
+                    </a>
+                    <ul class="dropdown-menu" id="profile_dropdown">
+                        <li><a class="dropdown-anchor" href="userprofile.php">Profile Overview</a></li>
+                        <li><a class="dropdown-anchor" href="updateProfile.php">Profile Update</a></li>
+
+                        <li class="dropdown-divider"></li>
+
+                        <li><a class="dropdown-anchor" href="display-item.php">All My Listings</a></li>
+                        <li><a class="dropdown-anchor" href="sell-item.php">Sell An Item</a></li>
+
+                        <li class="dropdown-divider"></li>
+
+                        <li><a class="dropdown-anchor" href="offersSent.php">Offers Sent</a></li>
+                        <li><a class="dropdown-anchor" href="offersReceived.php">Offers Received</a></li>
+
+                        <li class="dropdown-divider"></li>
+
+                        <li><a class="dropdown-anchor" href="#">Offers Accepted</a></li>
+                        <li><a class="dropdown-anchor" href="#">Offers Rejected</a></li>
+                    </ul>
+                <a href="assets/php/logout.php" class="nk-btn-color-white">
+                    Logout
+                </a>
+            </div>
             <!-- END: User Profile Header -->
 
             <!-- START: USER PROFILE MAIN -->
@@ -343,12 +370,13 @@
 
                         <!-- START: SHOW RECENT LISTINGS-->
 			<div>
-				<h3>Recent Listings</h3>
+                                <div>
+                                    <h3 style="display:inline-block; padding-right:30px;">Recent Listings</h3>
+                                    <a href="display-item.php">View all listings <i class="fas fa-angle-double-right"></i></a>
+                                </div>
 				<div>
 					<?php echo($recentlistings);?>
 				</div>
-
-				<a href="display-item.php" style="float:right;">View all listings <i class="fas fa-angle-double-right"></i></a>
 				<div style='clear: both;'></div>
 			</div>
 			<!-- END: SHOW RECENT LISTINGS-->

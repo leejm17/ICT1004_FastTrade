@@ -73,7 +73,7 @@
     <link rel="stylesheet" href="assets/css/custom.css">
 
     <!-- Google Recaptcha -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script> 
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 </head>
 
@@ -181,7 +181,7 @@
                                 }
 
                                 /* (3) Query DB */
-                                $sql = "SELECT item_photo.photo, item.title FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.sold=0 AND item_photo.item_id=" . $page_id . ";";
+                                $sql = "SELECT item_photo.photo, item.title FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item_photo.item_id=" . $page_id . ";";
 
                                 /* (4) Fetch Results */
                                 if ($result = mysqli_query($connection, $sql)) {
@@ -213,7 +213,7 @@
                                 }
 
                                 /* (3) Query DB */
-                                $sql = "SELECT item_photo.photo, item.title FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item.sold=0 AND item_photo.item_id=" . $page_id . ";";
+                                $sql = "SELECT item_photo.photo, item.title FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id WHERE item_photo.item_id=" . $page_id . ";";
 
                                 /* (4) Fetch Results */
                                 if ($result = mysqli_query($connection, $sql)) {
@@ -221,7 +221,7 @@
                                         echo '
                                         <div>
                                             <div>
-                                                <a href="data:image/jpeg;base64, ' . base64_encode($row['photo']) . '" class="nk-gallery-item" data-size="700x800"><img src="data:image/jpeg;base64, ' . base64_encode($row['photo']) . '" alt="' . $row['title'] . '" class="nk-carousel-parallax-img"></a>
+                                                <a href="data:image/jpeg;base64, ' . base64_encode($row['photo']) . '" class="nk-gallery-item" data-size="700x800"><img src="data:image/jpeg;base64, ' . base64_encode($row['photo']) . '" alt="' . $row['title'] . '" class="nk-carousel-parallax-img" style="max-height: 400px;"></a>
                                             </div>
                                         </div>
                                         ';
@@ -253,7 +253,7 @@
                     }
 
                     /* (3) Query DB */
-                    $sql = "SELECT item.title, item.description, item.price, COUNT(DISTINCT item_review.datetime) AS count_review, SUM(item_review.rating)/COUNT(item_review.item_id) AS avg_rating FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item.sold=0 AND item_photo.item_id=" . $page_id . ";";
+                    $sql = "SELECT item.title, item.description, item.price, item.due_date, COUNT(DISTINCT item_review.datetime) AS count_review, SUM(item_review.rating)/COUNT(item_review.item_id) AS avg_rating FROM item INNER JOIN item_photo ON item.item_id = item_photo.item_id INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item_photo.item_id=" . $page_id . ";";
 
                     /* (4) Fetch Results */
                     if ($result = mysqli_query($connection, $sql)) {
@@ -277,6 +277,9 @@
                                 <div class="nk-product-description">
                                     <p>' . $row['description'] . '</p>
                                 <div class="nk-product-price">SGD ' . $row['price'] . '</div>
+                                <div><span class="fa fa-clock-o"></span><p id="countdown_div" style="display:inline"></p></div>
+
+                                <input type="hidden" id="countdown_timer" value="' . $row['due_date'] . '">
                             </div>
                             ';
                         }
@@ -453,7 +456,7 @@
                                                 }
 
                                                 /* (3) Query DB */
-                                                $sql = "SELECT title, user_id, price FROM item WHERE item.sold=0 AND item_id=" . $page_id . " AND item.due_date>NOW();";
+                                                $sql = "SELECT title, user_id, price FROM item WHERE item_id=" . $page_id . " AND item.due_date>NOW();";
 
                                                 /* (4) Fetch Results */
                                                 if ($result = mysqli_query($connection, $sql)) {
@@ -611,7 +614,7 @@
                                             }
 
                                             /* (3) Query DB */
-                                            $sql = "SELECT item.user_id, category.name, item.condition, item.age, item.ad_duration, DATE_FORMAT(due_date, '%D %M %Y') AS format_date FROM item INNER JOIN category ON category.category_id = item.category_id WHERE item_id=" . $page_id . ";";
+                                            $sql = "SELECT item.user_id, category.name, item.condition, item.age, item.ad_duration, item.sold, DATE_FORMAT(due_date, '%D %M %Y') AS format_date FROM item INNER JOIN category ON category.category_id = item.category_id WHERE item_id=" . $page_id . ";";
 
                                             /* (4) Fetch Results */
                                             if ($result = mysqli_query($connection, $sql)) {
@@ -634,12 +637,22 @@
                                                         <td class="addinfo_table_left">' . $row['condition'] . '/10</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="addinfo_table_right"><span class="text-black">Product Age:</span></td>
+                                                        <td class="addinfo_table_right"><span class="text-black">Owned for:</span></td>
                                                         <td class="addinfo_table_left">' . $row['age'] . ' years</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="addinfo_table_right"><span class="text-black">Ad Duration:</span></td>
-                                                        <td class="addinfo_table_left">' . $row['ad_duration'] . ' years</td>
+                                                        <td class="addinfo_table_right"><span class="text-black">Available:</span></td>
+                                                        <td class="addinfo_table_left">
+                                                        ';
+
+                                                        if ($row['sold'] == 0) {
+                                                            echo 'Yes';
+                                                        } else {
+                                                            echo 'No';
+                                                        }
+
+                                                        echo '
+                                                        </td>
                                                     </tr>
                                                     ';
                                                 }
@@ -676,7 +689,7 @@
                                         }
 
                                         /* (3) Query DB */
-                                        $sql = "SELECT name, rating, review, DATE_FORMAT(datetime, '%D %M %Y') AS format_date  FROM item INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item.sold=0 AND item_review.item_id=" . $page_id . " ORDER BY datetime DESC;";
+                                        $sql = "SELECT name, rating, review, DATE_FORMAT(datetime, '%D %M %Y') AS format_date  FROM item INNER JOIN item_review ON item.item_id = item_review.item_id WHERE item_review.item_id=" . $page_id . " ORDER BY datetime DESC;";
 
                                         /* (4) Fetch Results */
                                         if ($result = mysqli_query($connection, $sql)) {
@@ -799,7 +812,7 @@
                                                         <span class="input_error">' . $message_err . '</span>
 
                                                         <input type="hidden" name="page_id" value="' . basename($_SERVER['REQUEST_URI']) . '">
-                                                        
+
                                                         <div class="nk-gap-1"></div>
                                                         <!-- Google reCAPTCHA box -->
                                                         <div class="g-recaptcha" data-sitekey="6LfTIpsUAAAAALfjbRj_5YAEZJNA0BmubsmkbX-f"></div>
