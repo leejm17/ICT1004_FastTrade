@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_submit"])) {
         $error_msg = $error_msg . "Please enter a valid location.\n ";
     }
 
-    if (empty($submit_remarks) || !preg_match("/^[a-zA-Z0-9!.,&+()'\"\:\?\/ ]*$/", $submit_remarks)) {
+    if (empty($submit_remarks) || !preg_match("/^[a-zA-Z0-9!.,&+():\?\'\/ ]*$/", $submit_remarks)) {
         $remarks_err = "Please refrain from using special characters";
         $error_msg = $error_msg . "Please refrain from using special characters.\n ";
     }
@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_submit"])) {
         }
 
         /* (3) Query DB */
-        $sql = "UPDATE offer SET asking_price = '". $submit_price ."', trading_place = '". $submit_loc ."', remarks = '". $submit_remarks ."' WHERE item_id = ". $item_id;
+        $sql = 'UPDATE offer SET asking_price = "'. $submit_price .'", trading_place = "'. $submit_loc .'", remarks = "'. $submit_remarks .'" WHERE item_id = '. $item_id;
 
         /* (4) Update DB */
         if (mysqli_query($connection, $sql)) {

@@ -277,7 +277,7 @@
                                 <div class="nk-product-description">
                                     <p>' . $row['description'] . '</p>
                                 <div class="nk-product-price">SGD ' . $row['price'] . '</div>
-                                <div><span class="fa fa-clock-o"></span><p id="countdown_div" style="display:inline"></p></div>
+                                <div id="countdown_div"><span id="coundown_span" class="fa fa-clock-o"></span><p id="countdown_p" style="display:inline"></p></div>
 
                                 <input type="hidden" id="countdown_timer" value="' . $row['due_date'] . '">
                             </div>
@@ -331,7 +331,9 @@
                                         if (mysqli_num_rows($result_1) > 0) {
                                             while ($row = mysqli_fetch_assoc($result_1)) {
                                                 echo '
-                                                <li class="alert alert-info" style="background: white; margin: 0px;"><a id="chat_btn" href="product.php?id='. $row['item_id'] .'&buyer_id='. $row['buyer_id'] .'">Chat with '. $row['buyer_id'] .'</a></li>
+                                                <li class="alert alert-info" style="background: white; margin: 0px;">
+                                                    <a id="chat_btn" href="/ICT1004_FastTrade/messagebox.php?id='. $row['item_id'] .'&buyer_id='. $row['buyer_id'] .'" onclick="PopupCenter(this.href, \'New Window!\', 830, 540); return false;">Chat with '. $row['buyer_id'] .'</a>
+                                                </li>
                                                 ';
                                             }
                                         } else {
@@ -359,9 +361,10 @@
                                 ';
                             } else {
                                 echo '
-                                <button id="chat_btn" type="button" class="btn btn-info">
+                                <a id="chat_btn" type="button" class="btn btn-info" href="/ICT1004_FastTrade/messagebox.php?id='. $row['item_id'] .'" onclick="PopupCenter(this.href, \'New Window!\', 830, 540); return false;" style="color:white;">
                                     Chat!
-                                </button>
+                                </a>
+
                                 <button id="make_offer" type="button" class="btn btn-primary" data-toggle="modal" data-target="#offerModal">
                                     Make an Offer!
                                 </button>

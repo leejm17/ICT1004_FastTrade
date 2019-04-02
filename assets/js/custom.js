@@ -1,33 +1,3 @@
-/* START: Countdown Timer for product item */
-// Set due date to count down to
-var countDownDate = new Date(document.getElementById("countdown_timer").value).getTime();
-
-// Update the count down every 1 second
-var x = setInterval(function() {
-
-  // Get todays date and time
-  var now = new Date().getTime();
-    
-  // Find the distance between now and the count down date
-  var distance = countDownDate - now;
-    
-  // Time calculations for days, hours, minutes and seconds
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    
-  // Output the result in an element with id="demo"
-  document.getElementById("countdown_div").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-    
-  // If the count down is over, write some text 
-  if (distance < 0) {
-    clearInterval(x);
-    document.getElementById("countdown_div").innerHTML = "EXPIRED";
-  }
-}, 1000);
-/* END: Countdown Timer for product item */
-
 /* START: Validatation for #offer_review */
 document.getElementById("js_offer_review").onsubmit = function (e) {
     var offer_price = document.getElementById("offer_price").value.trim();
@@ -91,7 +61,7 @@ function input_loc_validate(input) {
 
 // Validate: Offer Remarks
 function input_remarks_validate(input) {
-    var remarks_regex = /^[a-zA-Z0-9!.,&+()'":?/ ]*$/;
+    var remarks_regex = /^[a-zA-Z0-9!.,&+()':?/ ]*$/;
     if (input.match(remarks_regex)) {
         remove_error_span_tag("div_offer_remarks");
         return 0;
@@ -125,6 +95,37 @@ function remove_error_span_tag(div_offer) {
     return parent_div;
 }
 /* END: Validatation for #offer_review */
+
+
+/* START: Countdown Timer for product item */
+// Set due date to count down to
+var countDownDate = new Date(document.getElementById("countdown_timer").value).getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get todays date and time
+  var now = new Date().getTime();
+    
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+    
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+  // Output the result in an element with id="demo"
+  document.getElementById("countdown_p").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+    
+  // If the count down is over, write some text 
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("countdown_p").innerHTML = "EXPIRED";
+  }
+}, 1000);
+/* END: Countdown Timer for product item */
 
 
 /* START: Display Chat Box */
@@ -168,3 +169,23 @@ function hide_chat() {
     }
 }
 /* END: Display Chat Box */
+
+
+/* START: Chat Pop-up */
+function PopupCenter(url, title, w, h) {
+// Fixes dual-screen position                         Most browsers      Firefox
+var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
+var dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
+
+var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+var systemZoom = width / window.screen.availWidth;
+var left = (width - w) / 2 / systemZoom + dualScreenLeft
+var top = (height - h) / 2 / systemZoom + dualScreenTop
+var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w / systemZoom + ', height=' + h / systemZoom + ', top=' + top + ', left=' + left);
+
+// Puts focus on the newWindow
+if (window.focus) newWindow.focus();
+}
+/* END: Chat Pop-up */
