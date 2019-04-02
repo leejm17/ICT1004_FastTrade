@@ -297,7 +297,6 @@
                     $page = basename($_SERVER['REQUEST_URI']);
                     //$page_id = substr($page, -1);
                     $page_id = $_GET["id"];
-
                     /* (1) Connect to Database */
                     require_once('..\..\protected\config_fasttrade.php');
                     $connection = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME);
@@ -326,13 +325,13 @@
                                 </a>
                                 <ul class="dropdown-menu" style="border-width: 0px;">';
 
-                                    $sql_1 = "SELECT item_id, buyer_id FROM offer WHERE item_id=". $page_id .";";
+                                    $sql_1 = "SELECT item_id, sender_id FROM message WHERE item_id = ". $page_id ." AND receipient_id = '". $userid ."' GROUP BY sender_id;";
                                     if ($result_1 = mysqli_query($connection, $sql_1)) {
                                         if (mysqli_num_rows($result_1) > 0) {
                                             while ($row = mysqli_fetch_assoc($result_1)) {
                                                 echo '
                                                 <li class="alert alert-info" style="background: white; margin: 0px;">
-                                                    <a id="chat_btn" href="/ICT1004_FastTrade/messagebox.php?id='. $row['item_id'] .'&buyer_id='. $row['buyer_id'] .'" onclick="PopupCenter(this.href, \'New Window!\', 830, 540); return false;">Chat with '. $row['buyer_id'] .'</a>
+                                                    <a id="chat_btn" href="/ICT1004_FastTrade/messagebox.php?id='. $row['item_id'] .'&buyer_id='. $row['sender_id'] .'" onclick="PopupCenter(this.href, \'New Window!\', 810, 535); return false;">Chat with '. $row['sender_id'] .'</a>
                                                 </li>
                                                 ';
                                             }
@@ -342,6 +341,11 @@
                                             ';
                                         }
                                         mysqli_free_result($result_1);
+                                    }
+                                    else{
+                                        echo '
+                                            <li class="alert alert-info" style="background: white; margin: 0px;">result_1 = mysql_query(conn, sql_1) got problem</li>
+                                            ';
                                     }
 
                                 echo '
