@@ -271,6 +271,7 @@
                                                                 </tr>
                                                             </table>
                                                         </div>
+                                                        <input type="hidden" name="seller_id" value="'. $userid .'">
                                                         <input type="hidden" name="item_id" value="'. $row['item_id'] .'">
                                                     </div>
                                                     <div class="modal-footer">
@@ -300,6 +301,7 @@
                                                   <span aria-hidden="true">&times;</span>
                                                 </button>
                                                 <input type="hidden" name="item_id" value="'. $row['item_id'] .'">
+                                                <input type="hidden" name="buyer_id" value="'. $row['buyer_id'] .'">
                                               </div>
                                               <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">No</button>

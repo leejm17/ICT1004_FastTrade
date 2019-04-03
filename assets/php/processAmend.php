@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_submit"])) {
         }
 
         /* (3) Query DB */
-        $sql = 'UPDATE offer SET asking_price = "'. $submit_price .'", trading_place = "'. $submit_loc .'", remarks = "'. $submit_remarks .'" WHERE item_id = '. $item_id;
+        $sql = 'UPDATE offer SET asking_price = "'. $submit_price .'", trading_place = "'. $submit_loc .'", remarks = "'. $submit_remarks .'" WHERE buyer_id = "'. $userid .'" AND item_id = '. $item_id;
 
         /* (4) Update DB */
         if (mysqli_query($connection, $sql)) {
@@ -87,6 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_delete"])) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_accept"])) {
     $buyer_id = $_POST["buyer_id"];
+    $seller_id = $_POST["seller_id"];
     $item_id = $_POST["item_id"];
 
     /* (1) Connect to Database */
@@ -101,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_accept"])) {
     /* (3) Query DB */
     $sql = "UPDATE item, offer
             SET item.status=0, item.sold=1, offer.accept=1
-            WHERE offer.buyer_id='". $buyer_id ."' AND offer.seller_id=item.user_id AND offer.item_id=" . $item_id;
+            WHERE offer.buyer_id='". $buyer_id ."' AND offer.item_id=" . $item_id ." AND item.user_id='". $seller_id ."' AND item.item_id=". $item_id;
 
     /* (4) Update DB */
     if (mysqli_query($connection, $sql)) {
@@ -116,8 +117,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_accept"])) {
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_reject"])) {
-    $buyer_id = $_POST["buyer_id"];
     $item_id = $_POST["item_id"];
+    $buyer_id = $_POST["buyer_id"];
 
     /* (1) Connect to Database */
     require_once('..\..\protected\config_fasttrade.php');
@@ -129,9 +130,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_reject"])) {
     }
 
     /* (3) Query DB */
-    $sql = "UPDATE item, offer
+    $sql = "UPDATE offer
             SET offer.accept=0
-            WHERE offer.buyer_id='". $buyer_id ."' AND offer.seller_id=item.user_id AND offer.item_id=" . $item_id;
+            WHERE offer.buyer_id='". $buyer_id ."' AND offer.item_id=" . $item_id;
 
     /* (4) Update DB */
     if (mysqli_query($connection, $sql)) {

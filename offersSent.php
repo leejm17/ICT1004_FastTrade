@@ -145,12 +145,10 @@
                 }
 
                 /* (3) Query DB */
-                $sql = "SELECT item_photo.photo, item.title, offer.seller_id, item.price, offer.asking_price, offer.trading_place, offer.remarks, item.description, item.item_id,
-                        COUNT(DISTINCT item_review.datetime) AS count_review, SUM(item_review.rating)/COUNT(item_review.item_id) AS avg_rating
+                $sql = "SELECT item_photo.photo, item.title, offer.seller_id, item.price, offer.asking_price, offer.trading_place, offer.remarks, item.description, item.item_id
                         FROM item
                         INNER JOIN item_photo ON item.item_id = item_photo.item_id
                         INNER JOIN offer ON item.item_id = offer.item_id
-                        INNER JOIN item_review ON item.item_id = item_review.item_id
                         WHERE offer.buyer_id = '" . $userid . "' AND offer.accept = 2 AND item.sold = 0
                         GROUP BY item.item_id;";
                 // AND item.due_date>NOW()
@@ -160,26 +158,6 @@
                 if ($result = mysqli_query($connection, $sql)) {
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
-                            /*echo '<br>';
-                            echo '<img height=100 src="data:image/jpeg;base64, ' . base64_encode($row['photo']) . '" alt="' . $row['title'] . '" />';
-                            echo '<br>';
-                            echo $row['title'];
-                            echo '<br>';
-                            echo $row['seller_id'];
-                            echo '<br>';
-                            echo $row['avg_rating']*20;
-                            echo '<br>';
-                            echo $row['count_review'];
-                            echo '<br>';
-                            echo $row['price'];
-                            echo '<br>';
-                            echo $row['asking_price'];
-                            echo '<br>';
-                            echo $row['trading_place'];
-                            echo '<br>';
-                            echo $row['remarks'];
-                            echo '<br>';*/
-
                             echo '
                             <!-- START: Offers Sent -->
 
@@ -188,15 +166,10 @@
                                         <img style="max-height: 100%; max-width: 100%;" src="data:image/jpeg;base64, ' . base64_encode($row['photo']) . '" alt="' . $row['title'] . '" />
                                     </div>
                                     <div class="col-md-4 col-sm-4" style="">
-                                        <!--START: Title + Rating-->
+                                        <!--START: Title-->
                                         <h1 class="nk-product-title h4"><a href="product.php?id='. $row['item_id'] .'" style="color: inherit; text-decoration:none">'. $row['title'] .'</a></h1>
                                         <h1 class="nk-product-title h6">Seller: '. $row['seller_id'] .'</h1>
-                                        <a class="nk-product-rating">
-                                            <span style="width: '. $row['avg_rating']*20 .'%"><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></span>
-                                            <span><span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span class="fa fa-star"></span></span>
-                                        </a>
-                                        <small>('. $row['count_review'] .' reviews)</small>
-                                         <!--END: Title + Rating-->
+                                         <!--END: Title-->
                                         <div class="nk-product-description">
                                             <!--<p>'. $row['description'] .'</p>-->
                                             <table class="table" style="width:100%;">

@@ -10,9 +10,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_submit"])) {
     $submit_remarks = trim($_POST["submit_remarks"]);
     $seller_id = $_POST["seller_id"];
 
-    $page = $_POST["page_id"];
-    //$page_id = substr($page, -1);
-    $page_id = $_GET["id"];
+    //$page = $_POST["item_id"];
+    $item_id = $_GET["id"];
 
     if (empty($submit_price) || !preg_match("/^((SGD *)|(\$))*[0-9]+(?:\.[0-9]{2})?$/i", $submit_price)) {
         $price_err = "Please enter a valid price.";
@@ -44,15 +43,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_submit"])) {
             die(mysqli_connect_errno());    // die() is equivalent to exit()
         }
 
-        /* (3) Query DB */
-        $sql = "INSERT INTO offer (buyer_id, item_id, seller_id, accept, asking_price, trading_place, remarks) VALUES (?, ?, ?, 2, ?, ?, ?)";
+        /* (3a) Query if record exists due to offer being rejected before */
+        $sql_checkrecord = "SELECT buyer_id, item_id, accept FROM offer WHERE buyer_id='". $userid ."' item_id=". $item_id;
 
-        /* (4) Insert Into DB */
-        if ($stmt = mysqli_prepare($connection, $sql)) {
+        /* (3b) Query DB */
+        $sql_newoffer = "INSERT INTO offer (buyer_id, item_id, seller_id, accept, asking_price, trading_place, remarks) VALUES (?, ?, ?, 2, ?, ?, ?)";
+
+        /* (4) Fetch Results */
+        if ($result_1 = mysqli_query($connection, $sql_checkrecord)) {  // if able to fetch, means user has made a previous offer
+
+            // Check if it is an existing/pending offer or rejected, by looking at $row['accept']
+            while ($row_1 = mysqli_fetch_assoc($result_1)) {
+                if ($row['accept'] == 2) {
+                    echo '<script>alert("You have already made an offer for this product!")</script>';
+                } else if ($row['accept'] == 0) {
+
+                    /* (5) Update DB */
+                    $sql_reoffer = 'UPDATE offer SET accept = 2, asking_price = "'. $submit_price .'", trading_place = "'. $submit_loc .'", remarks = "'. $submit_remarks .'" WHERE buyer_id = "'. $userid .'" AND item_id = '. $item_id;
+                    if (mysqli_query($connection, $sql_reoffer)) {
+                        echo '<script>alert("Offer successfully submitted!")</script>';
+                    } else {
+                        echo '<script>alert("Update failed!")</script>';
+                    }
+                }
+            }
+            mysqli_free_result($result_1);
+
+        } else if ($stmt = mysqli_prepare($connection, $sql_newoffer)) { // else if user did not make any offers for this product before
             //echo '.................... | came into $stmt';
-            mysqli_stmt_bind_param($stmt, "sisdss", $userid, $page_id, $seller_id, $submit_price, $submit_loc, $submit_remarks);
-            $result = mysqli_execute($stmt);
-            if ($result == 0) {
+            mysqli_stmt_bind_param($stmt, "sisdss", $userid, $item_id, $seller_id, $submit_price, $submit_loc, $submit_remarks);
+            $result_2 = mysqli_execute($stmt);
+            if ($result_2 == 0) {
                 echo '<script>alert("You have already made an offer for this product!")</script>';
             } else {
                 echo '<script>alert("Offer successfully submitted!")</script>';
