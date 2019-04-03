@@ -70,7 +70,7 @@
     <link rel="stylesheet" href="assets/vendor/bootstrap/dist/css/bootstrap.min.css">
 
     <!-- Custom Styles -->
-    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="assets/css/ft_css.css">
 
     <!-- Google Recaptcha -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>

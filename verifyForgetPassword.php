@@ -19,7 +19,7 @@ $UpdatePwdErr = '';
 $UpdatePwdSuccess = 0;
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
     if (isset($_POST["old_password"]) || isset($_POST["new_password"]) || isset($_POST["new_password_cfm"])){
-        
+
         $email = '';
         if(isset($_COOKIE["email"])) {
             $email = $_COOKIE["email"];
@@ -31,14 +31,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $cfm_pwd = $_POST["new_password_cfm"];
 
         //check with db for old password
-        $db_pwd = ''; 
+        $db_pwd = '';
         $password_ret_sql = "SELECT password FROM user WHERE email = ? LIMIT 1";
         if($statement = mysqli_prepare($connection, $password_ret_sql)){
             mysqli_stmt_bind_param($statement, "s", $email);
             mysqli_stmt_execute($statement);
             mysqli_stmt_bind_result($statement, $db_pwd);
             mysqli_stmt_fetch($statement);
-            
+
             /* close statement */
             mysqli_stmt_close($statement);
         }
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         if(empty($new_pwd) || empty($cfm_pwd) || empty($old_pwd)){
             $UpdatePwdErr = 'Ensure that no fields are empty!';
         } else if(!password_verify($old_pwd, $db_pwd) && $db_pwd != NULL){
-            $UpdatePwdErr = 'Password not found, Please try again! ';            
+            $UpdatePwdErr = 'Password not found, Please try again! ';
         }else if($cfm_pwd != $new_pwd){
             $UpdatePwdErr = 'Please enter matching passwords!';
         } else if(!preg_match($passwdPattern, $new_pwd)){
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                 print_r($connection->error_list);
             }
             $UpdatePwdSuccess = 1;
-        }  
+        }
     }
 }
 ?>
@@ -123,7 +123,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     <link rel="stylesheet" href="assets/css/skylith.css">
 
     <!-- Custom Styles -->
-    <link rel="stylesheet" href="assets/css/custom.css">
     <link rel="stylesheet" href="assets/css/custom-minimal-shop.css">
     <!-- END: Styles -->
 
@@ -213,14 +212,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                                     echo '<div class ="jumbotron" id="no_verification_jumbotron" style="text-align:center;"><h3>Email is not verified!</h3></div>';
                                 } else{
                                     //TODO: put checkbox here that redirects and does changing of passwords or some shit like that
-                                    
+
                                     echo '
                                     <div class="bg-white">
                                     <div class="container">
                                     <div class="nk-gap-1"></div>
                                     <h3 class="h5 text-center">Update Profile (Password)</h3>
                                     <div class="nk-gap-1 mnt-7"></div>
-                                    
+
                                     <form action="'. htmlspecialchars($_SERVER["PHP_SELF"]) .'" class="nk-form nk-form-style-1" method="POST">
                                         <div style="padding-top: 5px;" class="col-sm-8">
                                             Old Password:
@@ -254,11 +253,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                             }
                         }else{
                             if (!empty($UpdatePwdErr)){
-                                echo '<div class="alert alert-danger">'. $UpdatePwdErr .' Go back to previous page!</div>'; 
-                                echo '<p style="text-align:center;"><a href="javascript:history.go(-1)" title="Return to previous page"><button class="nk-btn nk-btn-color-dark-1">Go back</button></a></p>';                                       
+                                echo '<div class="alert alert-danger">'. $UpdatePwdErr .' Go back to previous page!</div>';
+                                echo '<p style="text-align:center;"><a href="javascript:history.go(-1)" title="Return to previous page"><button class="nk-btn nk-btn-color-dark-1">Go back</button></a></p>';
                             } else if ($UpdatePwdSuccess == 1){
                                 echo '<div class="alert alert-success">Password is successfully changed</div>';
-                                echo '<p style="text-align:center;"><a href="login.php" title="Go to Login"><button class="nk-btn nk-btn-color-dark-1">Login With Us</button></a></p>';                                       
+                                echo '<p style="text-align:center;"><a href="login.php" title="Go to Login"><button class="nk-btn nk-btn-color-dark-1">Login With Us</button></a></p>';
                             } else{
                                 echo '<div class ="jumbotron" id="no_verification_jumbotron" style="text-align:center;"><h3>Link is illegally accessed!</h3></div>';
                             }

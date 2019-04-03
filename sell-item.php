@@ -57,7 +57,7 @@
     <link rel="stylesheet" href="assets/css/skylith.css">
 
     <!-- Custom Styles -->
-    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="assets/css/ft_css.css">
     <link rel="stylesheet" href="assets/css/custom-minimal-shop.css">
     <!-- END: Styles -->
 
