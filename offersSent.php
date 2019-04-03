@@ -175,7 +175,7 @@
                                             <table class="table" style="width:100%;">
                                                 <tr>
                                                     <td class="addinfo_table_left"><span><strong>Original: </strong>SGD '. $row['price'] .'</span></td>
-                                                    <td class="addinfo_table_left"><span><strong>Bargain: </strong>SGD '. $row['asking_price'] .'</span></td>
+                                                    <td class="addinfo_table_left"><span><strong>Your Bargain: </strong>SGD '. $row['asking_price'] .'</span></td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2" class="addinfo_table_left"><span><strong>Meetup Location: </strong>'. $row['trading_place'] .'</span></td>

@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_submit"])) {
 
         /* (4) Update DB */
         if (mysqli_query($connection, $sql)) {
-            echo '<script>alert("Your new offer is updated successfully!")</script>';
+            echo '<script>alert("Your offer has been updated!")</script>';
         } else {
             echo '<script>alert("Update failed!")</script>';
         }
@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["offer_delete"])) {
 
     /* (4) Delete DB */
     if (mysqli_query($connection, $sql)) {
-        echo '<script>alert("Your offer has been nullified!")</script>';
+        echo '<script>alert("Your offer has been removed!")</script>';
     } else {
         echo '<script>alert("Delete failed!")</script>';
     }

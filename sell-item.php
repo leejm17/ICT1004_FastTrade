@@ -159,7 +159,7 @@
 							//Price
 							if (empty($_POST['price'])) {
 									$price_err = "<p style='color:red;'>*Please enter a price?</p>";
-							} else if ( (strval($_POST['price'])) != (strval(floatval($_POST['price']))) ) {
+							} else if ( (strval($_POST['price'])) != (strval(intval($_POST['price']))) ) {
 									$price_err = "<p style='color:red;'>*Please enter valid integers for price</p>";
 							} else {
 									//echo ("Price: " .$_POST["price"]. "<br/>");

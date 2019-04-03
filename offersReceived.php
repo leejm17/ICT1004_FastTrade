@@ -158,26 +158,6 @@
                 if ($result = mysqli_query($connection, $sql)) {
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
-                            /*echo '<br>';
-                            echo '<img height=100 src="data:image/jpeg;base64, ' . base64_encode($row['photo']) . '" alt="' . $row['title'] . '" />';
-                            echo '<br>';
-                            echo $row['title'];
-                            echo '<br>';
-                            echo $row['buyer_id'];
-                            echo '<br>';
-                            echo $row['avg_rating']*20;
-                            echo '<br>';
-                            echo $row['count_review'];
-                            echo '<br>';
-                            echo $row['price'];
-                            echo '<br>';
-                            echo $row['asking_price'];
-                            echo '<br>';
-                            echo $row['trading_place'];
-                            echo '<br>';
-                            echo $row['remarks'];
-                            echo '<br>';*/
-
                             echo '
                             <!-- START: Offers Received -->
 
@@ -195,7 +175,7 @@
                                             <table class="table" style="width:100%;">
                                                 <tr>
                                                     <td class="addinfo_table_left"><span><strong>Original: </strong>SGD '. $row['price'] .'</span></td>
-                                                    <td class="addinfo_table_left"><span><strong>Bargain: </strong>SGD '. $row['asking_price'] .'</span></td>
+                                                    <td class="addinfo_table_left"><span><strong>The Bargain: </strong>SGD '. $row['asking_price'] .'</span></td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2" class="addinfo_table_left"><span><strong>Meetup Location: </strong>'. $row['trading_place'] .'</span></td>

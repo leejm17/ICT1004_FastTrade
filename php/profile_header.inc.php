@@ -12,6 +12,7 @@ echo '
                 <li class="dropdown-divider"></li>
 
                 <li><a class="dropdown-anchor" href="display-item.php">All My Listings</a></li>
+                <li><a class="dropdown-anchor" href="itemsSold.php">Items Sold</a></li>
                 <li><a class="dropdown-anchor" href="sell-item.php">Sell An Item</a></li>
 
                 <li class="dropdown-divider"></li>
