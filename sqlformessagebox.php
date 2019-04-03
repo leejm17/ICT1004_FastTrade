@@ -59,21 +59,6 @@
 		}
     }
     else{
-    	/* Get the user id of the item's seller */
-	    //$getsellerID = 'SELECT user_id FROM item WHERE item_id='.$itemID.'';
-	    //$sellerIDquery = $conn->query($getsellerID);
-
-	    /* Check the result of the sellerID SQL query */
-	    //if ($sellerIDquery->num_rows > 0) {                                     /* If select successfully, fetch rows */
-	        //while ($row = $sellerIDquery->fetch_assoc()){
-	            //$sellerID = $row['user_id'];                                    /* sellerID is captured */
-	            //echo "sellerIDquery retrieved: " . $sellerID . "<br>";
-
-	        //}
-	    //}
-
-    	/* Echo results of the select query where item_id = $itemID, and sender_id/receipient_id = $userid (current user) */
-
 		/* Retrieve messages  */
 		$selectSQL = 'SELECT * FROM message WHERE item_id = '.$itemID.' AND (sender_id=\''.$userid.'\' OR receipient_id=\''.$userid.'\')';
 		//$selectSQL = 'SELECT * FROM message WHERE item_id=5 AND sender_id="leejm" OR receipient_id="leejm")';

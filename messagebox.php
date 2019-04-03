@@ -76,13 +76,6 @@
         $insertSQL->bind_param("ssiss",$userid,$receipientID,$itemID,$text,$datetime);
         $insertSQL->execute();
 
-        /* Check the result of the insert SQL query */
-        //if ($result === TRUE) {                                             /* If insert successfully, fetch rows */
-            //echo "New record created successfully";
-        //} 
-        //else {
-            //echo "Error: " . $insertSQL . "<br>" . $conn->error;
-        //}
         unset($_POST['textfield']);                                             /* Unset the 'textfield' POST variable once done with it */
         $insertSQL->close();
 
