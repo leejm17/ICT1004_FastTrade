@@ -176,124 +176,140 @@
 						$sql = 'SELECT * FROM item_photo INNER JOIN item ON item.item_id = item_photo.item_id WHERE item.user_id = "' . $userid . '" GROUP BY item.item_id';
 						$result = $connection->query($sql);
 
-						while ($row = mysqli_fetch_assoc($result))
-						{
+                                                if (mysqli_num_rows($result) > 0) {
+                                                    while ($row = mysqli_fetch_assoc($result))
+                                                    {
 
 
-						echo '<div class = "col-lg-12 col-sm-12 col-md-12"><figure><img style="width:85%; margin-top:1%; margin-left:7.5%; margin-right:7.5%; margin-top:8%;" class="img-responsive" src="data:image/jpg;base64,' .
-						base64_encode($row['photo']) . '"/></figure><br/></div>';
-						?>
-								<!--- Get the values($row["values"]) from the query and display it
-									  Disabled editing from user unless they click the button edit which will direct them to edit-item.
-									  edit-item page will get the item id of that particular item and allow editing.
-								--->
+                                                        echo '<div class = "col-lg-12 col-sm-12 col-md-12"><figure><img style="width:85%; margin-top:1%; margin-left:7.5%; margin-right:7.5%; margin-top:8%;" class="img-responsive" src="data:image/jpg;base64,' .
+                                                        base64_encode($row['photo']) . '"/></figure><br/></div>';
+                                                        ?>
+                                                                        <!--- Get the values($row["values"]) from the query and display it
+                                                                                  Disabled editing from user unless they click the button edit which will direct them to edit-item.
+                                                                                  edit-item page will get the item id of that particular item and allow editing.
+                                                                        --->
 
-								<div class="form-group container-fluid">
-									<label for="title" class="inlabels control-label col-md-8 col-lg-8 col-sm-8" style="margin-left:7.5%;">Title:</label>
-									<input name="title" class="form-control col-md-8 col-lg-8 col-sm-8" type="text" id="title" value="<?php echo $row["title"]?>" style="margin-left:7.5%;" readonly >
-								</div>
+                                                                        <div class="form-group container-fluid">
+                                                                                <label for="title" class="inlabels control-label col-md-8 col-lg-8 col-sm-8" style="margin-left:7.5%;">Title:</label>
+                                                                                <input name="title" class="form-control col-md-8 col-lg-8 col-sm-8" type="text" id="title" value="<?php echo $row["title"]?>" style="margin-left:7.5%;" readonly >
+                                                                        </div>
 
-								<div class="form-group container-fluid">
-									<label for="description" class="inlabels control-label col-md-8 col-lg-8 col-sm-8" style="margin-left:7.5%;">Description:</label>
-									<input name="description" class="form-control col-md-8 col-lg-8 col-sm-8" type="text" id="description" value="<?php echo $row["description"] ?>" style="margin-left:7.5%;" readonly>
-								</div>
+                                                                        <div class="form-group container-fluid">
+                                                                                <label for="description" class="inlabels control-label col-md-8 col-lg-8 col-sm-8" style="margin-left:7.5%;">Description:</label>
+                                                                                <input name="description" class="form-control col-md-8 col-lg-8 col-sm-8" type="text" id="description" value="<?php echo $row["description"] ?>" style="margin-left:7.5%;" readonly>
+                                                                        </div>
 
-								<div class="form-group container-fluid">
-									<label class="inlabels control-label col-sm-5" style="margin-left:7.5%;" for="condition">Condition: </label>
-									<select name="condition" class="form-control col-md-8 col-lg-8 col-sm-8" style="margin-left:7.5%;" disabled >
-
-
-										<option value ="">
-										<?php
-										$condition = '';
-										if ($row["condition"]==1)
-										{
-											$condition = "Minor Scratches (1)";
-										}
-										else if ($row["condition"]==2 )
-										{
-											$condition = "Good (2)";
-										}
-										else if ($row["condition"]==3)
-										{
-											$condition = "Great (3)";
-										}
-										else if ($row["condition"]==4)
-										{
-											$condition = "Perfect (4)";
-										}
-										else if ($row["condition"]==5)
-										{
-											$condition = "Never Opened (5)";
-										}
-
-										echo('---'.$condition);?>---</option>
-
-										<option value ="5">Never Opened</option>
-										<option value ="4">Perfect</option>
-										<option value ="3">Great</option>
-										<option value ="2">Good</option>
-										<option value ="1">Minor Scratches</option>
-									</select>
-								</div>
-										<div class="form-group container-fluid">
-										<label class="inlabels control-label col-sm-5" style="margin-left:7.5%;" for="category">Category: </label>
-										<select name="category" class="form-control col-md-8 col-lg-8 col-sm-8" style="margin-left:7.5%;" disabled>
-											<option value ="">
-
-										<?php
-										if ($row["category_id"]==1)
-										{
-											$category = "Home Appliance (1)";
-										}
-										else if ($row["category_id"]==2 )
-										{
-											$category = "Furniture (2)";
-										}
-										else if ($row["category_id"]==3)
-										{
-											$category = "Computers and IT (3)";
-										}
-										else if ($row["category_id"]==4)
-										{
-											$category = "Kids (4)";
-										}
-										else if ($row["category_id"]==5)
-										{
-											$category = "Home Repair (5)";
-										}
-										else if ($row["category_id"]==6)
-										{
-											$category = "Services (6)";
-										}
-
-										echo('---'.$category);?>---</option>
-											<option value ="1">Home Appliance</option>
-											<option value ="2">Furniture</option>
-											<option value ="3">Computers and IT</option>
-											<option value ="4">Kids</option>
-											<option value ="5">Home Repair</option>
-											<option value ="6">Services</option>
-									</select>
-								</div>
-								<div class="form-group container-fluid">
-									<label for="age" class="inlabels control-label col-md-8 col-lg-8 col-sm-8" style="margin-left:7.5%;">Years of possession:</label>
-									<input name="age" class="form-control col-md-8 col-lg-8 col-sm-8" type="number" id="age" style="margin-left:7.5%;" value="<?php echo $row["age"] ?>" readonly>
-								</div>
-
-								<div class="form-group container-fluid">
-									<label for="adduration" class="inlabels control-label col-md-8 col-lg-8 col-sm-8" style="margin-left:7.5%;">Advertise for:</label>
-									<input name="adduration" class="form-control col-md-8 col-lg-8 col-sm-8" type="number" id="adduration" style="margin-left:7.5%;" value="<?php echo $row["ad_duration"] ?>" readonly>
-								</div>
-
-                                <div class="form-group container-fluid">
-                                    <a class="nk-btn nk-btn-outline nk-btn-color-dark ml-5" href="edit-item.php?item_id_var=<?php echo $row["item_id"] ?>">Edit</a>
-                                </div>
+                                                                        <div class="form-group container-fluid">
+                                                                                <label class="inlabels control-label col-sm-5" style="margin-left:7.5%;" for="condition">Condition: </label>
+                                                                                <select name="condition" class="form-control col-md-8 col-lg-8 col-sm-8" style="margin-left:7.5%;" disabled >
 
 
-								<?php
-							}
-						$connection->close();
+                                                                                        <option value ="">
+                                                                                        <?php
+                                                                                        $condition = '';
+                                                                                        if ($row["condition"]==1)
+                                                                                        {
+                                                                                                $condition = "Minor Scratches (1)";
+                                                                                        }
+                                                                                        else if ($row["condition"]==2 )
+                                                                                        {
+                                                                                                $condition = "Good (2)";
+                                                                                        }
+                                                                                        else if ($row["condition"]==3)
+                                                                                        {
+                                                                                                $condition = "Great (3)";
+                                                                                        }
+                                                                                        else if ($row["condition"]==4)
+                                                                                        {
+                                                                                                $condition = "Perfect (4)";
+                                                                                        }
+                                                                                        else if ($row["condition"]==5)
+                                                                                        {
+                                                                                                $condition = "Never Opened (5)";
+                                                                                        }
+
+                                                                                        echo('---'.$condition);?>---</option>
+
+                                                                                        <option value ="5">Never Opened</option>
+                                                                                        <option value ="4">Perfect</option>
+                                                                                        <option value ="3">Great</option>
+                                                                                        <option value ="2">Good</option>
+                                                                                        <option value ="1">Minor Scratches</option>
+                                                                                </select>
+                                                                        </div>
+                                                                                        <div class="form-group container-fluid">
+                                                                                        <label class="inlabels control-label col-sm-5" style="margin-left:7.5%;" for="category">Category: </label>
+                                                                                        <select name="category" class="form-control col-md-8 col-lg-8 col-sm-8" style="margin-left:7.5%;" disabled>
+                                                                                                <option value ="">
+
+                                                                                        <?php
+                                                                                        if ($row["category_id"]==1)
+                                                                                        {
+                                                                                                $category = "Home Appliance (1)";
+                                                                                        }
+                                                                                        else if ($row["category_id"]==2 )
+                                                                                        {
+                                                                                                $category = "Furniture (2)";
+                                                                                        }
+                                                                                        else if ($row["category_id"]==3)
+                                                                                        {
+                                                                                                $category = "Computers and IT (3)";
+                                                                                        }
+                                                                                        else if ($row["category_id"]==4)
+                                                                                        {
+                                                                                                $category = "Kids (4)";
+                                                                                        }
+                                                                                        else if ($row["category_id"]==5)
+                                                                                        {
+                                                                                                $category = "Home Repair (5)";
+                                                                                        }
+                                                                                        else if ($row["category_id"]==6)
+                                                                                        {
+                                                                                                $category = "Services (6)";
+                                                                                        }
+
+                                                                                        echo('---'.$category);?>---</option>
+                                                                                                <option value ="1">Home Appliance</option>
+                                                                                                <option value ="2">Furniture</option>
+                                                                                                <option value ="3">Computers and IT</option>
+                                                                                                <option value ="4">Kids</option>
+                                                                                                <option value ="5">Home Repair</option>
+                                                                                                <option value ="6">Services</option>
+                                                                                </select>
+                                                                        </div>
+                                                                        <div class="form-group container-fluid">
+                                                                                <label for="age" class="inlabels control-label col-md-8 col-lg-8 col-sm-8" style="margin-left:7.5%;">Years of possession:</label>
+                                                                                <input name="age" class="form-control col-md-8 col-lg-8 col-sm-8" type="number" id="age" style="margin-left:7.5%;" value="<?php echo $row["age"] ?>" readonly>
+                                                                        </div>
+
+                                                                        <div class="form-group container-fluid">
+                                                                                <label for="adduration" class="inlabels control-label col-md-8 col-lg-8 col-sm-8" style="margin-left:7.5%;">Advertise for:</label>
+                                                                                <input name="adduration" class="form-control col-md-8 col-lg-8 col-sm-8" type="number" id="adduration" style="margin-left:7.5%;" value="<?php echo $row["ad_duration"] ?>" readonly>
+                                                                        </div>
+
+                                                                        <div class="form-group container-fluid">
+                                                                            <a class="nk-btn nk-btn-outline nk-btn-color-dark ml-5" href="edit-item.php?item_id_var=<?php echo $row["item_id"] ?>">Edit</a>
+                                                                        </div>
+
+                                                                        <div class="nk-gap-1"></div>
+                                                                        <div class="nk-divider nk-divider-color-gray-6"></div>
+
+
+                                                                        <?php
+                                                    }
+                                                } else {
+                                                    echo '
+                                                    <div class="nk-gap-1"></div>
+                                                    <div class="row">
+                                                        <div style="text-align: center;" class="col-lg-12 col-md-6 col-sm-3">
+                                                            <p style="font-size: 24px;">You have not listed any items.</p>
+                                                            <a href="sell-item.php" class="text-center" style="font-size:20px;">List one now!</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="nk-gap-1"></div>
+                                                    ';
+                                                }
+                                                $connection->close();
 				?>
 				</div>
 
