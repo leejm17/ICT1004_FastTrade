@@ -40,7 +40,7 @@
 			$i=0;
 		    //echo "Records selected! " . $result2->num_rows;
 		    while($row2 = $result2->fetch_assoc()){								/* If insert successfully, fetch rows */
-		    	$message = $row2['message_text'];
+		    	$message = stripslashes($row2['message_text']);
 		    	$timestamp = $row2['message_timestamp'];
 		    	if ($row2['sender_id']==$userid){
 		    		$chatContents[$i][0]="buyermessage_div_css";
@@ -85,7 +85,7 @@
 			$i=0;
 		    //echo "Records selected! " . $result2->num_rows;
 		    while($row2 = $result2->fetch_assoc()){								/* If insert successfully, fetch rows */
-		    	$message = $row2['message_text'];
+		    	$message = stripslashes($row2['message_text']);
 		    	$timestamp = $row2['message_timestamp'];
 		    	if ($row2['sender_id']==$userid){
 		    		$chatContents[$i][0]="buyermessage_div_css";
